@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revenir vivre en France — Guide pratique | ADFE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --violet:      #5B4A8A;
+  --violet-fonce:#3F3060;
+  --violet-clair:#EDEAF5;
+  --rouge:       #B52B3A;
+  --rouge-fonce: #8A1E29;
+  --rouge-clair: #FAF0F1;
+  --teal:        #3A9B85;
+  --teal-fonce:  #2A7A68;
+  --teal-clair:  #E8F5F3;
+  --cramoisi:    #B52B3A;
+  --rose:        #CC6878;
+  --texte:       #1A1A1A;
+  --texte-doux:  #5A5A5A;
+  --fond:        #F8F7F5;
+  --blanc:       #FFFFFF;
+  --filet:       #D5D0C8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--texte);
+  background: var(--fond);
+}
+
+
+/* ── SKIP LINK ACCESSIBILITÉ ── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--rouge);
+  color: var(--blanc);
+  padding: 10px 18px;
+  font-family: 'Oswald', sans-serif;
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  z-index: 9999;
+  transition: top .15s;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--blanc);
+  outline-offset: 2px;
+}
+
+/* ── BARRE TRICOLORE ── */
+.barre-top {
+  height: 5px;
+  background: linear-gradient(90deg,
+    var(--cramoisi) 0% 33%,
+    var(--blanc) 33% 66%,
+    var(--violet) 66% 100%);
+}
+
+/* ── EN-TÊTE ── */
+header {
+  background: linear-gradient(135deg, var(--rouge-fonce) 0%, var(--rouge) 40%, var(--violet) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.header-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 48px 40px 44px;
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.header-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,.3);
+  flex-shrink: 0;
+}
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.header-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+}
+header h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: var(--blanc);
+}
+header h1 em {
+  font-style: normal;
+  color: rgba(255,255,255,.55);
+  display: block;
+  font-size: .55em;
+  font-weight: 400;
+  letter-spacing: .06em;
+  margin-bottom: 4px;
+}
+header p {
+  font-size: 1rem;
+  color: rgba(255,255,255,.75);
+  max-width: 520px;
+  font-weight: 300;
+  border-left: 3px solid rgba(255,255,255,.3);
+  padding-left: 14px;
+  margin-top: 6px;
+}
+
+/* ── NAV DESKTOP ── */
+.sommaire-wrap {
+  background: var(--violet);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 3px solid var(--rouge);
+}
+.nav-inner {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sommaire {
+  display: flex;
+  overflow-x: auto;
+}
+.sommaire a {
+  display: inline-block;
+  font-family: 'Oswald', sans-serif;
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  padding: 13px 10px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.sommaire a:hover { color: var(--blanc); border-bottom-color: var(--rouge); }
+
+/* ── BURGER ── */
+.burger {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  color: var(--blanc); font-size: 1.4rem; padding: 13px 0;
+}
+.burger[aria-expanded="true"] .icon-open  { display: none; }
+.burger[aria-expanded="false"] .icon-close { display: none; }
+.burger:focus-visible { outline: 3px solid var(--blanc); outline-offset: 2px; }
+.mobile-menu { display: none; background: var(--violet-fonce); }
+.mobile-menu.open { display: block; }
+.mobile-menu a {
+  display: block; padding: 12px 20px;
+  font-family: 'Oswald', sans-serif;
+  font-size: .88rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+  color: rgba(255,255,255,.8); text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.mobile-menu a:hover { color: var(--blanc); background: rgba(58,155,133,.25); }
+
+/* ── MAIN ── */
+main { max-width: 940px; margin: 0 auto; padding: 52px 40px 100px; }
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 56px;
+  padding-bottom: 52px;
+  border-bottom: 1px solid var(--filet);
+}
+.section:last-child { border-bottom: none; }
+
+.section-header {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--filet);
+}
+.section-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--rouge);
+  line-height: 1;
+  padding-top: 2px;
+}
+.section h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--violet);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  line-height: 1.15;
+}
+.section-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: .65rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--rouge);
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* ── TEXTE ── */
+p { margin-bottom: 12px; }
+ul, ol { padding-left: 22px; margin-bottom: 14px; }
+li { margin-bottom: 5px; }
+strong { font-weight: 700; color: var(--violet); }
+
+/* ── ACCORDÉONS ── */
+details {
+  margin: 12px 0;
+  border-left: 3px solid var(--filet);
+  background: var(--blanc);
+}
+details[data-type="important"] { border-left-color: var(--cramoisi); background: #FDF5F6; }
+details[data-type="info"]      { border-left-color: var(--violet);     background: var(--violet-clair); }
+details[data-type="special"]   { border-left-color: #B8930F;           background: #FFFBEC; }
+
+details > summary {
+  list-style: none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px; cursor: pointer; gap: 12px; user-select: none;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; }
+
+.sum-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--violet);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+details[data-type="special"] .sum-title { color: #7A5C00; }
+
+.sum-icon {
+  flex-shrink: 0; width: 22px; height: 22px;
+  border: 1px solid var(--filet); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; color: var(--texte-doux);
+  transition: transform .2s, background .15s, border-color .15s;
+}
+details[open] > summary .sum-icon {
+  transform: rotate(180deg);
+  background: var(--rouge); color: var(--blanc); border-color: var(--rouge);
+}
+.detail-body { padding: 4px 16px 16px; }
+.detail-body p:last-child { margin-bottom: 0; }
+
+/* ── ÉTAPES ── */
+.etapes { list-style: none; padding: 0; }
+.etapes li {
+  display: grid; grid-template-columns: 44px 1fr;
+  gap: 14px; margin-bottom: 18px; align-items: start;
+}
+.etapes .num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem; font-weight: 700; color: var(--blanc);
+  background: var(--rouge);
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.etapes .label {
+  font-family: 'Oswald', sans-serif;
+  font-size: .95rem; font-weight: 600;
+  color: var(--violet); text-transform: uppercase; letter-spacing: .03em;
+  display: block; margin-bottom: 2px;
+}
+
+/* ── LIENS ── */
+.liens { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--filet); }
+.liens-titre {
+  font-family: 'Oswald', sans-serif;
+  font-size: .65rem; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--texte-doux); font-weight: 600; margin-bottom: 7px;
+}
+.liens a {
+  display: block; color: var(--teal-fonce); font-size: .88rem;
+  margin-bottom: 4px; word-break: break-all;
+  text-decoration-color: var(--teal);
+}
+.liens a:hover { color: var(--rouge); }
+
+/* ── BARÈME ── */
+.bareme {
+  background: var(--blanc);
+  border: 1px solid var(--filet);
+  border-top: 3px solid var(--rouge);
+  padding: 16px 20px; margin: 18px 0; font-size: .88rem;
+}
+.bareme-titre {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600; color: var(--violet); font-size: .88rem;
+  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px;
+}
+.bareme-note {
+  font-size: .78rem; color: var(--texte-doux);
+  margin-top: 10px; font-style: italic;
+  padding-top: 8px; border-top: 1px dashed var(--filet);
+}
+
+/* ── NOTE PRUDENCE ── */
+.prudence {
+  font-size: .82rem; color: var(--texte-doux); font-style: italic;
+  border-left: 2px solid var(--violet); padding-left: 12px; margin-top: 12px;
+}
+
+/* ── GLOSSAIRE ── */
+.glossaire dt {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600; color: var(--violet);
+  font-size: .95rem; text-transform: uppercase;
+  letter-spacing: .04em; margin-top: 14px;
+}
+.glossaire dd {
+  margin-left: 0; color: var(--texte-doux); font-size: .92rem;
+  padding-left: 14px; border-left: 2px solid var(--violet-clair);
+  margin-top: 2px;
+}
+
+/* ── PIED ── */
+footer {
+  text-align: center; padding: 28px 20px;
+  font-size: .78rem; color: var(--texte-doux);
+  border-top: 1px solid var(--filet);
+  background: var(--blanc); line-height: 1.9;
+}
+footer strong { color: var(--violet-fonce); }
+
+
+/* ── FILTRE PROFIL ── */
+.filtre-profil {
+  background: var(--blanc);
+  border-top: 3px solid var(--rouge);
+  border-bottom: 1px solid var(--filet);
+  padding: 18px 40px;
+}
+.filtre-inner {
+  max-width: 940px; margin: 0 auto;
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+}
+.filtre-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: .72rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--texte-doux); white-space: nowrap;
+}
+.filtre-inner select {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: .88rem; padding: 6px 10px;
+  border: 1px solid var(--filet); border-radius: 2px;
+  background: var(--fond); color: var(--texte);
+  cursor: pointer; flex: 1 1 160px; max-width: 100%;
+}
+.filtre-inner select:focus-visible { outline: 2px solid var(--violet); }
+.filtre-reset {
+  font-family: 'Oswald', sans-serif;
+  font-size: .75rem; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  background: none; border: 1px solid var(--filet);
+  color: var(--texte-doux); padding: 6px 12px;
+  cursor: pointer; border-radius: 2px;
+}
+.filtre-reset:hover { border-color: var(--rouge); color: var(--rouge); }
+
+/* ── CALCULATEUR DATES ── */
+.date-calc {
+  background: var(--violet-clair);
+  border: 1px solid var(--filet);
+  border-left: 3px solid var(--violet);
+  padding: 14px 18px; margin-bottom: 20px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+}
+.date-calc label {
+  font-family: 'Oswald', sans-serif;
+  font-size: .8rem; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--violet-fonce); white-space: nowrap;
+}
+.date-calc input[type="date"] {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: .9rem; padding: 6px 10px;
+  border: 1px solid var(--filet); border-radius: 2px;
+  background: var(--blanc); color: var(--texte);
+}
+.date-calc input[type="date"]:focus-visible { outline: 2px solid var(--violet); }
+.date-tag {
+  font-size: .78rem; color: var(--violet);
+  font-style: italic; margin-left: 4px;
+  font-weight: 600;
+}
+
+/* ── CHECKLIST ── */
+/* Checklist : grille 3 colonnes UNIQUEMENT sur la liste des étapes */
+#etapes-list li {
+  grid-template-columns: 20px 44px 1fr;
+  gap: 0 10px;
+}
+#etapes-list li input[type="checkbox"] {
+  accent-color: var(--rouge);
+  width: 16px; height: 16px;
+  cursor: pointer; margin-top: 3px; justify-self: center;
+}
+.etapes li.done { opacity: .45; }
+.etapes li.done .label { text-decoration: line-through; }
+
+@media (max-width: 700px) {
+  .filtre-profil { padding: 14px 16px; }
+  .filtre-inner { gap: 10px; }
+  .date-calc { flex-direction: column; align-items: flex-start; }
+
+  /* Grille étapes mobile — uniquement la liste avec checkbox */
+  #etapes-list li {
+    grid-template-columns: 24px 1fr !important;
+    gap: 8px 12px !important;
+  }
+  #etapes-list li input[type="checkbox"] { grid-column: 1; grid-row: 1; align-self: center; }
+  #etapes-list li .num { grid-column: 1; grid-row: 2; width: 24px; height: 24px; font-size: .85rem; align-self: start; }
+  #etapes-list li span:last-child { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+
+
+/* ── STATUT DES FILTRES ── */
+.filtre-statut {
+  font-family: 'Oswald', sans-serif;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--blanc);
+  background: var(--rouge);
+  padding: 4px 12px;
+  border-radius: 2px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+.filtre-statut.actif { display: inline-flex; }
+.filtre-statut button {
+  background: none; border: none; color: var(--blanc);
+  cursor: pointer; font-size: 1rem; padding: 0; line-height: 1;
+}
+
+/* Accordéon mis en avant par le filtre */
+details.filtre-ouvert {
+  border-left-width: 5px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+/* Accordéon masqué par le filtre */
+details[style*="display: none"] { 
+  transition: opacity .2s;
+}
+
+
+/* ── PANNEAU SYNTHÈSE PROFIL ── */
+.synthese-profil {
+  display: none;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.synthese-profil.actif { display: block; }
+.synthese-inner {
+  background: var(--blanc);
+  border-top: 3px solid var(--violet);
+  border-bottom: 1px solid var(--filet);
+  padding: 18px 24px 16px;
+}
+.synthese-titre {
+  font-family: 'Oswald', sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.synthese-titre::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--filet);
+}
+.synthese-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.synthese-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--violet-clair);
+  border-left: 3px solid var(--violet);
+  padding: 8px 12px;
+  font-size: .88rem;
+  line-height: 1.4;
+  flex: 1 1 280px;
+}
+.synthese-tag.alerte {
+  background: var(--rouge-clair, #FAF0F1);
+  border-left-color: var(--rouge);
+}
+.synthese-tag strong { color: var(--marine, #1A2B5F); }
+.synthese-lien {
+  margin-top: 10px;
+  font-size: .8rem;
+  color: var(--texte-doux);
+}
+.synthese-lien a { color: var(--violet); font-weight: 600; }
+
+@media (max-width: 700px) {
+  .synthese-profil { padding: 0 16px; }
+  .synthese-tag { flex: 1 1 100%; }
+}
+
+@media print {
+  /* Éléments d'interface masqués */
+  .barre-top, .sommaire-wrap, .filtre-profil,
+  .btn-print, .date-calc, footer,
+  details > summary .sum-icon,
+  nav { display: none !important; }
+
+  /* Synthèse : masquée par défaut, visible si profil actif */
+  .synthese-profil { display: none !important; }
+  .synthese-profil.actif { display: block !important; }
+
+  header { background: none !important; color: #000 !important; padding: 16px 0 12px; }
+  header h1 { color: #000 !important; font-size: 1.8rem; }
+  .header-label { color: #555 !important; }
+  header p { color: #333 !important; border-left-color: #999; }
+  .header-logo { display: none; }
+  .header-inner { grid-template-columns: 1fr; }
+
+  main { padding: 0; }
+  body { font-size: 11pt; background: #fff; }
+
+  .section { page-break-inside: avoid; border-bottom: 1px solid #ccc; margin-bottom: 24px; padding-bottom: 20px; }
+  .section-num { color: #333 !important; }
+  .section h2 { color: #000 !important; font-size: 14pt; }
+  .section-label { color: #666 !important; }
+
+  details { border-left-color: #999 !important; background: #fff !important; }
+  details[data-type="important"] { border-left-color: #333 !important; }
+  /* Afficher le titre du summary (sans chevron) puis le corps —
+     les <details> masqués par les filtres JS conservent leur display:none */
+  details > summary { display: block; font-weight: 600; padding: 0 0 4px; }
+  details > summary .sum-icon { display: none; }
+  details .detail-body { display: block !important; }
+  .detail-body { padding: 0 0 8px; }
+
+  .etapes .num { background: #333 !important; }
+  .liens a { color: #000 !important; text-decoration: underline; }
+  .bareme { border-top-color: #333 !important; background: #f5f5f5 !important; }
+
+  a[href]:after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
+}
+
+/* ── IMPRESSION / EXPORT PDF ── */
+.btn-print {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Oswald', sans-serif;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--violet-fonce);
+  background: var(--blanc);
+  border: 1px solid var(--violet);
+  padding: 7px 14px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background .15s, color .15s;
+}
+.btn-print:hover { background: var(--violet); color: var(--blanc); }
+
+/* ── MOBILE ── */
+@media (max-width: 700px) {
+  .header-inner { padding: 28px 16px 26px; grid-template-columns: 70px 1fr; gap: 14px; }
+  .header-logo { width: 64px; height: 64px; }
+  main { padding: 28px 16px 60px; }
+  .nav-inner { padding: 0 16px; }
+  .sommaire { display: none; }
+  .burger { display: block; }
+  .section-header { grid-template-columns: 40px 1fr; }
+  .section-num { font-size: 1.7rem; }
+  .section h2 { font-size: 1.25rem; }
+  details > summary { padding: 11px 13px; }
+  .detail-body { padding: 4px 13px 13px; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Aller au contenu</a>
+<div class="barre-top"></div>
+
+<header>
+  <div class="header-inner">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATsAAAE6CAYAAABpgPViAAABQ2lDQ1BJQ0MgUHJvZmlsZQAAGJVj
+YGBiSCwoyGFhYGDIzSspCnJ3UoiIjFJgf8XAxiDOwM1gycCemFxc4BgQ4ANUwgCjUcG3awyMIPqy
+LsgsTHm8gCsltTgZSP8BYo3kgqISBgZGFSA7oLykAMQGYgaRIqCjgOwOEDsdwp4DYidB2BvAakKC
+nIHsI0C2QHJGYgqQfQXI1klCEk9HYufmlCZD3QByPU9qXmgwiAZiGQYPhgAGBQYjBnOGchzqTMDq
+nBnyGQoYKhmKGDIZ0hkyGEqAuhyBIgUMOQypQLYnQx5DMoMegw7YNAMgNgOFL3q4IcTyMxkYzLYA
+rZqKEEvQZ2DYsgzo5GMIMXVboJeBYgcuFiQWJcJDk/EbS3GasRGEzb2dgYF12v//n8MZGNg1GRj+
+Xv////f2////AvUx3wLq/QYAEpJarLd9ZJ4AAABWZVhJZk1NACoAAAAIAAGHaQAEAAAAAQAAABoA
+AAAAAAOShgAHAAAAEgAAAESgAgAEAAAAAQAAATugAwAEAAAAAQAAAToAAAAAQVNDSUkAAABTY3Jl
+ZW5zaG90EvRqjgAAAdZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6
+eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDYuMC4wIj4KICAgPHJkZjpSREYg
+eG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4K
+ICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6ZXhp
+Zj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iPgogICAgICAgICA8ZXhpZjpQaXhlbFlE
+aW1lbnNpb24+MzE0PC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6UGl4ZWxY
+RGltZW5zaW9uPjMxNTwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlVzZXJD
+b21tZW50PlNjcmVlbnNob3Q8L2V4aWY6VXNlckNvbW1lbnQ+CiAgICAgIDwvcmRmOkRlc2NyaXB0
+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
+mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
+    <div class="header-text">
+      <span class="header-label">Français du Monde · ADFE — Section France</span>
+      <h1><em>Guide pratique</em>Revenir vivre<br>en France</h1>
+      <p>Démarches, droits et ressources officielles après une expatriation.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="sommaire-wrap" aria-label="Sommaire">
+  <div class="nav-inner">
+    <div class="sommaire" role="list">
+      <a href="#priorites">Priorités</a>
+      <a href="#etapes">Étapes</a>
+      <a href="#docs">Documents</a>
+      <a href="#sante">Santé</a>
+      <a href="#emploi">Emploi</a>
+      <a href="#fiscalite">Fiscalité</a>
+      <a href="#logement">Logement</a>
+      <a href="#famille">Famille</a>
+      <a href="#scolarite">Scolarité</a>
+      <a href="#douanes">Douanes</a>
+      <a href="#retraite">Retraite</a>
+      <a href="#bareme">Barèmes</a>
+      <a href="#glossaire">Glossaire</a>
+      <a href="#ressources">Ressources</a>
+    </div>
+    <button class="burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
+      <span class="icon-open">☰</span><span class="icon-close">✕</span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" role="menu">
+    <a href="#priorites" role="menuitem">Priorités</a>
+    <a href="#etapes" role="menuitem">Étapes</a>
+    <a href="#docs" role="menuitem">Documents</a>
+    <a href="#sante" role="menuitem">Santé</a>
+    <a href="#emploi" role="menuitem">Emploi</a>
+    <a href="#fiscalite" role="menuitem">Fiscalité</a>
+    <a href="#logement" role="menuitem">Logement</a>
+    <a href="#famille" role="menuitem">Famille</a>
+    <a href="#scolarite" role="menuitem">Scolarité</a>
+    <a href="#douanes" role="menuitem">Douanes</a>
+    <a href="#retraite" role="menuitem">Retraite</a>
+    <a href="#bareme" role="menuitem">Barèmes 2026</a>
+    <a href="#glossaire" role="menuitem">Glossaire</a>
+    <a href="#ressources" role="menuitem">Ressources</a>
+  </div>
+</nav>
+
+<div class="filtre-profil" role="search" aria-label="Filtrer le guide par profil">
+  <div class="filtre-inner">
+    <span class="filtre-label">Votre situation :</span>
+    <select id="filtre-provenance" aria-label="Pays de provenance">
+      <option value="">🌍 Toutes provenances</option>
+      <option value="ue">Retour depuis UE / EEE / Suisse</option>
+      <option value="hors-ue">Retour depuis hors UE</option>
+    </select>
+    <select id="filtre-situation" aria-label="Situation professionnelle">
+      <option value="">💼 Toutes situations</option>
+      <option value="avec-emploi">Avec un emploi à l'arrivée</option>
+      <option value="sans-emploi">Sans emploi à l'arrivée</option>
+    </select>
+    <select id="filtre-enfants" aria-label="Enfants">
+      <option value="">👨‍👩‍👧 Avec ou sans enfants</option>
+      <option value="oui">Avec des enfants</option>
+      <option value="non">Sans enfant</option>
+    </select>
+    <span class="filtre-statut" id="filtre-statut">Filtres actifs</span>
+    <button class="filtre-reset" onclick="reinitialiserFiltres()">✕ Réinitialiser</button>
+  </div>
+</div>
+
+
+<div class="synthese-profil" id="synthese-profil">
+  <div class="synthese-inner">
+    <div class="synthese-titre">Points clés pour votre profil</div>
+    <div class="synthese-points" id="synthese-points"></div>
+    <p class="synthese-lien">↓ Utilisez le sommaire pour accéder directement à chaque rubrique détaillée.</p>
+  </div>
+</div>
+
+
+<main id="main">
+
+<!-- 01 -->
+<section class="section" id="priorites">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <div><span class="section-label">Pour commencer</span><h2>Les cinq priorités à anticiper</h2></div>
+  </div>
+  <ul class="etapes">
+    <li><span class="num">1</span><span><span class="label">La couverture santé</span>Dans de nombreux cas, les droits à l'assurance maladie ne sont plus automatiquement ouverts après une expatriation. Vérifiez votre situation et déposez une demande de réouverture auprès de la CPAM dès votre arrivée.</span></li>
+    <li><span class="num">2</span><span><span class="label">Collecter les documents avant de partir</span>Contrats de travail, bulletins de salaire, avis d'imposition locaux, carnets de vaccination des enfants, attestation CFE si concerné, actes d'état civil.</span></li>
+    <li><span class="num">3</span><span><span class="label">La trésorerie de transition</span>Déménagement, dépôt de garantie, assurances, logement temporaire, frais administratifs — prévoir 2 à 3 mois de dépenses disponibles.</span></li>
+    <li id="prio-logement"><span class="num">4</span><span><span class="label">Le logement</span>Sans fiches de paie françaises récentes, l'accès à la location peut être complexe. Anticipez Visale, garant, location meublée de transition.</span></li>
+    <li><span class="num">5</span><span><span class="label">La situation du conjoint et des enfants</span>À traiter comme des sujets à part entière — emploi, séjour, couverture santé, scolarité.</span></li>
+  </ul>
+  <div class="liens">
+    <div class="liens-titre">Portail officiel</div>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — Revenir vivre en France</a>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="section" id="etapes">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <div><span class="section-label">Planification</span><h2>Le retour en six étapes</h2></div>
+  </div>
+  <div class="date-calc">
+    <label for="date-retour">📅 Votre date de retour prévue :</label>
+    <input type="date" id="date-retour" aria-label="Date de retour prévue">
+    <span style="font-size:.82rem;color:var(--texte-doux);font-style:italic;">→ Les échéances s'affichent automatiquement</span>
+  </div>
+  <ul class="etapes" id="etapes-list">
+    <li><span class="num">1</span><span><span class="label">Six mois avant <span class="date-tag" id="date-6m"></span></span>Fixer une date, estimer le budget, vérifier les contraintes de santé, identifier les démarches longues, examiner la situation fiscale de l'année du retour, anticiper les démarches de séjour du conjoint étranger.</span></li>
+    <li><span class="num">2</span><span><span class="label">Trois mois avant <span class="date-tag" id="date-3m"></span></span>Rassembler attestations, documents professionnels, scolaires et médicaux. Organiser le déménagement. Vérifier les formalités sociales européennes ou conventionnelles applicables.</span></li>
+    <li><span class="num">3</span><span><span class="label">Un mois avant <span class="date-tag" id="date-1m"></span></span>Finaliser le logement. Préparer les dossiers CPAM, CAF, banque, école, France Travail. Constituer un dossier papier et numérique unique.</span></li>
+    <li><span class="num">4</span><span><span class="label">À l'arrivée <span class="date-tag" id="date-arrivee"></span></span>Déposer le dossier assurance maladie, signaler le changement d'adresse, contacter la CAF, s'inscrire à France Travail si besoin, scolariser les enfants, valider le VLS-TS du conjoint étranger dans les 3 mois.</span></li>
+    <li><span class="num">5</span><span><span class="label">Mois 1 à 3</span>Suivi des dossiers en instruction : santé, aides sociales, emploi, logement.</span></li>
+    <li><span class="num">6</span><span><span class="label">Mois 3 à 6</span>Vérifier l'ouverture effective des droits, stabiliser la situation fiscale, consolider le projet professionnel — notamment pour le conjoint accompagnant.</span></li>
+  </ul>
+</section>
+
+<!-- 03 -->
+<section class="section" id="docs">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <div><span class="section-label">Avant le départ</span><h2>Documents à préparer</h2></div>
+  </div>
+  <p>Constituez un dossier unique — papier et numérique — avant de quitter votre pays de résidence. Ces pièces peuvent être difficiles à obtenir une fois rentré en France.</p>
+
+  <details data-type="info">
+    <summary><span class="sum-title">Identité et état civil</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Passeport et carte nationale d'identité</li>
+        <li>Livret de famille, actes de naissance</li>
+        <li>Actes transcrits sur les registres français si nécessaire</li>
+      </ul>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Travail et revenus</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Contrats de travail, certificats, bulletins de salaire, attestations de fin d'emploi</li>
+        <li>Si retour des États-Unis : relevés Social Security, quitus fiscal américain</li>
+      </ul>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Fiscalité</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Avis d'imposition locaux des deux dernières années</li>
+        <li>Justificatifs de revenus, informations sur les comptes bancaires détenus à l'étranger</li>
+      </ul>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Santé</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Carnets de vaccination (enfants et adultes)</li>
+        <li>Ordonnances en cours, comptes rendus médicaux importants</li>
+        <li>Attestation CFE ou justificatif de couverture étrangère</li>
+      </ul>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Scolarité, déménagement et animal</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Certificats de radiation scolaire, bulletins, traductions si nécessaire</li>
+        <li>Certificat de changement de résidence (à demander au consulat)</li>
+        <li>Inventaire estimatif des biens, carte grise du véhicule</li>
+        <li>Documents vétérinaires et passeport de l'animal</li>
+        <li>Documents de séjour du conjoint étranger</li>
+      </ul>
+    </div>
+  </details>
+  <div class="liens">
+    <div class="liens-titre">Portail officiel</div>
+    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/formalites-avant-le-retour" target="_blank" rel="noopener noreferrer">France Diplomatie — formalités avant le retour</a>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="section" id="sante">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <div><span class="section-label">Droits sociaux</span><h2>Assurance maladie et protection sociale</h2></div>
+  </div>
+  <p>Dans de nombreux cas, vos droits à l'assurance maladie ne sont plus automatiquement ouverts après une expatriation. Vérifiez votre situation et déposez une demande auprès de la CPAM via le formulaire <strong>S1106</strong> dès votre arrivée.</p>
+
+  <details data-type="info" id="retour-ue">
+    <summary><span class="sum-title">Retour d'un pays UE / EEE / Suisse</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>La coordination européenne peut faciliter la reprise des droits. Vérifiez les modalités auprès de votre future CPAM.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/assurance-maladie/vous-revenez-d-un-pays-de-l-union-europeenne" target="_blank" rel="noopener noreferrer">France Diplomatie — retour d'un pays de l'UE</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="retour-hors-ue">
+    <summary><span class="sum-title">Retour d'un pays hors UE</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Pas de coordination automatique. Le dossier CPAM est à constituer dès l'arrivée, avec l'ensemble des justificatifs requis.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/assurance-maladie/vous-revenez-d-un-pays-hors-de-l-union-europeenne" target="_blank" rel="noopener noreferrer">France Diplomatie — retour hors UE</a></div>
+    </div>
+  </details>
+  <details data-type="important" id="sans-emploi" open>
+    <summary><span class="sum-title">Retour sans emploi — délai de résidence préalable</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Toute personne pouvant justifier d'une résidence stable et effective en France a droit à la PUMA. Un délai de résidence préalable s'applique selon les cas — vérifiez votre situation auprès de votre CPAM ou sur ameli.fr.</p>
+      <p>La démarche passe par le dépôt du <strong>formulaire S1106</strong> auprès de la CPAM, accompagné des justificatifs de domicile et d'identité. Ne tardez pas : les délais d'instruction peuvent être longs. Anticipez une couverture transitoire (maintien CFE ou mutuelle privée) pendant cette période.</p>
+      <p class="prudence">Conseil pratique : remplissez le formulaire S1106 à l'ordinateur avant de l'imprimer. Les dossiers manuscrits illisibles peuvent entraîner des délais supplémentaires de traitement en CPAM.</p>
+    </div>
+  </details>
+  <details data-type="info" id="avec-emploi">
+    <summary><span class="sum-title">Retour avec un emploi</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>La reprise d'activité salariée facilite l'ouverture des droits et peut supprimer le délai de résidence préalable. Un volume minimal d'heures travaillées sur un mois est requis — vérifiez ce point sur ameli.fr.</p>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Vous avez cotisé à la CFE</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Les personnes affiliées à la CFE peuvent, selon leur situation, bénéficier d'une continuité temporaire de couverture au retour. Demandez une attestation avant le départ et vérifiez directement auprès de la CFE les modalités exactes de fin ou de relais de couverture.</p>
+    </div>
+  </details>
+  <details data-type="info" id="conjoint-etranger">
+    <summary><span class="sum-title">Conjoint étranger non européen</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>La situation du conjoint suit une logique distincte : validation du VLS-TS, démarches de titre de séjour, ouverture des droits à part entière. Une couverture privée transitoire peut s'avérer nécessaire.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/formalites-avant-le-retour/conjoint-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — conjoint étranger</a></div>
+    </div>
+  </details>
+  <p class="prudence">Les règles d'ouverture des droits peuvent évoluer — vérifiez toujours la version en vigueur sur ameli.fr ou auprès de votre CPAM.</p>
+  <div class="liens">
+    <div class="liens-titre">Portails officiels</div>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32824" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — assurance maladie au retour</a>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/R45084" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — formulaire S1106</a>
+    <a href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer">cleiss.fr — protection sociale au retour</a>
+    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/assurance-maladie/la-securite-sociale" target="_blank" rel="noopener noreferrer">France Diplomatie — sécurité sociale</a>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="section" id="emploi">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <div><span class="section-label">Insertion professionnelle</span><h2>Emploi, chômage et projet professionnel</h2></div>
+  </div>
+
+  <details data-type="important" id="conjoint-accompagnant" open>
+    <summary><span class="sum-title">Conjoint ou partenaire accompagnant</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Dans certaines situations, un conjoint accompagnant peut faire valoir des droits au chômage au retour, notamment lorsque la rupture d'emploi était liée au suivi du conjoint expatrié. Les conditions exactes doivent être vérifiées au cas par cas auprès de France Travail, en fonction de la durée écoulée, des justificatifs disponibles et de la situation antérieure.</p>
+      <p>Pièces fréquemment demandées dans ce cadre :</p>
+      <ul>
+        <li>Attestation employeur</li>
+        <li>Lettre de démission mentionnant <em>« pour suivi de conjoint »</em></li>
+        <li>Justificatif de l'activité professionnelle du conjoint à l'étranger</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/emploi/chomage" target="_blank" rel="noopener noreferrer">France Diplomatie — chômage et conjoint accompagnant</a></div>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Retour depuis un pays européen — formulaire U1</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Le document portable U1 permet de faire valoir des périodes d'emploi dans un autre pays de l'UE / EEE / Suisse pour le calcul des droits au chômage en France. À demander avant le retour.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.francetravail.fr/candidat/mes-droits-aux-aides-et-allocati/lallocation-chomage-a-letranger/je-rentre-en-france-apres-avoir-reside-en-europe.html" target="_blank" rel="noopener noreferrer">France Travail — retour après résidence en Europe</a></div>
+    </div>
+  </details>
+  <div class="liens">
+    <div class="liens-titre">Portails officiels</div>
+    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/emploi/recherche-d-emploi" target="_blank" rel="noopener noreferrer">France Diplomatie — recherche d'emploi</a>
+    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/emploi/la-validation-des-acquis-de-l-experience-vae" target="_blank" rel="noopener noreferrer">France Diplomatie — VAE</a>
+    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/emploi/equivalences-de-diplomes" target="_blank" rel="noopener noreferrer">France Diplomatie — équivalences de diplômes</a>
+    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/emploi/dispositif-de-formation-professionnelle-pour-les-francais-a-l-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — formation professionnelle</a>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="section" id="fiscalite">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <div><span class="section-label">Finances</span><h2>Fiscalité, comptes et finances</h2></div>
+  </div>
+  <p>L'année du retour est une année fiscale particulière. Selon votre situation, la déclaration peut inclure :</p>
+  <ul>
+    <li><strong>Formulaire 2042</strong> — déclaration de revenus de droit commun</li>
+    <li><strong>Formulaire 2042-NR</strong> — revenus de source française perçus avant le retour (si vous étiez non-résident fiscal)</li>
+    <li><strong>Annexe 2047</strong> — revenus encaissés à l'étranger pendant l'année du retour</li>
+  </ul>
+  <details data-type="important">
+    <summary><span class="sum-title">Points de vigilance</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Ne pas traiter l'année du retour comme une année fiscale ordinaire</li>
+        <li>Déclarer les revenus étrangers perçus après la date de retour</li>
+        <li><strong>Déclarer les comptes bancaires étrangers</strong> encore ouverts — amende de 1 500 € à 10 000 € par compte non déclaré</li>
+        <li>Les conventions fiscales bilatérales peuvent modifier la règle générale selon le pays quitté — vérifiez auprès du service des impôts compétent ou du SIP NR en cas de doute</li>
+      </ul>
+    </div>
+  </details>
+  <details data-type="special">
+    <summary><span class="sum-title">Attention spécifique — Double nationalité franco-américaine</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Les citoyens américains (y compris les binationaux franco-américains) sont tenus de déclarer leurs revenus mondiaux aux autorités fiscales américaines, quel que soit leur pays de résidence. Cette obligation s'applique à vie dès 18 ans. Consultez un conseiller fiscal qualifié avant et après le retour.</p>
+    </div>
+  </details>
+  <div class="liens">
+    <div class="liens-titre">Portails officiels</div>
+    <a href="https://www.impots.gouv.fr/international-particulier/questions/je-reviens-en-france-apres-un-sejour-letranger" target="_blank" rel="noopener noreferrer">impots.gouv.fr — retour en France</a>
+    <a href="https://www.impots.gouv.fr/particulier/questions/comment-seront-imposes-mes-revenus-percus-de-letranger" target="_blank" rel="noopener noreferrer">impots.gouv.fr — revenus perçus à l'étranger</a>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31443" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — IR retour d'expatriation</a>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="section" id="logement">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <div><span class="section-label">Installation</span><h2>Logement et installation</h2></div>
+  </div>
+  <p>L'accès à la location repose souvent sur des preuves que les expatriés de retour n'ont pas immédiatement : bulletins de salaire français récents, avis d'imposition français. Solutions : garantie Visale (gratuite, avant signature du bail), garant personnel, location meublée de transition, dossier renforcé avec justificatifs étrangers traduits.</p>
+  <p>L'aide au logement (APL / ALS / ALF) prend effet <strong>le mois suivant l'emménagement</strong>. Déposez la demande CAF dès l'entrée dans les lieux. Les revenus pris en compte sont ceux de l'année N-2, y compris les revenus perçus à l'étranger.</p>
+  <div class="liens">
+    <div class="liens-titre">Portails officiels</div>
+    <a href="https://www.actionlogement.fr/la-garantie-visale" target="_blank" rel="noopener noreferrer">Action Logement — garantie Visale</a>
+    <a href="https://www.caf.fr/allocataires/aides-et-demarches/ma-situation/vie-personnelle/je-viens-resider-en-france" target="_blank" rel="noopener noreferrer">CAF — je viens résider en France</a>
+    <a href="https://www.caf.fr/allocataires/aides-et-demarches/droits-et-prestations/logement/les-aides-personnelles-au-logement" target="_blank" rel="noopener noreferrer">CAF — aides personnelles au logement</a>
+    <a href="https://www.mesdroitssociaux.gouv.fr/" target="_blank" rel="noopener noreferrer">mesdroitssociaux.gouv.fr — simulateur de droits sociaux</a>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="section" id="famille">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <div><span class="section-label">Vie de famille</span><h2>Famille, conjoint, enfants</h2></div>
+  </div>
+  <p>Vérifiez que les événements familiaux survenus à l'étranger — naissance, mariage, divorce, décès — ont bien été transcrits sur les registres d'état civil français lorsque cela est requis. Une transcription manquante peut bloquer des démarches ultérieures.</p>
+
+  <details data-type="important">
+    <summary><span class="sum-title">Allocations familiales</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>À partir de <strong>2 enfants à charge</strong> de moins de 20 ans résidant en France. Les conditions d'attribution (résidence, ressources, composition du foyer) sont propres à chaque prestation — vérifiez votre situation auprès de votre CAF ou sur service-public.gouv.fr.</p>
+      <p>Les droits s'ouvrent à la date de dépôt du dossier complet, <strong>sans rétroactivité</strong>. Constituez votre dossier sans attendre.</p>
+      <p class="prudence">Pour les personnes revenant de pays hors UE sans numéro de sécurité sociale français, le délai de traitement du dossier CAF peut s'étendre sur plusieurs mois. Déposez votre dossier dès l'arrivée et conservez un accusé de réception.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div>
+        <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F13213" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — allocations familiales</a>
+        <a href="https://www.caf.fr/allocataires/aides-et-demarches/ma-situation/vie-personnelle/je-viens-resider-en-france" target="_blank" rel="noopener noreferrer">CAF — je viens résider en France</a>
+      </div>
+    </div>
+  </details>
+  <details data-type="info" id="conjoint-etranger-famille">
+    <summary><span class="sum-title">Conjoint étranger non européen</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Validation du VLS-TS à l'arrivée en France (dans les 3 mois), puis demande de titre de séjour via le portail officiel des étrangers en France.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://etrangers-en-france.interieur.gouv.fr/services-en-ligne" target="_blank" rel="noopener noreferrer">interieur.gouv.fr — étrangers en France</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="conjoint-accompagnant-famille">
+    <summary><span class="sum-title">Conjoint ou partenaire accompagnant</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Le retour peut s'accompagner d'un choc culturel inversé, d'une perte de repères professionnels et sociaux. Ce ressenti est fréquent — il ne relève pas d'un échec personnel. Anticipez un accompagnement sur quatre axes : reprise d'activité, identification des droits, valorisation du parcours, prévention de l'isolement.</p>
+    </div>
+  </details>
+  <div class="liens">
+    <div class="liens-titre">Autres prestations familiales</div>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F12006" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — APL</a>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F1878" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — allocation de rentrée scolaire</a>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F13218" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — PAJE</a>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2787" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — prestations familiales pour les étrangers</a>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="section" id="scolarite">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <div><span class="section-label">Enfants et jeunes</span><h2>Scolarité et études supérieures</h2></div>
+  </div>
+  <p>Demandez un <strong>certificat de radiation</strong> à l'ancien établissement scolaire avant le départ. Si l'enseignement suivi à l'étranger n'est pas reconnu par l'Éducation nationale, un test de niveau de français peut être demandé.</p>
+
+  <details data-type="info">
+    <summary><span class="sum-title">École maternelle et primaire</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Inscription via la mairie du futur domicile, au plus tard en juin précédant l'année scolaire. En cas de difficulté, contacter l'inspection académique du département.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.education.gouv.fr/l-ecole-maternelle-11534" target="_blank" rel="noopener noreferrer">education.gouv.fr — l'école maternelle</a></div>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Collège et lycée</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Contactez le rectorat de la future académie. Un examen d'admission est généralement requis. Le <strong>CASNAV</strong> (Centre académique pour la scolarisation des enfants nouvellement arrivés) peut orienter et accompagner. Si votre enfant a suivi le CNED pendant l'expatriation, les décisions d'orientation du CNED sont valables de plein droit en France.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.education.gouv.fr/le-college-4940" target="_blank" rel="noopener noreferrer">education.gouv.fr — le collège</a></div>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Études supérieures et ParcourSup</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Les élèves de nationalité française titulaires d'un diplôme étranger de fin d'études secondaires (ex. High School Diploma) peuvent participer à ParcourSup dans les mêmes conditions qu'un candidat titulaire du baccalauréat français. Pour la reconnaissance d'un diplôme étranger : le centre ENIC-NARIC France délivre des attestations de comparabilité.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div>
+        <a href="https://www.parcoursup.fr/" target="_blank" rel="noopener noreferrer">parcoursup.fr</a>
+        <a href="https://www.france-education-international.fr/expertises/enic-naric" target="_blank" rel="noopener noreferrer">france-education-international.fr — centre ENIC-NARIC</a>
+      </div>
+    </div>
+  </details>
+  <div class="liens">
+    <div class="liens-titre">Bourses scolaires</div>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F1883" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — bourses école élémentaire</a>
+    <a href="https://www.education.gouv.fr/les-bourses-de-college-et-de-lycee-326728" target="_blank" rel="noopener noreferrer">education.gouv.fr — bourses collège et lycée</a>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F12214" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — bourses étudiantes</a>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="section" id="douanes">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <div><span class="section-label">Formalités pratiques</span><h2>Douanes, déménagement, véhicule, animal</h2></div>
+  </div>
+
+  <details data-type="info" id="vehicule">
+    <summary><span class="sum-title">Déménagement depuis un pays tiers</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Franchise de droits et taxes possible si résidence à l'étranger depuis plus de <strong>12 mois</strong>. Documents requis : inventaire détaillé et estimatif signé, justificatifs de résidence antérieure et d'installation en France. Demandez un <strong>certificat de changement de résidence</strong> au consulat avant le départ.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div>
+        <a href="https://www.douane.gouv.fr/particuliers/vous-demenagez/en-france-metropolitaine" target="_blank" rel="noopener noreferrer">douane.gouv.fr — déménagement en France</a>
+        <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/formalites-douanieres/demenagement-vers-la-france" target="_blank" rel="noopener noreferrer">France Diplomatie — déménagement vers la France</a>
+      </div>
+    </div>
+  </details>
+  <details data-type="info">
+    <summary><span class="sum-title">Permis de conduire étranger</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Un permis délivré par un pays non européen est valable <strong>1 an</strong> à compter de l'acquisition de la résidence normale en France. L'échange est ensuite obligatoire via l'ANTS, sous réserve d'un accord de réciprocité avec le pays d'émission. La liste des pays éligibles évolue régulièrement — <strong>vérifiez la liste officielle en vigueur</strong> avant de déposer un dossier. Si vous possédiez un permis français avant l'expatriation, demandez le rétablissement de vos droits à conduire sur le site de l'ANTS.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div>
+        <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F1460" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — échange de permis hors UE</a>
+        <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francais/documents-officiels-a-l-etranger/article-permis-de-conduire" target="_blank" rel="noopener noreferrer">France Diplomatie — permis de conduire</a>
+      </div>
+    </div>
+  </details>
+  <details data-type="important" id="animal">
+    <summary><span class="sum-title">Animal de compagnie</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p><strong>Depuis l'UE</strong> (et Andorre, Islande, Liechtenstein, Monaco, Norvège, Saint-Marin, Suisse, Vatican) : puce d'identification, vaccination antirabique valide, passeport européen.</p>
+      <p><strong>Depuis un pays hors UE :</strong> puce + vaccination antirabique + <strong>titrage sérique</strong> réalisé au moins 30 jours après la vaccination et au moins 3 mois avant l'arrivée. Ce délai est incompressible. Certains pays en sont dispensés — vérifiez la liste officielle.</p>
+      <p><strong>Dans tous les cas :</strong> enregistrement obligatoire à l'<strong>I-CAD</strong> dans les <strong>7 jours</strong> suivant l'arrivée en France (~11 €).</p>
+      <div class="liens"><div class="liens-titre">À consulter</div>
+        <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F35788" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — ramener un chien, un chat ou un furet</a>
+        <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/formalites-douanieres/animaux-domestiques-retour-en-france" target="_blank" rel="noopener noreferrer">France Diplomatie — animaux domestiques</a>
+      </div>
+    </div>
+  </details>
+  <div class="liens">
+    <div class="liens-titre">Portail officiel général</div>
+    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/formalites-douanieres" target="_blank" rel="noopener noreferrer">France Diplomatie — formalités douanières</a>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="section" id="retraite">
+  <div class="section-header">
+    <span class="section-num">11</span>
+    <div><span class="section-label">Carrière longue</span><h2>Retraite et carrière longue</h2></div>
+  </div>
+  <p>Certains retraités bénéficient d'une couverture santé sans délai de carence dès leur retour, notamment lorsqu'ils ont cotisé suffisamment longtemps à une caisse de retraite française. Les conditions dépendent de votre situation individuelle — vérifiez-les auprès de votre CPAM et de vos caisses de retraite.</p>
+  <p>Signalez votre adresse en France à toutes vos caisses de retraite françaises et étrangères. En France, le certificat de vie annuel n'est pas exigé.</p>
+  <details data-type="important">
+    <summary><span class="sum-title">Conservez vos justificatifs de carrière étrangère</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Relevés de carrière locaux, attestations employeur, documents de retraite étrangère — ces pièces sont très difficiles à récupérer plusieurs années après le retour. Rassemblez-les avant de partir.</p>
+    </div>
+  </details>
+  <div class="liens">
+    <div class="liens-titre">Portails officiels</div>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/R45084" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — formulaire S1106</a>
+    <a href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer">cleiss.fr — retraite et protection sociale au retour</a>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="section" id="bareme">
+  <div class="section-header">
+    <span class="section-num">12</span>
+    <div><span class="section-label">Référence</span><h2>Montants indicatifs 2026</h2></div>
+  </div>
+  <div class="bareme">
+    <div class="bareme-titre">Prestations sociales — au 1er avril 2026</div>
+    <ul>
+      <li><strong>RSA</strong> — 651,69 €/mois (personne seule)</li>
+      <li><strong>Prime d'activité</strong> — montant forfaitaire 638,28 €/mois</li>
+      <li><strong>BMAF</strong> — 478,16 € (+0,8 % vs 2025)</li>
+      <li><strong>Allocations familiales</strong> — à partir de 2 enfants ; majoration pour âge à 18 ans pour les nouveaux bénéficiaires (réforme mars 2026)</li>
+      <li><strong>Allocation de rentrée scolaire</strong> — entre 416 et 466 € par enfant selon l'âge</li>
+      <li><strong>PAJE allocation de base</strong> — 198,16 €/mois au taux plein</li>
+    </ul>
+    <p class="bareme-note">Sources : service-public.gouv.fr, caf.fr — Montants revalorisés chaque année, généralement au 1er avril. À vérifier sur les portails officiels avant tout conseil individuel.</p>
+  </div>
+  <div class="bareme">
+    <div class="bareme-titre">Délais clés à retenir</div>
+    <ul>
+      <li>Maintien des droits CFE après retour : <strong>3 mois maximum</strong></li>
+      <li>Délai de résidence pour certaines prestations familiales : <strong>9 mois</strong> dans l'année civile</li>
+      <li>Validité du permis étranger hors UE en France : <strong>1 an</strong></li>
+      <li>Délai pour valider le VLS-TS : <strong>3 mois</strong> après l'arrivée</li>
+      <li>Enregistrement I-CAD pour les animaux : <strong>7 jours</strong></li>
+      <li>Aide au logement CAF : prend effet le <strong>mois suivant l'emménagement</strong></li>
+    </ul>
+    <p class="bareme-note">Ces délais peuvent évoluer. Vérifiez sur les portails officiels concernés.</p>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="section" id="glossaire">
+  <div class="section-header">
+    <span class="section-num">13</span>
+    <div><span class="section-label">Références</span><h2>Glossaire</h2></div>
+  </div>
+  <dl class="glossaire">
+    <dt>PUMA</dt><dd>Protection universelle maladie — droit à l'assurance maladie sur critère d'activité ou de résidence stable en France.</dd>
+    <dt>CPAM</dt><dd>Caisse primaire d'assurance maladie — interlocuteur local pour l'ouverture et la gestion des droits santé.</dd>
+    <dt>CFE</dt><dd>Caisse des Français de l'étranger — protection sociale volontaire pendant l'expatriation ; continuité de couverture temporaire au retour.</dd>
+    <dt>ALD</dt><dd>Affection de longue durée — régime de prise en charge spécifique à vérifier à la réaffiliation.</dd>
+    <dt>U1 / U2</dt><dd>Documents portables européens : U1 atteste des périodes d'emploi dans un autre pays UE/EEE ; U2 concerne l'exportation d'allocations chômage.</dd>
+    <dt>Visale</dt><dd>Garantie locative gratuite proposée par Action Logement — à demander avant la signature du bail.</dd>
+    <dt>VAE</dt><dd>Validation des acquis de l'expérience.</dd>
+    <dt>CASNAV</dt><dd>Centre académique pour la scolarisation des enfants nouvellement arrivés et des enfants du voyage.</dd>
+    <dt>ENIC-NARIC</dt><dd>Centre français d'évaluation des diplômes étrangers — délivre des attestations de comparabilité.</dd>
+    <dt>VLS-TS</dt><dd>Visa long séjour valant titre de séjour — à valider sur le portail ANEF dans les 3 mois suivant l'arrivée.</dd>
+    <dt>Transcription</dt><dd>Enregistrement dans l'état civil français d'un événement survenu à l'étranger (naissance, mariage, décès…).</dd>
+    <dt>BMAF</dt><dd>Base mensuelle de calcul des allocations familiales — sert de référence pour de nombreuses prestations CAF.</dd>
+    <dt>SIP NR</dt><dd>Service des impôts des particuliers non-résidents — compétent si vous perceviez des revenus de source française pendant l'expatriation.</dd>
+    <dt>CNED</dt><dd>Centre national d'enseignement à distance — ses décisions d'orientation sont valables de plein droit à l'entrée dans le système scolaire français.</dd>
+  </dl>
+</section>
+
+<!-- 14 -->
+<section class="section" id="ressources">
+  <div class="section-header">
+    <span class="section-num">14</span>
+    <div><span class="section-label">Pour aller plus loin</span><h2>Ressources officielles</h2></div>
+  </div>
+  <div class="liens">
+    <div class="liens-titre">Portails généraux</div>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — Revenir vivre en France</a>
+    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france" target="_blank" rel="noopener noreferrer">France Diplomatie — préparer son retour</a>
+    <a href="https://www.mesdroitssociaux.gouv.fr/" target="_blank" rel="noopener noreferrer">mesdroitssociaux.gouv.fr — simulateur de droits</a>
+  </div>
+  <div class="liens">
+    <div class="liens-titre">Santé · Emploi · Fiscalité</div>
+    <a href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer">cleiss.fr</a>
+    <a href="https://www.francetravail.fr" target="_blank" rel="noopener noreferrer">francetravail.fr</a>
+    <a href="https://www.impots.gouv.fr/international-particulier/questions/je-reviens-en-france-apres-un-sejour-letranger" target="_blank" rel="noopener noreferrer">impots.gouv.fr — retour en France</a>
+  </div>
+  <div class="liens">
+    <div class="liens-titre">Logement · Famille · Séjour</div>
+    <a href="https://www.actionlogement.fr/la-garantie-visale" target="_blank" rel="noopener noreferrer">Action Logement — Visale</a>
+    <a href="https://www.caf.fr" target="_blank" rel="noopener noreferrer">caf.fr</a>
+    <a href="https://etrangers-en-france.interieur.gouv.fr/services-en-ligne" target="_blank" rel="noopener noreferrer">interieur.gouv.fr — étrangers en France</a>
+  </div>
+  <div class="liens">
+    <div class="liens-titre">Scolarité · Douanes</div>
+    <a href="https://www.france-education-international.fr/expertises/enic-naric" target="_blank" rel="noopener noreferrer">france-education-international.fr — ENIC-NARIC</a>
+    <a href="https://www.parcoursup.fr/" target="_blank" rel="noopener noreferrer">parcoursup.fr</a>
+    <a href="https://www.douane.gouv.fr/particuliers/vous-demenagez/en-france-metropolitaine" target="_blank" rel="noopener noreferrer">douane.gouv.fr — déménagement en France</a>
+  </div>
+</section>
+
+</main>
+
+<div style="text-align:center;padding:24px 20px 0;">
+  <button class="btn-print" onclick="window.print()" aria-label="Imprimer ou exporter en PDF">🖨 Imprimer / Exporter PDF</button>
+</div>
+
+<footer>
+  <strong>Français du Monde · ADFE — Section France</strong><br>
+  Sources officielles : service-public.gouv.fr · diplomatie.gouv.fr · francetravail.fr · impots.gouv.fr · caf.fr · cleiss.fr · interieur.gouv.fr · douane.gouv.fr<br>
+  Guide mis à jour — juin 2026 · Ce document est un outil d'orientation et ne remplace pas un conseil individualisé.
+</footer>
+
+<script>
+// ── FONCTIONS GLOBALES (accessibles depuis les attributs HTML onchange/onclick) ──
+
+function appliquerFiltres() {
+  const provenance = document.getElementById('filtre-provenance').value;
+  const situation  = document.getElementById('filtre-situation').value;
+  const enfants    = document.getElementById('filtre-enfants').value;
+
+  document.querySelectorAll('.filtre-ouvert').forEach(el => el.classList.remove('filtre-ouvert'));
+
+  const elUE     = document.getElementById('retour-ue');
+  const elHorsUE = document.getElementById('retour-hors-ue');
+  if (elUE && elHorsUE) {
+    elUE.style.display     = (!provenance || provenance === 'ue')      ? '' : 'none';
+    elHorsUE.style.display = (!provenance || provenance === 'hors-ue') ? '' : 'none';
+    if (provenance === 'ue')      { elUE.setAttribute('open','');      elUE.classList.add('filtre-ouvert'); }
+    if (provenance === 'hors-ue') { elHorsUE.setAttribute('open',''); elHorsUE.classList.add('filtre-ouvert'); }
+  }
+
+  const elSans = document.getElementById('sans-emploi');
+  const elAvec = document.getElementById('avec-emploi');
+  if (elSans && elAvec) {
+    if (situation === 'sans-emploi') {
+      elSans.style.display = ''; elSans.setAttribute('open',''); elSans.classList.add('filtre-ouvert');
+      elAvec.style.display = 'none';
+    } else if (situation === 'avec-emploi') {
+      elAvec.style.display = ''; elAvec.setAttribute('open',''); elAvec.classList.add('filtre-ouvert');
+      elSans.style.display = 'none';
+    } else {
+      elSans.style.display = '';
+      elAvec.style.display = '';
+    }
+  }
+
+  const secScol  = document.getElementById('scolarite');
+  const navScol  = document.querySelector('a[href="#scolarite"]');
+  const mNavScol = document.querySelector('.mobile-menu a[href="#scolarite"]');
+  if (secScol) {
+    const hide = enfants === 'non';
+    secScol.style.display  = hide ? 'none' : '';
+    if (navScol)  navScol.style.display  = hide ? 'none' : '';
+    if (mNavScol) mNavScol.style.display = hide ? 'none' : '';
+  }
+
+  const prioLogement = document.getElementById('prio-logement');
+  if (prioLogement) {
+    const texteContenu = prioLogement.querySelector('span:not(.num)');
+    if (texteContenu) {
+      if (situation === 'avec-emploi') {
+        texteContenu.innerHTML = `<span class="label">Le logement</span>Votre contrat ou promesse d'embauche facilitera vos démarches. Attention toutefois à la <strong>période d'essai</strong> : certains bailleurs refusent de signer un bail tant qu'elle n'est pas terminée. Pensez à la garantie Visale ou à un garant.`;
+      } else {
+        texteContenu.innerHTML = `<span class="label">Le logement</span>Sans fiches de paie françaises récentes, l'accès à la location peut être complexe. Anticipez Visale, garant, location meublée de transition.`;
+      }
+    }
+  }
+
+  const elConj = document.getElementById('conjoint-accompagnant');
+  if (elConj) elConj.style.display = (situation === 'avec-emploi') ? 'none' : '';
+
+  const badge = document.getElementById('filtre-statut');
+  const actif = provenance || situation || enfants;
+  if (badge) badge.classList.toggle('actif', !!actif);
+
+  // Panneau synthèse
+  const synthese       = document.getElementById('synthese-profil');
+  const synthesePoints = document.getElementById('synthese-points');
+  if (!synthese || !synthesePoints) return;
+
+  if (!actif) {
+    synthese.classList.remove('actif');
+    return;
+  }
+
+  synthese.classList.add('actif');
+  const points = [];
+
+  if (provenance === 'ue') {
+    points.push({ alerte: false, texte: `<strong>Santé :</strong> la coordination européenne facilite la reprise de vos droits. Vérifiez les modalités auprès de votre future CPAM.` });
+    points.push({ alerte: false, texte: `<strong>Chômage :</strong> le formulaire U1 vous permet de faire valoir vos périodes d'emploi européennes.` });
+  } else if (provenance === 'hors-ue') {
+    points.push({ alerte: true,  texte: `<strong>Santé :</strong> pas de coordination automatique. Déposez le dossier S1106 à la CPAM dès votre arrivée.` });
+    points.push({ alerte: false, texte: `<strong>Fiscalité :</strong> vérifiez la convention fiscale entre la France et votre pays de résidence.` });
+  }
+
+  if (situation === 'sans-emploi') {
+    points.push({ alerte: true,  texte: `<strong>Santé :</strong> un délai de résidence préalable s'applique avant l'ouverture des droits PUMA. Prévoyez une couverture transitoire.` });
+    points.push({ alerte: false, texte: `<strong>Logement :</strong> sans fiches de paie françaises, pensez à la garantie Visale avant de signer un bail.` });
+    points.push({ alerte: false, texte: `<strong>CAF :</strong> déposez votre dossier d'aides au logement dès l'emménagement — les droits commencent le mois suivant.` });
+    points.push({ alerte: false, texte: `<strong>Conjoint accompagnant :</strong> si vous avez démissionné pour suivre votre conjoint, vérifiez vos droits au chômage auprès de France Travail.` });
+  } else if (situation === 'avec-emploi') {
+    points.push({ alerte: false, texte: `<strong>Santé :</strong> la reprise d'activité facilite l'ouverture des droits, sans délai de carence prolongé.` });
+    points.push({ alerte: true,  texte: `<strong>Logement :</strong> attention à la période d'essai — certains bailleurs refusent de signer tant qu'elle n'est pas terminée. La garantie Visale reste utile.` });
+  }
+
+  if (enfants === 'oui') {
+    points.push({ alerte: false, texte: `<strong>Scolarité :</strong> demandez le certificat de radiation avant le départ. Pour le collège/lycée, contactez le CASNAV du rectorat.` });
+    points.push({ alerte: false, texte: `<strong>CAF :</strong> allocations familiales à partir de 2 enfants — déposez le dossier dès l'arrivée, sans rétroactivité.` });
+  } else if (enfants === 'non') {
+    points.push({ alerte: false, texte: `<strong>Scolarité :</strong> rubrique masquée (sans enfant à charge).` });
+  }
+
+  synthesePoints.innerHTML = points.map(p =>
+    `<div class="synthese-tag${p.alerte ? ' alerte' : ''}">${p.texte}</div>`
+  ).join('');
+}
+
+function reinitialiserFiltres() {
+  document.getElementById('filtre-provenance').value = '';
+  document.getElementById('filtre-situation').value  = '';
+  document.getElementById('filtre-enfants').value    = '';
+  document.querySelectorAll('details').forEach(el => {
+    el.style.display = '';
+    el.classList.remove('filtre-ouvert');
+    el.removeAttribute('open');
+  });
+  const defaultOpen = ['sans-emploi', 'conjoint-accompagnant'];
+  defaultOpen.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('open', '');
+  });
+  const synthese = document.getElementById('synthese-profil');
+  if (synthese) synthese.classList.remove('actif');
+  appliquerFiltres();
+}
+
+function calculerDates() {
+  const val = document.getElementById('date-retour').value;
+  if (!val) return;
+  const parts = val.split('-');
+  if (parts.length !== 3) return;
+  const retour = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10), 12, 0, 0);
+  const aujourdhui = new Date();
+  const fmt        = d => d.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
+  const addMonths  = (d, m) => { const r = new Date(d); r.setMonth(r.getMonth() + m); return r; };
+  const ids = {
+    'date-6m':      addMonths(retour, -6),
+    'date-3m':      addMonths(retour, -3),
+    'date-1m':      addMonths(retour, -1),
+    'date-arrivee': retour
+  };
+  for (const [id, date] of Object.entries(ids)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    el.textContent  = '→ ' + fmt(date);
+    if (date < aujourdhui) {
+      el.style.color = 'var(--rouge)'; el.style.fontWeight = '700';
+      el.title = 'Cette échéance est déjà passée';
+    } else {
+      el.style.color = 'var(--violet)'; el.style.fontWeight = '600';
+      el.title = '';
+    }
+  }
+}
+
+// ── CODE D'INITIALISATION (après chargement complet du DOM) ─────────────
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Filtres profil — double écoute change+input pour compatibilité iOS/Safari
+  ['filtre-provenance', 'filtre-situation', 'filtre-enfants'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('change', appliquerFiltres);
+    el.addEventListener('input',  appliquerFiltres);
+  });
+
+  // Calculateur dates — double écoute change+input pour compatibilité iOS/Safari
+  const dateInput = document.getElementById('date-retour');
+  if (dateInput) {
+    dateInput.addEventListener('change', calculerDates);
+    dateInput.addEventListener('input',  calculerDates);
+  }
+
+  // Burger mobile
+  const burger     = document.querySelector('.burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (burger && mobileMenu) {
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    burger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(isOpen));
+    });
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', e => {
+      if (!burger.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        mobileMenu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+        burger.focus();
+      }
+    });
+  }
+
+  // Checklist avec persistance localStorage
+  document.querySelectorAll('#etapes-list > li').forEach((li, i) => {
+    const key = 'adfe-check-' + i;
+    const cb  = document.createElement('input');
+    cb.type  = 'checkbox';
+    cb.id    = key;
+    cb.title = 'Marquer comme fait';
+    try {
+      if (localStorage.getItem(key) === '1') {
+        cb.checked = true;
+        li.classList.add('done');
+      }
+    } catch(e) {}
+    cb.addEventListener('change', () => {
+      li.classList.toggle('done', cb.checked);
+      try { localStorage.setItem(key, cb.checked ? '1' : '0'); } catch(e) {}
+    });
+    li.insertBefore(cb, li.firstChild);
+  });
+
+  // Sécurisation liens externes (belt-and-suspenders)
+  document.querySelectorAll('a[target="_blank"]').forEach(a => {
+    if (!a.rel || !a.rel.includes('noopener')) {
+      a.setAttribute('rel', 'noopener noreferrer');
+    }
+  });
+
+});
+</script>
+</body>
+</html>
