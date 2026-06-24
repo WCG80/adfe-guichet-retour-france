@@ -2095,6 +2095,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
         burger.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
       });
     });
     document.addEventListener('click', e => {
