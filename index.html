@@ -2087,9 +2087,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (burger && mobileMenu) {
     const mobileLinks = mobileMenu.querySelectorAll('a');
     burger.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('open');
-      burger.setAttribute('aria-expanded', String(isOpen));
-    });
+  const isOpen = mobileMenu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', String(isOpen));
+  document.body.classList.toggle('menu-open', isOpen);
+});
     mobileLinks.forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
