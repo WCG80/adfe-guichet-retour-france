@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="en" href="conjoint-en.html">
+<link rel="alternate" hreflang="es" href="conjoint-es.html">
 <title>Revenir vivre en France — Guide pratique | ADFE</title>
 <!-- Police : même déclaration que francais-du-monde.org (Montserrat, sans-serif) et, comme le site,
      sans chargement de webfont — le guide s'affiche donc avec la même police que le site sur chaque appareil -->
@@ -806,6 +808,21 @@ footer strong { color: var(--blanc); }
 @media (prefers-reduced-motion: reduce) { .retour-haut { transition: none; } }
 @media (max-width: 700px) { .retour-haut { right: 14px; bottom: 14px; width: 42px; height: 42px; } }
 @media print { .retour-haut { display: none !important; } }
+
+/* Liens vers les pages conjoint (anglais, espagnol) dans le bandeau */
+.langues { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.langues-label { font-size: 12px; text-transform: none; letter-spacing: 0; opacity: .9; margin-right: 2px; }
+.langues a {
+  color: var(--blanc); text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  border: 1.5px solid rgba(255,255,255,.8); border-radius: 4px; padding: 3px 9px;
+}
+.langues a:hover { background: var(--blanc); color: var(--bordeaux); }
+.bandeau-inner { flex-wrap: wrap; }
+@media (max-width: 700px) {
+  .bandeau-inner > span { flex: 1 1 0; min-width: 0; }
+  .langues { margin-left: 0; flex-basis: 100%; }
+}
+@media print { .langues { display: none; } }
 </style>
 </head>
 <body>
@@ -818,6 +835,11 @@ footer strong { color: var(--blanc); }
   <div class="bandeau-inner">
     <img class="logo-section" src="assets/logo-section-france.png" alt="Logo de la Section France" width="72" height="72">
     <span>Français du monde – ADFE · Section France</span>
+    <nav class="langues" aria-label="Pages pour le conjoint étranger">
+      <span class="langues-label" lang="en">For your spouse</span>
+      <a href="conjoint-en.html" hreflang="en" lang="en" title="Page in English for a foreign spouse">EN</a>
+      <a href="conjoint-es.html" hreflang="es" lang="es" title="Página en español para el cónyuge extranjero">ES</a>
+    </nav>
   </div>
 </div>
 <!-- ═══ fin de l'en-tête ═══ -->
@@ -1125,7 +1147,7 @@ footer strong { color: var(--blanc); }
     <summary><span class="sum-title">Conjoint étranger non européen</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
       <p>La situation du conjoint suit une logique distincte : validation du VLS-TS, démarches de titre de séjour, ouverture des droits à part entière. Une couverture privée transitoire peut s'avérer nécessaire.</p>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/formalites-avant-le-retour/conjoint-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — conjoint étranger</a></div>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="conjoint-en.html" hreflang="en">Page pour votre conjoint en anglais</a><a href="conjoint-es.html" hreflang="es">Page pour votre conjoint en espagnol</a><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/formalites-avant-le-retour/conjoint-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — conjoint étranger</a></div>
     </div>
   </details>
   <details data-type="info" id="sante-apres">
@@ -1307,7 +1329,7 @@ footer strong { color: var(--blanc); }
     <div class="detail-body">
       <p>Validation du VLS-TS à l'arrivée en France (dans les 3 mois), puis demande de titre de séjour via le portail officiel des étrangers en France.</p>
       <p><strong>Enfants de nationalité étrangère</strong> : un mineur n'a pas besoin de titre de séjour, mais un document de circulation pour étranger mineur (DCEM) facilite ses voyages hors de France. Un enfant majeur doit demander son propre titre de séjour dans les 2 mois suivant l'arrivée.</p>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://etrangers-en-france.interieur.gouv.fr/services-en-ligne" target="_blank" rel="noopener noreferrer">interieur.gouv.fr — étrangers en France</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2718" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — DCEM</a></div>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="conjoint-en.html" hreflang="en">Page pour votre conjoint en anglais</a><a href="conjoint-es.html" hreflang="es">Page pour votre conjoint en espagnol</a><a href="https://etrangers-en-france.interieur.gouv.fr/services-en-ligne" target="_blank" rel="noopener noreferrer">interieur.gouv.fr — étrangers en France</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2718" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — DCEM</a></div>
     </div>
   </details>
   <details data-type="info" id="conjoint-accompagnant-famille">
@@ -1805,7 +1827,7 @@ function appliquerFiltres() {
 
   // Conjoint
   if (conjoint === 'conjoint-hors-ue') {
-    point(`<strong>Conjoint :</strong> validez son VLS-TS sur le portail ANEF dans les 3 mois suivant l'arrivée ; ses droits santé s'ouvrent séparément — prévoyez une couverture transitoire.`, true);
+    point(`<strong>Conjoint :</strong> validez son VLS-TS sur le portail ANEF dans les 3 mois suivant l'arrivée ; ses droits santé s'ouvrent séparément — prévoyez une couverture transitoire. Une page lui est dédiée en <a href="conjoint-en.html" hreflang="en">anglais</a> et en <a href="conjoint-es.html" hreflang="es">espagnol</a>.`, true);
   }
 
   // Enfants
