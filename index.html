@@ -785,6 +785,27 @@ footer strong { color: var(--blanc); }
   display: flex; align-items: center; justify-content: center; pointer-events: none;
 }
 .pastille svg { width: 15px; height: 15px; }
+
+/* Bouton Imprimer : pictogramme au trait */
+.btn-print svg { width: 16px; height: 16px; }
+
+/* Bouton « Revenir en haut », visible après défilement */
+.retour-haut {
+  position: fixed; right: 20px; bottom: 20px; z-index: 300;
+  width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--blanc); cursor: pointer;
+  background: var(--degrade); color: var(--blanc);
+  box-shadow: 0 2px 12px rgba(0,0,0,.25);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s;
+}
+.retour-haut.visible { opacity: 1; visibility: visible; transform: none; }
+.retour-haut:hover { filter: brightness(1.08); }
+.retour-haut:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+.retour-haut svg { width: 22px; height: 22px; }
+@media (prefers-reduced-motion: reduce) { .retour-haut { transition: none; } }
+@media (max-width: 700px) { .retour-haut { right: 14px; bottom: 14px; width: 42px; height: 42px; } }
+@media print { .retour-haut { display: none !important; } }
 </style>
 </head>
 <body>
@@ -1549,8 +1570,10 @@ footer strong { color: var(--blanc); }
 </main>
 
 <div style="text-align:center;padding:24px 20px 0;">
-  <button class="btn-print" onclick="window.print()" aria-label="Imprimer ou exporter en PDF">Imprimer / Exporter PDF</button>
+  <button class="btn-print" onclick="window.print()" aria-label="Imprimer ou exporter en PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer / Exporter PDF</button>
 </div>
+
+<button type="button" class="retour-haut" id="retour-haut" aria-label="Revenir en haut de la page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <footer class="pied-site">
   <div class="pied-inner">
@@ -1976,6 +1999,18 @@ document.addEventListener('DOMContentLoaded', () => {
         champ.remove();
       }
       if (statutCopie) statutCopie.textContent = ok ? 'Lien copié — vous pouvez le coller dans un e-mail.' : 'Copie impossible : copiez l\'adresse de la page.';
+    });
+  }
+
+  // Bouton « Revenir en haut » : apparaît après un écran de défilement
+  const btnHaut = document.getElementById('retour-haut');
+  if (btnHaut) {
+    const majHaut = () => btnHaut.classList.toggle('visible', window.scrollY > window.innerHeight);
+    window.addEventListener('scroll', majHaut, { passive: true });
+    majHaut();
+    btnHaut.addEventListener('click', () => {
+      const sansAnimation = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: sansAnimation ? 'auto' : 'smooth' });
     });
   }
 
