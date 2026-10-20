@@ -348,6 +348,14 @@ details[open] > summary .sum-icon {
 }
 .liens a:hover { color: var(--rouge); }
 
+/* ── NUMÉROS UTILES ── */
+.numeros { list-style: none; padding: 0; margin: 0; font-size: .88rem; }
+.numeros li { padding: 6px 0; border-bottom: 1px dotted var(--filet); }
+.numeros li:last-child { border-bottom: none; }
+.numeros strong { color: var(--violet); }
+.numeros .liens-num a, .liens .numeros a { display: inline; word-break: normal; margin: 0; white-space: nowrap; }
+.numeros .horaires { display: block; color: var(--texte-doux); font-size: .8rem; }
+
 /* ── BARÈME ── */
 .bareme {
   background: var(--blanc);
@@ -404,8 +412,11 @@ footer strong { color: var(--violet-fonce); }
 }
 .filtre-inner {
   max-width: 940px; margin: 0 auto;
-  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px 14px; align-items: center;
 }
+.filtre-inner .filtre-label, .filtre-actions { grid-column: 1 / -1; }
+.filtre-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
 .filtre-label {
   font-family: 'Oswald', sans-serif;
   font-size: .72rem; font-weight: 600;
@@ -429,6 +440,8 @@ footer strong { color: var(--violet-fonce); }
   cursor: pointer; border-radius: 2px;
 }
 .filtre-reset:hover { border-color: var(--rouge); color: var(--rouge); }
+.synthese-partage { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+#copier-lien-statut { font-size: .82rem; color: var(--texte-doux); font-style: italic; }
 
 /* ── CALCULATEUR DATES ── */
 .date-calc {
@@ -632,6 +645,7 @@ body { font-size: 11pt; background: #fff; color-scheme: light; -webkit-print-col
   .bareme { border-top-color: #333 !important; background: #f5f5f5 !important; }
 
   a[href]:after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
+  a[href^="tel:"]:after { content: none; }
 }
 
 /* ── IMPRESSION / EXPORT PDF ── */
@@ -1410,21 +1424,37 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
     <select id="filtre-provenance" aria-label="Pays de provenance">
       <option value="">🌍 Toutes provenances</option>
       <option value="ue">Retour depuis UE / EEE / Suisse</option>
-      <option value="hors-ue">Retour depuis hors UE</option>
+      <option value="royaume-uni">Retour depuis le Royaume-Uni</option>
+      <option value="etats-unis">Retour depuis les États-Unis</option>
+      <option value="hors-ue">Retour depuis un autre pays hors UE</option>
     </select>
     <select id="filtre-situation" aria-label="Situation professionnelle">
       <option value="">💼 Toutes situations</option>
       <option value="avec-emploi">Avec un emploi à l'arrivée</option>
       <option value="sans-emploi">Sans emploi à l'arrivée</option>
+      <option value="etudiant">Étudiant</option>
       <option value="retraite">Retraité</option>
+    </select>
+    <select id="filtre-conjoint" aria-label="Conjoint">
+      <option value="">💑 Avec ou sans conjoint</option>
+      <option value="seul">Seul</option>
+      <option value="conjoint-fr-ue">Conjoint français ou européen</option>
+      <option value="conjoint-hors-ue">Conjoint non européen</option>
     </select>
     <select id="filtre-enfants" aria-label="Enfants">
       <option value="">👨‍👩‍👧 Avec ou sans enfants</option>
       <option value="oui">Avec des enfants</option>
       <option value="non">Sans enfant</option>
     </select>
-    <span class="filtre-statut" id="filtre-statut">Filtres actifs</span>
-    <button class="filtre-reset" onclick="reinitialiserFiltres()">✕ Réinitialiser</button>
+    <select id="filtre-animal" aria-label="Animal de compagnie">
+      <option value="">🐾 Avec ou sans animal</option>
+      <option value="oui">Avec un animal</option>
+      <option value="non">Sans animal</option>
+    </select>
+    <div class="filtre-actions">
+      <span class="filtre-statut" id="filtre-statut">Filtres actifs</span>
+      <button class="filtre-reset" onclick="reinitialiserFiltres()">✕ Réinitialiser</button>
+    </div>
   </div>
 </div>
 
@@ -1434,6 +1464,10 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
     <div class="synthese-titre">Points clés pour votre profil</div>
     <div class="synthese-points" id="synthese-points"></div>
     <p class="synthese-lien">↓ Utilisez le sommaire pour accéder directement à chaque rubrique détaillée.</p>
+    <p class="synthese-partage">
+      <button type="button" class="filtre-reset" id="copier-lien-profil">🔗 Copier le lien de ce profil</button>
+      <span id="copier-lien-statut" role="status" aria-live="polite"></span>
+    </p>
   </div>
 </div>
 
@@ -1566,6 +1600,19 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
       <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/assurance-maladie/vous-revenez-d-un-pays-hors-de-l-union-europeenne" target="_blank" rel="noopener noreferrer">France Diplomatie — retour hors UE</a></div>
     </div>
   </details>
+  <details data-type="info" id="retour-uk">
+    <summary><span class="sum-title">Retour du Royaume-Uni</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Depuis le Brexit, le Royaume-Uni n'est plus dans l'UE, mais l'accord de commerce et de coopération UE–Royaume-Uni maintient une coordination proche des règles européennes :</p>
+      <ul>
+        <li><strong>Avec un emploi en France</strong> : affiliation immédiate, sans délai de carence.</li>
+        <li><strong>Retraité avec uniquement une pension britannique</strong> : vos soins en France sont pris en charge par le régime britannique (formulaire S1).</li>
+        <li><strong>Retraite</strong> : les périodes travaillées au Royaume-Uni comptent pour l'ouverture et le calcul de votre retraite française.</li>
+        <li><strong>Autres cas</strong> : prise en charge sous conditions, notamment de résidence stable en France.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.cleiss.fr/faq/brexit.html" target="_blank" rel="noopener noreferrer">cleiss.fr — FAQ Brexit</a></div>
+    </div>
+  </details>
   <details data-type="important" id="sans-emploi" open>
     <summary><span class="sum-title">Retour sans emploi — délai de résidence préalable</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
@@ -1578,6 +1625,14 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
     <summary><span class="sum-title">Retour avec un emploi</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
       <p>L'exercice d'une activité professionnelle en France ouvre la prise en charge des frais de santé <strong>dès la première heure travaillée</strong>, sans délai de résidence préalable. Envoyez le formulaire S1106 à la CPAM avec votre contrat de travail ou un bulletin de salaire. Des conditions de durée de travail s'appliquent en revanche aux indemnités journalières (arrêt maladie, maternité) — vérifiez-les sur ameli.fr.</p>
+    </div>
+  </details>
+  <details data-type="info" id="etudiant-sante">
+    <summary><span class="sum-title">Vous êtes étudiant</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Les étudiants inscrits dans un établissement d'enseignement en France sont en principe <strong>dispensés du délai de 3 mois</strong> de résidence : déposez le formulaire S1106 à la CPAM avec votre certificat de scolarité dès l'inscription.</p>
+      <p>Avant l'inscription dans l'enseignement supérieur, vous devez payer la <strong>CVEC</strong> (contribution de vie étudiante et de campus). Pensez aussi à une complémentaire santé.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.etudiant.gouv.fr/" target="_blank" rel="noopener noreferrer">etudiant.gouv.fr — vie étudiante, bourses, logement, CVEC</a></div>
     </div>
   </details>
   <details data-type="info">
@@ -1623,11 +1678,12 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
       <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france/emploi/chomage" target="_blank" rel="noopener noreferrer">France Diplomatie — chômage et conjoint accompagnant</a></div>
     </div>
   </details>
-  <details data-type="info">
+  <details data-type="info" id="chomage-u1">
     <summary><span class="sum-title">Retour depuis un pays européen — formulaire U1</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
       <p>Le document portable U1 récapitule vos périodes d'emploi dans un autre pays de l'UE / EEE / Suisse. France Travail ne les prend en compte que si vous avez <strong>retravaillé en France</strong> après cette activité, et le montant de l'allocation est calculé sur les seuls salaires français. À demander avant le retour à l'organisme de chômage du pays quitté.</p>
       <p>Si vous percevez encore une allocation chômage dans l'autre pays, le document U2 permet de continuer à la recevoir en France : inscrivez-vous à France Travail dans les 7 jours.</p>
+      <p><strong>Royaume-Uni :</strong> vos périodes de travail britanniques restent prises en compte, mais il n'est plus possible de percevoir une allocation chômage britannique en France.</p>
       <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.francetravail.fr/candidat/mes-droits-aux-aides-et-allocati/lallocation-chomage-a-letranger/je-rentre-en-france-apres-avoir.html" target="_blank" rel="noopener noreferrer">France Travail — retour après résidence en Europe</a></div>
     </div>
   </details>
@@ -1658,15 +1714,16 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
       <ul>
         <li>Ne pas traiter l'année du retour comme une année fiscale ordinaire</li>
         <li>Déclarer les revenus étrangers perçus après la date de retour</li>
-        <li><strong>Déclarer les comptes bancaires étrangers</strong> encore ouverts — amende de 1 500 € par compte non déclaré et par année, portée à 10 000 € si le compte est situé dans un État non coopératif</li>
+        <li><strong>Déclarer les comptes bancaires étrangers</strong> (formulaire 3916) ouverts, utilisés ou clos — amende de 1 500 € par compte non déclaré et par année, portée à 10 000 € si le compte est situé dans un État non coopératif</li>
         <li>Les conventions fiscales bilatérales peuvent modifier la règle générale selon le pays quitté — vérifiez auprès du service des impôts compétent ou du SIP NR en cas de doute</li>
       </ul>
     </div>
   </details>
-  <details data-type="special">
+  <details data-type="special" id="fiscal-us">
     <summary><span class="sum-title">Attention spécifique — Double nationalité franco-américaine</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
       <p>Les citoyens américains (y compris les binationaux franco-américains) sont tenus de déclarer leurs revenus mondiaux aux autorités fiscales américaines, quel que soit leur pays de résidence. Cette obligation ne dépend pas de l'âge : elle s'applique dès que les revenus dépassent les seuils fixés par l'IRS, et tant que la nationalité américaine est conservée. S'y ajoute la déclaration des comptes financiers étrangers (FBAR). Consultez un conseiller fiscal qualifié avant et après le retour.</p>
+      <p><strong>Retraite :</strong> l'accord de sécurité sociale France–États-Unis de 1987 permet de prendre en compte les périodes d'assurance des deux pays ; chaque pays calcule et verse ensuite sa propre pension.</p>
     </div>
   </details>
   <div class="liens">
@@ -1793,10 +1850,11 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
       </div>
     </div>
   </details>
-  <details data-type="info">
+  <details data-type="info" id="permis">
     <summary><span class="sum-title">Permis de conduire étranger</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
       <p>Un permis délivré par un pays non européen est valable <strong>1 an</strong> à compter de l'acquisition de la résidence normale en France. L'échange doit être demandé pendant cette année, sur le site de l'ANTS (France Titres), sous réserve d'un accord de réciprocité avec le pays d'émission. La liste des pays éligibles évolue régulièrement — <strong>vérifiez la liste officielle en vigueur</strong> avant de déposer un dossier. Si vous possédiez un permis français avant l'expatriation, demandez le rétablissement de vos droits à conduire sur le site de l'ANTS.</p>
+      <p><strong>États-Unis :</strong> l'échange dépend de l'État qui a délivré le permis — seuls certains États ont un accord avec la France (la Californie et New York n'en ont pas). Sans accord, il faut repasser le permis français avant la fin de l'année de validité.</p>
       <div class="liens"><div class="liens-titre">À consulter</div>
         <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F1460" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — échange de permis hors UE</a>
         <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francais/documents-officiels-a-l-etranger/article-permis-de-conduire" target="_blank" rel="noopener noreferrer">France Diplomatie — permis de conduire</a>
@@ -1808,6 +1866,7 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
     <div class="detail-body">
       <p><strong>Depuis l'UE</strong> (et Andorre, Islande, Liechtenstein, Monaco, Norvège, Saint-Marin, Suisse, Vatican) : puce d'identification, vaccination antirabique valide, passeport européen.</p>
       <p><strong>Depuis un pays hors UE :</strong> puce + vaccination antirabique + <strong>titrage sérique</strong> réalisé au moins 30 jours après la vaccination et au moins 3 mois avant l'arrivée. Ce délai est incompressible. Certains pays en sont dispensés — vérifiez la liste officielle.</p>
+      <p><strong>Depuis le Royaume-Uni :</strong> pas de titrage sérique. Le passeport européen de l'animal reste valable si aucun rappel antirabique n'a été fait au Royaume-Uni ; sinon, il faut un certificat sanitaire britannique.</p>
       <p><strong>Dans tous les cas :</strong> enregistrement obligatoire à l'<strong>I-CAD</strong> dans les <strong>7 jours</strong> suivant l'arrivée en France, par l'intermédiaire d'un vétérinaire (démarche payante).</p>
       <div class="liens"><div class="liens-titre">À consulter</div>
         <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F35788" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — ramener un chien, un chat ou un furet</a>
@@ -1983,6 +2042,26 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
     <a href="https://franceconnect.gouv.fr/" target="_blank" rel="noopener noreferrer">FranceConnect — un seul identifiant pour les sites publics</a>
   </div>
   <div class="liens">
+    <div class="liens-titre">Numéros utiles (heure de Paris)</div>
+    <ul class="numeros">
+      <li><strong>Allô Service public</strong> — renseignements administratifs généraux : <a href="tel:3939">3939</a> · depuis l'étranger : <a href="tel:+33173603939">+33 1 73 60 39 39</a> (depuis un poste fixe)
+        <span class="horaires">Lun. et jeu. 8h30–18h15, mar. et mer. 8h30–13h, ven. 13h–17h</span></li>
+      <li><strong>Assurance maladie</strong> : <a href="tel:3646">3646</a> · depuis l'étranger : <a href="tel:+33184903646">+33 1 84 90 36 46</a>
+        <span class="horaires">Lun.–ven. 8h30–17h</span></li>
+      <li><strong>CFE</strong> (Caisse des Français de l'étranger) : <a href="tel:+33164146262">+33 1 64 14 62 62</a>
+        <span class="horaires">Lun.–ven. 8h30–17h30</span></li>
+      <li><strong>CAF</strong> : <a href="tel:3230">3230</a> (depuis la France) · depuis l'étranger : messagerie de votre compte sur caf.fr
+        <span class="horaires">Horaires variables selon votre Caf</span></li>
+      <li><strong>France Travail</strong> : <a href="tel:3949">3949</a> · depuis l'étranger : <a href="tel:+33177863949">+33 1 77 86 39 49</a>
+        <span class="horaires">Aide à l'inscription : lun.–ven. 8h–19h, sam. 8h–17h ; service automatisé 24h/24</span></li>
+      <li><strong>Impôts — information générale</strong> : <a href="tel:0809401401">0809 401 401</a>
+        <span class="horaires">Lun.–ven. 8h30–19h</span></li>
+      <li><strong>Impôts — non-résidents (SIP NR)</strong>, si vous perceviez des revenus de source française : <a href="tel:+33172952042">+33 1 72 95 20 42</a>
+        <span class="horaires">Lun.–ven. 9h–16h</span></li>
+    </ul>
+    <p class="prudence">Numéros vérifiés en octobre 2026 sur les sites officiels. Le coût dépend de votre opérateur, surtout depuis l'étranger.</p>
+  </div>
+  <div class="liens">
     <div class="liens-titre">Santé</div>
     <a href="https://www.ameli.fr/" target="_blank" rel="noopener noreferrer">ameli.fr — Assurance maladie, compte en ligne</a>
     <a href="https://www.cfe.fr/" target="_blank" rel="noopener noreferrer">cfe.fr — Caisse des Français de l'étranger</a>
@@ -2038,51 +2117,58 @@ mw5cVM3SrwAAAABJRU5ErkJggg==" alt="Logo ADFE" class="header-logo">
 <script>
 // ── FONCTIONS GLOBALES (accessibles depuis les attributs HTML onchange/onclick) ──
 
+// Menus du profil : identifiant HTML = 'filtre-' + nom, nom = paramètre d'URL
+const FILTRES = ['provenance', 'situation', 'conjoint', 'enfants', 'animal'];
+const valeurFiltre = nom => { const el = document.getElementById('filtre-' + nom); return el ? el.value : ''; };
+
 function appliquerFiltres() {
-  const provenance = document.getElementById('filtre-provenance').value;
-  const situation  = document.getElementById('filtre-situation').value;
-  const enfants    = document.getElementById('filtre-enfants').value;
+  const provenance = valeurFiltre('provenance');
+  const situation  = valeurFiltre('situation');
+  const conjoint   = valeurFiltre('conjoint');
+  const enfants    = valeurFiltre('enfants');
+  const animal     = valeurFiltre('animal');
+
+  const estUE       = provenance === 'ue';
+  const estUK       = provenance === 'royaume-uni';
+  const estUS       = provenance === 'etats-unis';
+  const estHorsUE   = provenance === 'hors-ue' || estUS;
+  const estRetraite = situation === 'retraite';
+  const estEtudiant = situation === 'etudiant';
 
   document.querySelectorAll('.filtre-ouvert').forEach(el => el.classList.remove('filtre-ouvert'));
 
-  const elUE     = document.getElementById('retour-ue');
-  const elHorsUE = document.getElementById('retour-hors-ue');
-  if (elUE && elHorsUE) {
-    elUE.style.display     = (!provenance || provenance === 'ue')      ? '' : 'none';
-    elHorsUE.style.display = (!provenance || provenance === 'hors-ue') ? '' : 'none';
-    if (provenance === 'ue')      { elUE.setAttribute('open','');      elUE.classList.add('filtre-ouvert'); }
-    if (provenance === 'hors-ue') { elHorsUE.setAttribute('open',''); elHorsUE.classList.add('filtre-ouvert'); }
-  }
-
-  const elSans = document.getElementById('sans-emploi');
-  const elAvec = document.getElementById('avec-emploi');
-  if (elSans && elAvec) {
-    if (situation === 'sans-emploi') {
-      elSans.style.display = ''; elSans.setAttribute('open',''); elSans.classList.add('filtre-ouvert');
-      elAvec.style.display = 'none';
-    } else if (situation === 'avec-emploi') {
-      elAvec.style.display = ''; elAvec.setAttribute('open',''); elAvec.classList.add('filtre-ouvert');
-      elSans.style.display = 'none';
-    } else if (situation === 'retraite') {
-      elSans.style.display = 'none';
-      elAvec.style.display = 'none';
-    } else {
-      elSans.style.display = '';
-      elAvec.style.display = '';
-    }
-  }
-
-  // Retraite : blocs retraité ou actif selon le profil
-  const estRetraite = situation === 'retraite';
-  const estActif    = situation === 'avec-emploi' || situation === 'sans-emploi';
-  ['retraite-sante', 'retraite-demarches'].forEach(id => {
+  // Affiche ou masque un encadré ; l'ouvre si le profil le cible directement
+  const afficher = (id, visible, ouvrir = false) => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.style.display = estActif ? 'none' : '';
-    if (estRetraite) { el.setAttribute('open',''); el.classList.add('filtre-ouvert'); }
-  });
-  const elPreparer = document.getElementById('retraite-preparer');
-  if (elPreparer) elPreparer.style.display = estRetraite ? 'none' : '';
+    el.style.display = visible ? '' : 'none';
+    if (visible && ouvrir) { el.setAttribute('open',''); el.classList.add('filtre-ouvert'); }
+  };
+
+  // Santé selon la provenance
+  afficher('retour-ue',      !provenance || estUE,     estUE);
+  afficher('retour-uk',      !provenance || estUK,     estUK);
+  afficher('retour-hors-ue', !provenance || estHorsUE, estHorsUE);
+
+  // Santé et retraite selon la situation
+  afficher('sans-emploi',        !situation || situation === 'sans-emploi', situation === 'sans-emploi');
+  afficher('avec-emploi',        !situation || situation === 'avec-emploi', situation === 'avec-emploi');
+  afficher('etudiant-sante',     !situation || estEtudiant, estEtudiant);
+  afficher('retraite-sante',     !situation || estRetraite, estRetraite);
+  afficher('retraite-demarches', !situation || estRetraite, estRetraite);
+  afficher('retraite-preparer',  !estRetraite);
+
+  // Emploi, fiscalité, douanes
+  afficher('chomage-u1', !estHorsUE, estUE || estUK);
+  afficher('fiscal-us',  true, estUS);
+  afficher('permis',     true, estUS);
+  afficher('animal',     animal !== 'non', animal === 'oui');
+
+  // Conjoint
+  afficher('conjoint-etranger',             !conjoint || conjoint === 'conjoint-hors-ue', conjoint === 'conjoint-hors-ue');
+  afficher('conjoint-etranger-famille',     !conjoint || conjoint === 'conjoint-hors-ue', conjoint === 'conjoint-hors-ue');
+  afficher('conjoint-accompagnant',         conjoint !== 'seul' && situation !== 'avec-emploi');
+  afficher('conjoint-accompagnant-famille', conjoint !== 'seul');
 
   // Sections entières masquées selon le profil (avec leurs liens de navigation)
   const masquerSection = (id, hide) => {
@@ -2091,7 +2177,7 @@ function appliquerFiltres() {
     sec.style.display = hide ? 'none' : '';
     document.querySelectorAll(`a[href="#${id}"]`).forEach(a => { a.style.display = hide ? 'none' : ''; });
   };
-  masquerSection('scolarite', enfants === 'non');
+  masquerSection('scolarite', enfants === 'non' && !estEtudiant);
   masquerSection('emploi', estRetraite);
 
   const prioLogement = document.getElementById('prio-logement');
@@ -2100,20 +2186,20 @@ function appliquerFiltres() {
     if (texteContenu) {
       if (situation === 'avec-emploi') {
         texteContenu.innerHTML = `<span class="label">Le logement</span>Votre contrat ou promesse d'embauche facilitera vos démarches. Attention toutefois à la <strong>période d'essai</strong> : certains bailleurs refusent de signer un bail tant qu'elle n'est pas terminée. Pensez à la garantie Visale ou à un garant.`;
-      } else if (situation === 'retraite') {
+      } else if (estRetraite) {
         texteContenu.innerHTML = `<span class="label">Le logement</span>Vos avis de pension servent de justificatifs de revenus. La garantie Visale n'est pas ouverte aux retraités de plus de 30 ans : prévoyez un garant, une caution bancaire ou une location meublée de transition.`;
+      } else if (estEtudiant) {
+        texteContenu.innerHTML = `<span class="label">Le logement</span>Si vous avez moins de 30 ans, la garantie Visale vous est ouverte. Pensez au logement étudiant du Crous (demande via le dossier social étudiant) et aux aides au logement de la CAF.`;
       } else {
         texteContenu.innerHTML = `<span class="label">Le logement</span>Sans fiches de paie françaises récentes, l'accès à la location peut être complexe. Anticipez Visale (moins de 30 ans ou salarié), garant, location meublée de transition.`;
       }
     }
   }
 
-  const elConj = document.getElementById('conjoint-accompagnant');
-  if (elConj) elConj.style.display = (situation === 'avec-emploi') ? 'none' : '';
-
+  const actif = FILTRES.some(nom => valeurFiltre(nom));
   const badge = document.getElementById('filtre-statut');
-  const actif = provenance || situation || enfants;
-  if (badge) badge.classList.toggle('actif', !!actif);
+  if (badge) badge.classList.toggle('actif', actif);
+  memoriserProfil();
 
   // Panneau synthèse
   const synthese       = document.getElementById('synthese-profil');
@@ -2127,42 +2213,74 @@ function appliquerFiltres() {
 
   synthese.classList.add('actif');
   const points = [];
+  const point = (texte, alerte = false) => points.push({ texte, alerte });
 
-  // Pour un retraité, les points santé et fiscalité sont donnés plus bas selon l'origine de la pension
-  if (provenance === 'ue' && !estRetraite) {
-    points.push({ alerte: false, texte: `<strong>Santé :</strong> la coordination européenne facilite la reprise de vos droits. Vérifiez les modalités auprès de votre future CPAM.` });
-    points.push({ alerte: false, texte: `<strong>Chômage :</strong> le formulaire U1 récapitule vos périodes d'emploi européennes, prises en compte si vous retravaillez d'abord en France.` });
-  } else if (provenance === 'hors-ue' && !estRetraite) {
-    points.push({ alerte: true,  texte: `<strong>Santé :</strong> pas de coordination européenne, mais une convention bilatérale peut s'appliquer. Déposez le dossier S1106 à la CPAM dès votre arrivée.` });
-    points.push({ alerte: false, texte: `<strong>Fiscalité :</strong> vérifiez la convention fiscale entre la France et votre pays de résidence.` });
-  }
-
-  if (situation === 'sans-emploi') {
-    points.push({ alerte: true,  texte: `<strong>Santé :</strong> un délai de résidence préalable s'applique avant l'ouverture des droits PUMA. Prévoyez une couverture transitoire.` });
-    points.push({ alerte: false, texte: `<strong>Logement :</strong> sans fiches de paie françaises, pensez à la garantie Visale (si vous avez moins de 30 ans) avant de signer un bail.` });
-    points.push({ alerte: false, texte: `<strong>CAF :</strong> déposez votre dossier d'aides au logement dès l'emménagement — l'aide est due à partir du mois suivant la demande.` });
-    points.push({ alerte: false, texte: `<strong>Conjoint accompagnant :</strong> si vous avez démissionné pour suivre votre conjoint, vérifiez vos droits au chômage auprès de France Travail.` });
-  } else if (situation === 'avec-emploi') {
-    points.push({ alerte: false, texte: `<strong>Santé :</strong> une activité professionnelle ouvre la prise en charge des soins dès la première heure travaillée.` });
-    points.push({ alerte: true,  texte: `<strong>Logement :</strong> attention à la période d'essai — certains bailleurs refusent de signer tant qu'elle n'est pas terminée. La garantie Visale reste utile.` });
-  } else if (estRetraite) {
-    if (provenance === 'ue') {
-      points.push({ alerte: true,  texte: `<strong>Santé :</strong> pension française → affiliation à la CPAM avec votre titre de pension. Pension européenne uniquement → demandez le formulaire S1 à votre caisse de retraite avant de partir.` });
-    } else if (provenance === 'hors-ue') {
-      points.push({ alerte: true,  texte: `<strong>Santé :</strong> pension française → affiliation à la CPAM avec votre titre de pension. Pension hors UE uniquement → délai de 3 mois en principe, sauf convention : prévoyez une couverture transitoire.` });
-    } else {
-      points.push({ alerte: true,  texte: `<strong>Santé :</strong> vos droits dépendent de l'origine de votre pension (française, européenne ou hors UE) — voir la rubrique Retraite.` });
+  // Provenance — pour un retraité, santé et fiscalité sont donnés plus bas selon l'origine de la pension
+  if (!estRetraite) {
+    if (estUE) {
+      point(`<strong>Coordination :</strong> la coordination européenne facilite la reprise de vos droits. Vérifiez les modalités auprès de votre future CPAM.`);
+      point(`<strong>Chômage :</strong> le formulaire U1 récapitule vos périodes d'emploi européennes, prises en compte si vous retravaillez d'abord en France.`);
+    } else if (estUK) {
+      point(`<strong>Coordination :</strong> l'accord UE–Royaume-Uni maintient une coordination proche des règles européennes — voir la rubrique Santé.`);
+      point(`<strong>Chômage :</strong> vos périodes britanniques restent prises en compte, mais une allocation britannique ne peut plus être versée en France.`);
+    } else if (estHorsUE) {
+      point(`<strong>Coordination :</strong> pas de coordination européenne, mais une convention bilatérale peut s'appliquer. Déposez le dossier S1106 à la CPAM dès votre arrivée.`, true);
+      if (!estUS) point(`<strong>Fiscalité :</strong> vérifiez la convention fiscale entre la France et votre pays de résidence.`);
     }
-    points.push({ alerte: false, texte: `<strong>Retraite :</strong> signalez votre adresse en France à toutes vos caisses, françaises et étrangères.` });
-    points.push({ alerte: false, texte: `<strong>Fiscalité :</strong> vos pensions étrangères se déclarent en France (annexe 2047) ; la convention fiscale évite la double imposition.` });
-    points.push({ alerte: false, texte: `<strong>Logement :</strong> la garantie Visale n'est pas ouverte aux retraités de plus de 30 ans — prévoyez un garant ou une caution bancaire.` });
+  }
+  if (estUS) {
+    point(`<strong>Citoyens américains :</strong> la déclaration à l'IRS et la déclaration FBAR restent obligatoires après le retour.`, true);
+    point(`<strong>Permis :</strong> l'échange n'est possible que si votre État a un accord avec la France (pas la Californie ni New York).`, true);
   }
 
+  // Situation
+  if (situation === 'sans-emploi') {
+    point(`<strong>Santé :</strong> un délai de résidence préalable s'applique avant l'ouverture des droits PUMA. Prévoyez une couverture transitoire.`, true);
+    point(`<strong>Logement :</strong> sans fiches de paie françaises, pensez à la garantie Visale (si vous avez moins de 30 ans) avant de signer un bail.`);
+    point(`<strong>CAF :</strong> déposez votre dossier d'aides au logement dès l'emménagement — l'aide est due à partir du mois suivant la demande.`);
+    if (conjoint !== 'seul') point(`<strong>Conjoint accompagnant :</strong> si vous avez démissionné pour suivre votre conjoint, vérifiez vos droits au chômage auprès de France Travail.`);
+  } else if (situation === 'avec-emploi') {
+    point(`<strong>Santé :</strong> une activité professionnelle ouvre la prise en charge des soins dès la première heure travaillée.`);
+    point(`<strong>Logement :</strong> attention à la période d'essai — certains bailleurs refusent de signer tant qu'elle n'est pas terminée. La garantie Visale reste utile.`, true);
+  } else if (estEtudiant) {
+    point(`<strong>Santé :</strong> les étudiants sont en principe dispensés du délai de 3 mois — déposez le S1106 avec votre certificat de scolarité.`);
+    point(`<strong>Logement :</strong> garantie Visale ouverte aux moins de 30 ans ; logement Crous via le dossier social étudiant.`);
+    point(`<strong>Études :</strong> Parcoursup pour l'entrée dans le supérieur, ENIC-NARIC pour faire reconnaître un diplôme étranger, CVEC à payer avant l'inscription.`);
+  } else if (estRetraite) {
+    if (estUE || estUK) {
+      point(`<strong>Santé :</strong> pension française → affiliation à la CPAM avec votre titre de pension. Pension ${estUK ? 'britannique' : 'européenne'} uniquement → demandez le formulaire S1 à votre caisse de retraite avant de partir.`, true);
+    } else if (estHorsUE) {
+      point(`<strong>Santé :</strong> pension française → affiliation à la CPAM avec votre titre de pension. Pension hors UE uniquement → délai de 3 mois en principe, sauf convention : prévoyez une couverture transitoire.`, true);
+    } else {
+      point(`<strong>Santé :</strong> vos droits dépendent de l'origine de votre pension (française, européenne ou hors UE) — voir la rubrique Retraite.`, true);
+    }
+    point(`<strong>Retraite :</strong> signalez votre adresse en France à toutes vos caisses, françaises et étrangères.`);
+    point(`<strong>Fiscalité :</strong> vos pensions étrangères se déclarent en France (annexe 2047) ; la convention fiscale évite la double imposition.`);
+    point(`<strong>Logement :</strong> la garantie Visale n'est pas ouverte aux retraités de plus de 30 ans — prévoyez un garant ou une caution bancaire.`);
+  }
+
+  // Conjoint
+  if (conjoint === 'conjoint-hors-ue') {
+    point(`<strong>Conjoint :</strong> validez son VLS-TS sur le portail ANEF dans les 3 mois suivant l'arrivée ; ses droits santé s'ouvrent séparément — prévoyez une couverture transitoire.`, true);
+  }
+
+  // Enfants
   if (enfants === 'oui') {
-    points.push({ alerte: false, texte: `<strong>Scolarité :</strong> demandez le certificat de radiation avant le départ. Pour le collège/lycée, contactez la DSDEN du département d'accueil.` });
-    points.push({ alerte: false, texte: `<strong>CAF :</strong> allocations familiales à partir de 2 enfants — déposez le dossier dès l'arrivée.` });
-  } else if (enfants === 'non') {
-    points.push({ alerte: false, texte: `<strong>Scolarité :</strong> rubrique masquée (sans enfant à charge).` });
+    point(`<strong>Scolarité :</strong> demandez le certificat de radiation avant le départ. Pour le collège/lycée, contactez la DSDEN du département d'accueil.`);
+    point(`<strong>Allocations :</strong> allocations familiales à partir de 2 enfants — déposez le dossier dès l'arrivée.`);
+  } else if (enfants === 'non' && !estEtudiant) {
+    point(`<strong>Scolarité :</strong> rubrique masquée (sans enfant à charge).`);
+  }
+
+  // Animal
+  if (animal === 'oui') {
+    if (estUK) {
+      point(`<strong>Animal :</strong> pas de titrage depuis le Royaume-Uni ; certificat sanitaire britannique si un rappel antirabique a été fait sur place. Enregistrement I-CAD sous 7 jours.`);
+    } else if (estHorsUE) {
+      point(`<strong>Animal :</strong> titrage antirabique au moins 3 mois avant l'arrivée, sauf pays dispensés — anticipez. Enregistrement I-CAD sous 7 jours.`, true);
+    } else {
+      point(`<strong>Animal :</strong> puce, vaccin antirabique, passeport ou certificat selon le pays ; enregistrement I-CAD sous 7 jours après l'arrivée.`);
+    }
   }
 
   synthesePoints.innerHTML = points.map(p =>
@@ -2170,10 +2288,42 @@ function appliquerFiltres() {
   ).join('');
 }
 
+// Profil mémorisé pour le visiteur et reflété dans l'adresse (lien partageable)
+function lienProfil() {
+  const params = new URLSearchParams();
+  FILTRES.forEach(nom => { const v = valeurFiltre(nom); if (v) params.set(nom, v); });
+  const q = params.toString();
+  return location.origin + location.pathname + (q ? '?' + q : '') + location.hash;
+}
+
+function memoriserProfil() {
+  const profil = {};
+  FILTRES.forEach(nom => { const v = valeurFiltre(nom); if (v) profil[nom] = v; });
+  try { localStorage.setItem('adfe-profil', JSON.stringify(profil)); } catch(e) {}
+  try { history.replaceState(null, '', lienProfil()); } catch(e) {}
+}
+
+// Renvoie true si le profil vient d'un lien partagé
+function restaurerProfil() {
+  const params = new URLSearchParams(location.search);
+  let profil = {};
+  const depuisLien = FILTRES.some(nom => params.has(nom));
+  if (depuisLien) {
+    FILTRES.forEach(nom => { if (params.has(nom)) profil[nom] = params.get(nom); });
+  } else {
+    try { profil = JSON.parse(localStorage.getItem('adfe-profil') || '{}') || {}; } catch(e) { profil = {}; }
+  }
+  FILTRES.forEach(nom => {
+    const el = document.getElementById('filtre-' + nom);
+    const v = profil[nom];
+    // N'accepte que les valeurs proposées par le menu
+    if (el && v && [...el.options].some(o => o.value === v)) el.value = v;
+  });
+  return depuisLien;
+}
+
 function reinitialiserFiltres() {
-  document.getElementById('filtre-provenance').value = '';
-  document.getElementById('filtre-situation').value  = '';
-  document.getElementById('filtre-enfants').value    = '';
+  FILTRES.forEach(nom => { const el = document.getElementById('filtre-' + nom); if (el) el.value = ''; });
   document.querySelectorAll('details').forEach(el => {
     el.style.display = '';
     el.classList.remove('filtre-ouvert');
@@ -2222,7 +2372,7 @@ function calculerDates() {
 document.addEventListener('DOMContentLoaded', () => {
 
   // Filtres profil — double écoute change+input pour compatibilité iOS/Safari
-  ['filtre-provenance', 'filtre-situation', 'filtre-enfants'].forEach(id => {
+  FILTRES.map(nom => 'filtre-' + nom).forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     el.addEventListener('change', appliquerFiltres);
@@ -2343,7 +2493,7 @@ document.addEventListener('DOMContentLoaded', () => {
   deplierCible(location.hash);
 
   // Un filtre qui ouvre un encadré déplie aussi sa rubrique
-  ['filtre-provenance', 'filtre-situation', 'filtre-enfants'].forEach(id => {
+  FILTRES.map(nom => 'filtre-' + nom).forEach(id => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('change', () => {
       document.querySelectorAll('.filtre-ouvert').forEach(d => {
@@ -2352,6 +2502,34 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  // Profil restauré (lien partagé ou dernière visite) ; un lien partagé déplie les rubriques ciblées
+  const depuisLien = restaurerProfil();
+  appliquerFiltres();
+  if (depuisLien) {
+    document.querySelectorAll('.filtre-ouvert').forEach(d => {
+      const sec = d.closest('.section');
+      if (sec) replier(sec, false);
+    });
+  }
+
+  // Copier le lien du profil
+  const btnCopier = document.getElementById('copier-lien-profil');
+  const statutCopie = document.getElementById('copier-lien-statut');
+  if (btnCopier) {
+    btnCopier.addEventListener('click', async () => {
+      const lien = lienProfil();
+      let ok = false;
+      try { await navigator.clipboard.writeText(lien); ok = true; } catch(e) {
+        // Repli pour les navigateurs sans API presse-papiers
+        const champ = document.createElement('textarea');
+        champ.value = lien; document.body.appendChild(champ); champ.select();
+        try { ok = document.execCommand('copy'); } catch(e2) {}
+        champ.remove();
+      }
+      if (statutCopie) statutCopie.textContent = ok ? 'Lien copié — vous pouvez le coller dans un e-mail.' : 'Copie impossible : copiez l\'adresse de la page.';
+    });
+  }
 
   // Sécurisation liens externes (belt-and-suspenders)
   document.querySelectorAll('a[target="_blank"]').forEach(a => {
