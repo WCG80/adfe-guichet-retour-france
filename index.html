@@ -817,12 +817,36 @@ footer strong { color: var(--blanc); }
   border: 1.5px solid rgba(255,255,255,.8); border-radius: 4px; padding: 3px 9px;
 }
 .langues a:hover { background: var(--blanc); color: var(--bordeaux); }
+.langues strong {
+  font-size: 13px; font-weight: 700; letter-spacing: 1px; border-radius: 4px; padding: 3px 9px;
+  border: 1.5px solid var(--blanc); background: var(--blanc); color: var(--bordeaux);
+}
 .bandeau-inner { flex-wrap: wrap; }
+.bandeau-inner > span { flex: 1 1 0; min-width: 0; }
 @media (max-width: 700px) {
   .bandeau-inner > span { flex: 1 1 0; min-width: 0; }
   .langues { margin-left: 0; flex-basis: 100%; }
 }
 @media print { .langues { display: none; } }
+
+/* ── FICHE PERSONNALISÉE À L'IMPRESSION ── */
+.fiche-entete { display: none; }
+.note-impression { font-size: .82rem; color: var(--texte-doux); font-style: italic; margin-top: 8px; }
+@media print {
+  .fiche-entete { display: block; border: 1.5pt solid #333; padding: 10pt 14pt; margin: 0 0 16pt; font-size: 10pt; page-break-inside: avoid; }
+  .fiche-entete h2 { font-size: 13pt; margin-bottom: 4pt; color: #000; text-transform: uppercase; letter-spacing: .5pt; }
+  .fiche-entete ul { list-style: none; padding: 0; margin: 6pt 0; }
+  .fiche-entete li { margin: 2pt 0; }
+  .fiche-entete .fiche-lien { font-size: 8.5pt; color: #333; word-break: break-all; }
+  .synthese-lien, .synthese-partage, .note-impression { display: none !important; }
+  .synthese-profil.actif { border: 1pt solid #999; padding: 8pt; margin-bottom: 16pt; }
+  /* Fiche personnalisée : le glossaire complet n'est pas imprimé */
+  body.fiche-profil #glossaire { display: none !important; }
+  a[href^="#"]:after { content: none; }
+  /* Liens internes au guide : l'adresse relative n'a pas de sens sur papier */
+  a[href$=".html"]:after { content: none; }
+  .fiche-entete { max-width: 940px; margin-left: auto; margin-right: auto; }
+}
 </style>
 </head>
 <body>
@@ -835,8 +859,8 @@ footer strong { color: var(--blanc); }
   <div class="bandeau-inner">
     <img class="logo-section" src="assets/logo-section-france.png" alt="Logo de la Section France" width="72" height="72">
     <span>Français du monde – ADFE · Section France</span>
-    <nav class="langues" aria-label="Pages pour le conjoint étranger">
-      <span class="langues-label" lang="en">For your spouse</span>
+    <nav class="langues" aria-label="Langue">
+      <strong aria-current="page" lang="fr">FR</strong>
       <a href="conjoint-en.html" hreflang="en" lang="en" title="Page in English for a foreign spouse">EN</a>
       <a href="conjoint-es.html" hreflang="es" lang="es" title="Página en español para el cónyuge extranjero">ES</a>
     </nav>
@@ -946,6 +970,8 @@ footer strong { color: var(--blanc); }
 </div>
 
 
+<div class="fiche-entete" id="fiche-entete"></div>
+
 <div class="synthese-profil" id="synthese-profil">
   <div class="synthese-inner">
     <div class="synthese-titre">Points clés pour votre profil</div>
@@ -996,8 +1022,8 @@ footer strong { color: var(--blanc); }
     <li><span class="num">2</span><span><span class="label">Trois mois avant <span class="date-tag" id="date-3m"></span></span>Rassembler attestations, documents professionnels, scolaires et médicaux. Réserver le déménageur et donner congé du logement. Vérifier les formalités sociales européennes ou conventionnelles applicables.</span></li>
     <li><span class="num">3</span><span><span class="label">Un mois avant <span class="date-tag" id="date-1m"></span></span>Finaliser le logement. Résilier les contrats locaux (énergie, téléphone, assurances) et prévenir l'école. Passer au consulat (radiation du registre, certificat de changement de résidence). Préparer les dossiers CPAM, CAF, banque, école, France Travail. Constituer un dossier papier et numérique unique.</span></li>
     <li><span class="num">4</span><span><span class="label">À l'arrivée <span class="date-tag" id="date-arrivee"></span></span>Déposer le dossier assurance maladie, signaler le changement d'adresse, contacter la CAF, s'inscrire à France Travail si besoin, scolariser les enfants, valider le VLS-TS du conjoint étranger dans les 3 mois, s'inscrire sur les listes électorales de sa commune.</span></li>
-    <li><span class="num">5</span><span><span class="label">Mois 1 à 3</span>Suivi des dossiers en instruction : santé, aides sociales, emploi, logement.</span></li>
-    <li><span class="num">6</span><span><span class="label">Mois 3 à 6</span>Vérifier l'ouverture effective des droits, stabiliser la situation fiscale, consolider le projet professionnel — notamment pour le conjoint accompagnant.</span></li>
+    <li><span class="num">5</span><span><span class="label">Mois 1 à 3 <span class="date-tag" id="date-m1-3"></span></span>Suivi des dossiers en instruction : santé, aides sociales, emploi, logement.</span></li>
+    <li><span class="num">6</span><span><span class="label">Mois 3 à 6 <span class="date-tag" id="date-m3-6"></span></span>Vérifier l'ouverture effective des droits, stabiliser la situation fiscale, consolider le projet professionnel — notamment pour le conjoint accompagnant.</span></li>
   </ul>
 </section>
 
@@ -1689,7 +1715,8 @@ footer strong { color: var(--blanc); }
 </main>
 
 <div style="text-align:center;padding:24px 20px 0;">
-  <button class="btn-print" onclick="window.print()" aria-label="Imprimer ou exporter en PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer / Exporter PDF</button>
+  <button class="btn-print" onclick="preparerFiche(); window.print()" aria-label="Imprimer ou exporter en PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer ma fiche / PDF</button>
+  <p class="note-impression">La fiche imprimée reprend votre profil, vos dates et uniquement les rubriques qui vous concernent.</p>
 </div>
 
 <button type="button" class="retour-haut" id="retour-haut" aria-label="Revenir en haut de la page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
@@ -1912,6 +1939,33 @@ function restaurerProfil() {
   return depuisLien;
 }
 
+// Fiche personnalisée : en-tête rempli juste avant l'impression
+function preparerFiche() {
+  const bloc = document.getElementById('fiche-entete');
+  if (!bloc) return;
+  const echapper = t => t.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  const intitules = { provenance:'Provenance', situation:'Situation', conjoint:'Conjoint', enfants:'Enfants', animal:'Animal' };
+  const lignes = FILTRES.filter(nom => valeurFiltre(nom)).map(nom => {
+    const el = document.getElementById('filtre-' + nom);
+    return '<li><strong>' + intitules[nom] + ' :</strong> ' + echapper(el.options[el.selectedIndex].text) + '</li>';
+  });
+  const dateRetour = document.getElementById('date-retour');
+  if (dateRetour && dateRetour.value) {
+    const [a, m, j] = dateRetour.value.split('-').map(Number);
+    lignes.push('<li><strong>Date de retour prévue :</strong> ' + new Date(a, m - 1, j).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' }) + '</li>');
+  }
+  const profil = FILTRES.some(nom => valeurFiltre(nom));
+  document.body.classList.toggle('fiche-profil', profil);
+  const aujourdhui = new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
+  bloc.innerHTML =
+    '<h2>' + (profil ? 'Ma fiche personnalisée' : 'Guide complet') + ' — Revenir vivre en France</h2>' +
+    '<div>Imprimée le ' + aujourdhui + ' · Français du monde – ADFE, Section France</div>' +
+    (lignes.length ? '<ul>' + lignes.join('') + '</ul>'
+                   : '<p>Aucun profil choisi : tout le guide est imprimé. Choisissez votre situation en haut du guide pour obtenir une fiche personnalisée.</p>') +
+    '<div class="fiche-lien">Retrouvez cette fiche en ligne : ' + echapper(lienProfil()) + '</div>';
+}
+window.addEventListener('beforeprint', preparerFiche);
+
 function reinitialiserFiltres() {
   FILTRES.forEach(nom => { const el = document.getElementById('filtre-' + nom); if (el) el.value = ''; });
   document.querySelectorAll('details').forEach(el => {
@@ -1937,17 +1991,31 @@ function calculerDates() {
   const retour = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10), 12, 0, 0);
   const aujourdhui = new Date();
   const fmt        = d => d.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
-  const addMonths  = (d, m) => { const r = new Date(d); r.setMonth(r.getMonth() + m); return r; };
+  // Ajoute m mois en restant dans le mois visé (31 août − 6 mois = 28 ou 29 février, pas 3 mars)
+  const addMonths  = (d, m) => {
+    const r = new Date(d.getFullYear(), d.getMonth() + m, 1, 12, 0, 0);
+    const dernierJour = new Date(r.getFullYear(), r.getMonth() + 1, 0).getDate();
+    r.setDate(Math.min(d.getDate(), dernierJour));
+    return r;
+  };
+  const fmtPeriode = (a, b) => a.getFullYear() === b.getFullYear()
+    ? 'du ' + a.toLocaleDateString('fr-FR', { day:'numeric', month:'long' }) + ' au ' + fmt(b)
+    : 'du ' + fmt(a) + ' au ' + fmt(b);
+  // Une date, ou une période [début, fin] pour les étapes après l'arrivée
   const ids = {
     'date-6m':      addMonths(retour, -6),
     'date-3m':      addMonths(retour, -3),
     'date-1m':      addMonths(retour, -1),
-    'date-arrivee': retour
+    'date-arrivee': retour,
+    'date-m1-3':    [addMonths(retour, 1), addMonths(retour, 3)],
+    'date-m3-6':    [addMonths(retour, 3), addMonths(retour, 6)]
   };
-  for (const [id, date] of Object.entries(ids)) {
+  for (const [id, valeur] of Object.entries(ids)) {
     const el = document.getElementById(id);
     if (!el) continue;
-    el.textContent  = '→ ' + fmt(date);
+    const periode = Array.isArray(valeur);
+    const date = periode ? valeur[1] : valeur;
+    el.textContent  = '→ ' + (periode ? fmtPeriode(valeur[0], valeur[1]) : fmt(valeur));
     if (date < aujourdhui) {
       el.style.color = 'var(--rouge)'; el.style.fontWeight = '700';
       el.title = 'Cette échéance est déjà passée';
