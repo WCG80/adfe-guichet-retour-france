@@ -1349,6 +1349,40 @@ footer strong { color: var(--blanc); }
   </div>
   <p>Vérifiez que les événements familiaux survenus à l'étranger — naissance, mariage, décès — ont bien été transcrits sur les registres d'état civil français. Une transcription manquante peut bloquer des démarches ultérieures.</p>
 
+  <details data-type="info" id="mariage-etranger">
+    <summary><span class="sum-title">Vous vous êtes mariés à l'étranger</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Faites <strong>transcrire votre mariage</strong> sur les registres de l'état civil français. Ce n'est pas obligatoire, mais sans transcription le mariage n'a pas d'effet vis-à-vis des administrations :</p>
+      <ul>
+        <li>un conjoint étranger <strong>ne peut pas obtenir son visa ni son titre de séjour</strong> de conjoint de Français ;</li>
+        <li>le couple <strong>ne peut pas faire de déclaration d'impôts commune</strong> ;</li>
+        <li>vous n'obtenez pas de livret de famille français.</li>
+      </ul>
+      <p>La demande se fait au consulat du lieu du mariage ou, pour certains pays (dont le Maroc, l'Algérie, la Tunisie et la Suisse), par courrier au Service central d'état civil de Nantes. Comptez de quelques semaines à plusieurs mois : <strong>lancez-la bien avant le retour</strong>.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F21614" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — mariage d'un Français à l'étranger</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="naissance-etranger">
+    <summary><span class="sum-title">Votre enfant est né à l'étranger</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Un enfant dont l'un des parents est français est français, même né à l'étranger. Pour qu'il ait un <strong>acte de naissance français</strong> — indispensable pour sa carte d'identité, son passeport ou son numéro de sécurité sociale —, sa naissance doit être déclarée ou transcrite au consulat, ou au Service central d'état civil de Nantes pour certains pays.</p>
+      <p>Préparez l'acte de naissance étranger (traduit et, selon le pays, légalisé ou apostillé), la preuve de la nationalité française d'un parent et votre livret de famille pour le mettre à jour. Une fois l'acte transcrit, vous pouvez en demander des copies en ligne gratuitement.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F961" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — déclaration de naissance (dont naissance à l'étranger)</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/R1405" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — copie d'acte de naissance (naissance à l'étranger)</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="couple-non-marie">
+    <summary><span class="sum-title">Vous êtes pacsés ou en couple sans être mariés</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Si votre partenaire est étranger (hors Union européenne), les règles du « conjoint de Français » ne s'appliquent pas :</p>
+      <ul>
+        <li>il n'existe pas de visa de partenaire : on demande en général un <strong>visa long séjour « visiteur »</strong>, qui <strong>ne permet pas de travailler</strong> ;</li>
+        <li>la carte de séjour « vie privée et familiale » n'est <strong>pas automatique</strong> : la préfecture apprécie la stabilité et l'ancienneté de la vie commune, en pratique souvent au moins un an en France pour un couple pacsé ;</li>
+        <li>pour un couple en concubinage, la preuve de la vie commune est plus exigeante encore.</li>
+      </ul>
+      <p>Côté impôts, les partenaires pacsés font une déclaration commune ; les concubins déclarent chacun leurs revenus. Renseignez-vous auprès du consulat et de la préfecture avant de fixer la date du retour.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2209" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — carte de séjour « vie privée et familiale »</a></div>
+    </div>
+  </details>
   <details data-type="info" id="divorce-etranger">
     <summary><span class="sum-title">Vous avez divorcé à l'étranger</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
@@ -1786,6 +1820,9 @@ function appliquerFiltres() {
   afficher('conjoint-etranger-famille',     !conjoint || conjoint === 'conjoint-hors-ue', conjoint === 'conjoint-hors-ue');
   afficher('conjoint-accompagnant',         conjoint !== 'seul' && situation !== 'avec-emploi');
   afficher('conjoint-accompagnant-famille', conjoint !== 'seul');
+  afficher('mariage-etranger',  conjoint !== 'seul', conjoint === 'conjoint-hors-ue');
+  afficher('couple-non-marie',  conjoint !== 'seul');
+  afficher('naissance-etranger', enfants !== 'non', enfants === 'oui');
 
   // Sections entières masquées selon le profil (avec leurs liens de navigation)
   const masquerSection = (id, hide) => {
@@ -1878,7 +1915,7 @@ function appliquerFiltres() {
 
   // Conjoint
   if (conjoint === 'conjoint-hors-ue') {
-    point(`<strong>Conjoint :</strong> validez son VLS-TS sur le portail ANEF dans les 3 mois suivant l'arrivée ; ses droits santé s'ouvrent séparément — prévoyez une couverture transitoire. Une page lui est dédiée en <a href="conjoint-en.html" hreflang="en">anglais</a> et en <a href="conjoint-es.html" hreflang="es">espagnol</a>.`, true);
+    point(`<strong>Conjoint :</strong> si vous vous êtes mariés à l'étranger, faites d'abord transcrire le mariage (indispensable pour son visa). Validez ensuite son VLS-TS sur le portail ANEF dans les 3 mois suivant l'arrivée ; ses droits santé s'ouvrent séparément — prévoyez une couverture transitoire. Une page lui est dédiée en <a href="conjoint-en.html" hreflang="en">anglais</a> et en <a href="conjoint-es.html" hreflang="es">espagnol</a>.`, true);
   }
 
   // Enfants
