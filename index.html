@@ -847,6 +847,41 @@ footer strong { color: var(--blanc); }
   a[href$=".html"]:after { content: none; }
   .fiche-entete { max-width: 940px; margin-left: auto; margin-right: auto; }
 }
+
+/* ── RECHERCHE DANS LE GUIDE ── */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.nav-inner { gap: 16px; }
+.recherche { position: relative; flex: 0 1 360px; display: flex; align-items: center; }
+.recherche-icone { position: absolute; left: 10px; width: 17px; height: 17px; color: var(--texte-doux); pointer-events: none; }
+.recherche input {
+  width: 100%; font: inherit; font-size: .9rem; color: var(--texte);
+  padding: 7px 10px 7px 34px; border: 1px solid var(--filet); border-radius: 4px; background: var(--blanc);
+}
+.recherche input:focus-visible { outline: 2px solid var(--violet); outline-offset: 1px; }
+.recherche-resultats {
+  position: absolute; top: calc(100% + 6px); right: 0; width: min(480px, 92vw); max-height: 65vh; overflow-y: auto;
+  background: var(--blanc); border: 1px solid var(--filet); border-radius: 4px; box-shadow: 0 6px 24px rgba(0,0,0,.18); z-index: 400;
+}
+.resultat {
+  display: block; width: 100%; text-align: left; background: none; border: none; border-bottom: 1px solid var(--filet);
+  padding: 10px 14px; cursor: pointer; font: inherit; color: var(--texte);
+}
+.resultat:hover, .resultat:focus-visible { background: var(--fond); outline: none; }
+.res-rubrique { display: block; font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--rouge); font-weight: 600; }
+.res-titre { display: block; font-weight: 700; color: var(--ardoise); font-size: .92rem; }
+.res-extrait { display: block; font-size: .82rem; color: var(--texte-doux); margin-top: 2px; }
+.res-extrait mark, .res-titre mark { background: #F4D9DF; color: var(--bordeaux); padding: 0 1px; }
+.res-vide { padding: 12px 14px; font-size: .88rem; color: var(--texte-doux); }
+.res-vide button { font: inherit; color: var(--teal-fonce); background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0; }
+/* Élément trouvé : brève mise en évidence */
+.cible-recherche { outline: 3px solid var(--rose); outline-offset: 4px; transition: outline-color 1.5s ease; }
+@media (prefers-reduced-motion: reduce) { .cible-recherche { transition: none; } }
+@media (max-width: 700px) {
+  .burger-label { display: none; }
+  .recherche { flex: 1 1 auto; }
+  .recherche-resultats { right: 0; width: calc(100vw - 32px); }
+}
+@media print { .recherche { display: none !important; } }
 </style>
 </head>
 <body>
@@ -895,6 +930,13 @@ footer strong { color: var(--blanc); }
     <button class="burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Sommaire du guide">
       <span class="icon-open">☰</span><span class="icon-close">✕</span><span class="burger-label">Sommaire du guide</span>
     </button>
+    <div class="recherche" role="search">
+      <label for="recherche-guide" class="sr-only">Rechercher dans le guide</label>
+      <svg class="recherche-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="search" id="recherche-guide" placeholder="Rechercher : CAF, permis, divorce…" autocomplete="off" aria-controls="recherche-resultats" aria-describedby="recherche-statut">
+      <div class="recherche-resultats" id="recherche-resultats" hidden></div>
+      <span class="sr-only" id="recherche-statut" aria-live="polite"></span>
+    </div>
   </div>
   <div class="mobile-menu" id="mobile-menu" role="menu">
     <a href="#priorites" role="menuitem">Priorités</a>
@@ -2236,6 +2278,106 @@ document.addEventListener('DOMContentLoaded', () => {
       const sansAnimation = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       window.scrollTo({ top: 0, behavior: sansAnimation ? 'auto' : 'smooth' });
     });
+  }
+
+  // Recherche dans le guide : sans service extérieur, sur le contenu visible de la page
+  const champRecherche = document.getElementById('recherche-guide');
+  const blocResultats  = document.getElementById('recherche-resultats');
+  const statutRecherche = document.getElementById('recherche-statut');
+  if (champRecherche && blocResultats) {
+    const normaliser = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const echapper = t => t.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+    let index = null;
+    const construireIndex = () => {
+      const entrees = [];
+      const ajouter = (el, titre, texte, poids = 0) => {
+        const sec = el.closest('main > .section');
+        if (!sec || !titre) return;
+        const rubrique = sec.querySelector('h2').textContent.trim();
+        titre = titre.replace(/\s+/g, ' ').trim(); texte = (texte || '').replace(/\s+/g, ' ').trim();
+        entrees.push({ el, sec, rubrique, titre, texte, poids, cle: normaliser(titre + ' ' + texte), cleTitre: normaliser(titre) });
+      };
+      document.querySelectorAll('main > .section').forEach(sec => ajouter(sec, sec.querySelector('h2').textContent, sec.querySelector('.section-label')?.textContent, 3));
+      document.querySelectorAll('main details').forEach(d => ajouter(d, d.querySelector('.sum-title')?.textContent, d.querySelector('.detail-body')?.textContent, 3));
+      document.querySelectorAll('main .etapes > li').forEach(li => ajouter(li, li.querySelector('.label')?.childNodes[0]?.textContent, li.textContent, 2));
+      document.querySelectorAll('#glossaire dt').forEach(dt => ajouter(dt, dt.textContent, dt.nextElementSibling?.textContent, 1));
+      document.querySelectorAll('main .bareme li').forEach(li => ajouter(li, li.textContent, ''));
+      document.querySelectorAll('main .numeros li').forEach(li => ajouter(li, li.querySelector('strong')?.textContent, li.textContent));
+      document.querySelectorAll('main > .section > p').forEach(p => ajouter(p, p.closest('.section').querySelector('h2').textContent, p.textContent));
+      return entrees;
+    };
+    const estVisible = el => { for (let n = el; n && n !== document.body; n = n.parentElement) if (n.style && n.style.display === 'none') return false; return true; };
+    const surligner = (texte, mots) => {
+      let html = echapper(texte);
+      mots.forEach(m => {
+        const norm = normaliser(texte); const i = norm.indexOf(m);
+        if (i < 0) return;
+        const original = echapper(texte.slice(i, i + m.length));
+        html = html.replace(original, '<mark>' + original + '</mark>');
+      });
+      return html;
+    };
+    const extrait = (texte, mot) => {
+      const i = normaliser(texte).indexOf(mot);
+      if (i < 0) return texte.slice(0, 110) + (texte.length > 110 ? '…' : '');
+      const debut = Math.max(0, i - 45);
+      return (debut > 0 ? '…' : '') + texte.slice(debut, debut + 120) + (debut + 120 < texte.length ? '…' : '');
+    };
+    let resultatsCourants = [];
+    const fermer = () => { blocResultats.hidden = true; champRecherche.setAttribute('aria-expanded', 'false'); };
+    const aller = r => {
+      fermer();
+      replier(r.sec, false);
+      if (r.el.tagName === 'DETAILS') r.el.open = true;
+      const det = r.el.closest('details'); if (det) det.open = true;
+      const haut = r.el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: haut, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      r.el.classList.add('cible-recherche');
+      setTimeout(() => r.el.classList.remove('cible-recherche'), 2500);
+    };
+    const chercher = () => {
+      const q = normaliser(champRecherche.value.trim());
+      if (q.length < 2) { fermer(); statutRecherche.textContent = ''; return; }
+      if (!index) index = construireIndex();
+      const mots = q.split(/\s+/).filter(Boolean);
+      const trouves = index.filter(e => mots.every(m => e.cle.includes(m)));
+      const visibles = trouves.filter(e => estVisible(e.el));
+      const masques = trouves.length - visibles.length;
+      // Classement : recherche présente dans le titre, puis encadrés et rubriques avant le glossaire ; un seul résultat par élément
+      const score = e => (mots.every(m => e.cleTitre.includes(m)) ? 10 : 0) + e.poids;
+      visibles.sort((a, b) => (score(b) - score(a)) || (a.texte.length - b.texte.length));
+      const vus = new Set();
+      resultatsCourants = visibles.filter(e => !vus.has(e.el) && vus.add(e.el)).slice(0, 8);
+      let html = resultatsCourants.map((r, i) =>
+        '<button type="button" class="resultat" data-i="' + i + '"><span class="res-rubrique">' + echapper(r.rubrique) + '</span>' +
+        '<span class="res-titre">' + surligner(r.titre, mots) + '</span>' +
+        (r.texte && r.texte !== r.titre ? '<span class="res-extrait">' + surligner(extrait(r.texte, mots[0]), mots) + '</span>' : '') + '</button>').join('');
+      if (!resultatsCourants.length) html = '<div class="res-vide">Aucun résultat pour « ' + echapper(champRecherche.value.trim()) + ' ».</div>';
+      if (masques > 0) html += '<div class="res-vide">' + masques + ' autre(s) résultat(s) masqué(s) par votre profil. <button type="button" data-reset="1">Afficher tout le guide</button></div>';
+      blocResultats.innerHTML = html;
+      blocResultats.hidden = false;
+      champRecherche.setAttribute('aria-expanded', 'true');
+      statutRecherche.textContent = resultatsCourants.length + ' résultat(s)';
+    };
+    champRecherche.addEventListener('input', chercher);
+    champRecherche.addEventListener('focus', () => { if (champRecherche.value.trim().length >= 2) chercher(); });
+    champRecherche.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { fermer(); }
+      if (e.key === 'Enter' && resultatsCourants[0]) { e.preventDefault(); aller(resultatsCourants[0]); }
+      if (e.key === 'ArrowDown') { const b = blocResultats.querySelector('.resultat'); if (b) { e.preventDefault(); b.focus(); } }
+    });
+    blocResultats.addEventListener('keydown', e => {
+      const boutons = [...blocResultats.querySelectorAll('.resultat')]; const i = boutons.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown' && i < boutons.length - 1) { e.preventDefault(); boutons[i + 1].focus(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); (i > 0 ? boutons[i - 1] : champRecherche).focus(); }
+      if (e.key === 'Escape') { fermer(); champRecherche.focus(); }
+    });
+    blocResultats.addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.reset) { reinitialiserFiltres(); chercher(); return; }
+      aller(resultatsCourants[+b.dataset.i]);
+    });
+    document.addEventListener('click', e => { if (!e.target.closest('.recherche')) fermer(); });
   }
 
   // Sécurisation liens externes (belt-and-suspenders)
