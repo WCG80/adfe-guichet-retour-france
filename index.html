@@ -1036,6 +1036,51 @@ main { padding-top: 40px; }
   .nav-rubriques .nav-accueil { grid-column: 1 / -1; text-align: center; }
 }
 @media print { .accueil-tuiles, .nav-rubriques, .lien-accueil { display: none !important; } }
+
+/* Rappel du profil en haut d'une rubrique, et liens des points clés */
+.rappel-profil { display: none; }
+@media screen {
+  body.vue-rubrique .rappel-profil {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 16px;
+    background: var(--blanc); border: 1px solid var(--filet); border-left: 3px solid var(--bordeaux); border-radius: 4px;
+    padding: 9px 14px; margin-bottom: 24px; font-size: .88rem;
+  }
+}
+.rappel-profil strong { color: var(--bordeaux); }
+.rappel-profil a, .synthese-voir { color: var(--bordeaux); font-weight: 700; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+.synthese-voir { display: inline-block; margin-top: 4px; font-size: .74rem; }
+@media print { .rappel-profil, .synthese-voir { display: none !important; } }
+
+/* ── COULEURS : cartes blanches, accents bordeaux (le dégradé reste réservé au bandeau et au pied de page) ── */
+.sommaire a { background: var(--blanc); color: var(--bordeaux); border: 1.5px solid var(--bordeaux); background-attachment: scroll; }
+.sommaire a:hover { background: #FBF1F2; color: var(--bordeaux); border-color: var(--bordeaux); filter: none; }
+.sommaire a.actif { background: var(--bordeaux); color: var(--blanc); border-color: var(--bordeaux); }
+.lien-accueil.actif, .lien-accueil:hover { background: var(--bordeaux); color: var(--blanc); border-color: var(--bordeaux); }
+.filtre-reset:hover, .sections-outils button:hover { background: var(--bordeaux); color: var(--blanc); border-color: var(--bordeaux); }
+.btn-print, .filtre-statut { background: var(--bordeaux); }
+.btn-print:hover { background: var(--rouge-fonce); filter: none; }
+.nav-rubriques .nav-suiv { background: var(--bordeaux); color: var(--blanc); border-color: var(--bordeaux); }
+
+.tuile {
+  background: var(--blanc); color: var(--texte); background-attachment: scroll;
+  border-top: 3px solid var(--rouge); box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+/* Liseré coloré qui reprend tour à tour les couleurs du bandeau */
+.tuiles .tuile:nth-child(4n+2) { border-top-color: var(--violet); }
+.tuiles .tuile:nth-child(4n+3) { border-top-color: var(--teal); }
+.tuiles .tuile:nth-child(4n+4) { border-top-color: var(--rose); }
+.tuile:hover { box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+.tuile-icone {
+  width: 40px; height: 40px; border-radius: 50%; background: #F4D9DF; color: var(--bordeaux);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.tuile-icone svg { width: 22px; height: 22px; }
+.tuile-titre { color: var(--ardoise); }
+.tuile-desc { color: var(--texte-doux); }
+@media (max-width: 700px) {
+  .tuile-icone { width: 32px; height: 32px; }
+  .tuile-icone svg { width: 18px; height: 18px; }
+}
 </style>
 </head>
 <body>
@@ -1164,6 +1209,9 @@ main { padding-top: 40px; }
 
 
 <main id="main">
+
+<!-- En vue rubrique : rappel du profil choisi, modifiable depuis l'accueil -->
+<div class="rappel-profil" id="rappel-profil"></div>
 
 <!-- Accueil : une tuile par rubrique ; chaque rubrique s'affiche ensuite seule -->
 <div class="accueil-tuiles" id="accueil">
@@ -2052,6 +2100,16 @@ function appliquerFiltres() {
   }
 
   const actif = FILTRES.some(nom => valeurFiltre(nom));
+  // Rappel du profil affiché en haut de chaque rubrique
+  const rappel = document.getElementById('rappel-profil');
+  if (rappel) {
+    const choix = FILTRES.filter(nom => valeurFiltre(nom)).map(nom => {
+      const el = document.getElementById('filtre-' + nom); return el.options[el.selectedIndex].text;
+    });
+    rappel.innerHTML = choix.length
+      ? '<span><strong>Votre profil :</strong> ' + choix.join(' · ') + '</span><a href="#accueil">Modifier</a>'
+      : '<span>Guide affiché pour toutes les situations.</span><a href="#accueil">Personnaliser selon mon profil</a>';
+  }
   const badge = document.getElementById('filtre-statut');
   if (badge) badge.classList.toggle('actif', actif);
   memoriserProfil();
@@ -2138,9 +2196,18 @@ function appliquerFiltres() {
     }
   }
 
-  synthesePoints.innerHTML = points.map(p =>
-    `<div class="synthese-tag${p.alerte ? ' alerte' : ''}">${p.texte}</div>`
-  ).join('');
+  // Chaque point clé renvoie vers la rubrique qui le détaille
+  const rubriqueDe = { 'Santé':'sante', 'Coordination':'sante', 'Chômage':'emploi', 'Conjoint accompagnant':'emploi', 'Fiscalité':'fiscalite',
+    'Citoyens américains':'fiscalite', 'Permis':'douanes', 'Animal':'douanes', 'Logement':'logement', 'CAF':'logement', 'Études':'scolarite',
+    'Scolarité':'scolarite', 'Retraite':'retraite', 'Conjoint':'famille', 'Allocations':'famille' };
+  synthesePoints.innerHTML = points.map(p => {
+    const etiquette = (p.texte.match(/<strong>([^<:]+?)\s*:/) || [])[1];
+    let id = rubriqueDe[etiquette];
+    if (estRetraite && etiquette === 'Santé') id = 'retraite';
+    const sec = id && document.getElementById(id);
+    const lien = sec && sec.style.display !== 'none' ? ' <a class="synthese-voir" href="#' + id + '">Voir la rubrique →</a>' : '';
+    return `<div class="synthese-tag${p.alerte ? ' alerte' : ''}">${p.texte}${lien}</div>`;
+  }).join('');
 }
 
 // Profil mémorisé pour le visiteur et reflété dans l'adresse (lien partageable)
