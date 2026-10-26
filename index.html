@@ -882,6 +882,31 @@ footer strong { color: var(--blanc); }
   .recherche-resultats { right: 0; width: calc(100vw - 32px); }
 }
 @media print { .recherche { display: none !important; } }
+
+/* ── SOMMAIRE TOUJOURS VISIBLE ── */
+.burger, .mobile-menu { display: none !important; }
+.sommaire-wrap { position: sticky; top: 0; z-index: 200; background: var(--fond); border-bottom: 1px solid var(--filet); box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.nav-inner { max-width: 1080px; padding: 8px 24px; display: flex; align-items: center; gap: 14px; }
+.sommaire { display: flex !important; flex: 1 1 auto; min-width: 0; flex-wrap: wrap; gap: 6px; overflow: visible; }
+.sommaire a {
+  display: inline-block; white-space: nowrap; text-decoration: none;
+  font-size: .7rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--ardoise); background: var(--blanc); border: 1px solid var(--filet); border-radius: 999px; padding: 5px 11px;
+}
+.sommaire a:hover { color: var(--bordeaux); border-color: var(--rose); }
+.sommaire a.actif { color: var(--blanc); background: var(--bordeaux); border-color: var(--bordeaux); }
+.sommaire a:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.recherche { flex: 0 0 260px; }
+.section { scroll-margin-top: 120px; }
+@media (max-width: 700px) {
+  .nav-inner { flex-wrap: wrap; padding: 8px 16px; gap: 8px; }
+  .recherche { order: -1; flex: 1 1 100%; }
+  /* Sur mobile : une seule rangée de liens qu'on fait défiler du doigt */
+  .sommaire { flex: 1 1 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .sommaire::-webkit-scrollbar { display: none; }
+  .section { scroll-margin-top: 112px; }
+}
+@media print { .sommaire-wrap { display: none !important; } }
 </style>
 </head>
 <body>
@@ -911,7 +936,7 @@ footer strong { color: var(--blanc); }
 
 <nav class="sommaire-wrap" aria-label="Sommaire">
   <div class="nav-inner">
-    <div class="sommaire" role="list">
+    <div class="sommaire" id="sommaire-liens">
       <a href="#priorites">Priorités</a>
       <a href="#etapes">Étapes</a>
       <a href="#docs">Documents</a>
@@ -927,9 +952,6 @@ footer strong { color: var(--blanc); }
       <a href="#glossaire">Glossaire</a>
       <a href="#ressources">Ressources</a>
     </div>
-    <button class="burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Sommaire du guide">
-      <span class="icon-open">☰</span><span class="icon-close">✕</span><span class="burger-label">Sommaire du guide</span>
-    </button>
     <div class="recherche" role="search">
       <label for="recherche-guide" class="sr-only">Rechercher dans le guide</label>
       <svg class="recherche-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -937,22 +959,6 @@ footer strong { color: var(--blanc); }
       <div class="recherche-resultats" id="recherche-resultats" hidden></div>
       <span class="sr-only" id="recherche-statut" aria-live="polite"></span>
     </div>
-  </div>
-  <div class="mobile-menu" id="mobile-menu" role="menu">
-    <a href="#priorites" role="menuitem">Priorités</a>
-    <a href="#etapes" role="menuitem">Étapes</a>
-    <a href="#docs" role="menuitem">Documents</a>
-    <a href="#sante" role="menuitem">Santé</a>
-    <a href="#emploi" role="menuitem">Emploi</a>
-    <a href="#fiscalite" role="menuitem">Fiscalité</a>
-    <a href="#logement" role="menuitem">Logement</a>
-    <a href="#famille" role="menuitem">Famille</a>
-    <a href="#scolarite" role="menuitem">Scolarité</a>
-    <a href="#douanes" role="menuitem">Douanes</a>
-    <a href="#retraite" role="menuitem">Retraite</a>
-    <a href="#bareme" role="menuitem">Barèmes 2026</a>
-    <a href="#glossaire" role="menuitem">Glossaire</a>
-    <a href="#ressources" role="menuitem">Ressources</a>
   </div>
 </nav>
 
@@ -2199,8 +2205,9 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.textContent = '▾';
     header.appendChild(btn);
     header.addEventListener('click', () => replier(sec, !sec.classList.contains('replie')));
-    let replie = false;
-    try { replie = localStorage.getItem(cleReplie(sec.id)) === '1'; } catch(e) {}
+    // Par défaut, seules Priorités et Étapes sont ouvertes, pour une page courte
+    let replie = !['priorites', 'etapes'].includes(sec.id);
+    try { const memo = localStorage.getItem(cleReplie(sec.id)); if (memo !== null) replie = memo === '1'; } catch(e) {}
     replier(sec, replie, false);
   });
 
@@ -2378,6 +2385,28 @@ document.addEventListener('DOMContentLoaded', () => {
       aller(resultatsCourants[+b.dataset.i]);
     });
     document.addEventListener('click', e => { if (!e.target.closest('.recherche')) fermer(); });
+  }
+
+  // Sommaire : la rubrique en cours de lecture est surlignée
+  const liensSommaire = [...document.querySelectorAll('#sommaire-liens a')];
+  const barreSommaire = document.getElementById('sommaire-liens');
+  if (liensSommaire.length && 'IntersectionObserver' in window) {
+    const marquer = id => {
+      liensSommaire.forEach(a => {
+        const actif = a.getAttribute('href') === '#' + id;
+        a.classList.toggle('actif', actif);
+        if (actif) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+        // Sur mobile, fait défiler la rangée de liens pour garder la rubrique active visible
+        if (actif && barreSommaire.scrollWidth > barreSommaire.clientWidth) {
+          barreSommaire.scrollLeft = a.offsetLeft - barreSommaire.clientWidth / 2 + a.offsetWidth / 2;
+        }
+      });
+    };
+    const observateur = new IntersectionObserver(entrees => {
+      const visibles = entrees.filter(e => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visibles[0]) marquer(visibles[0].target.id);
+    }, { rootMargin: '-120px 0px -60% 0px' });
+    sections.forEach(sec => observateur.observe(sec));
   }
 
   // Sécurisation liens externes (belt-and-suspenders)
