@@ -907,6 +907,135 @@ footer strong { color: var(--blanc); }
   .section { scroll-margin-top: 112px; }
 }
 @media print { .sommaire-wrap { display: none !important; } }
+
+/* ── ALIGNEMENT : une seule largeur et les mêmes marges pour tous les blocs ── */
+:root {
+  --largeur: 1080px;
+  --gouttiere: 24px;
+  /* Dégradé du bandeau, assombri pour garder un texte blanc lisible */
+  --degrade-fonce: linear-gradient(130deg, #8E1A21 0%, #4E4680 55%, #2F7553 100%);
+}
+.bandeau-inner, .titre-page, .nav-inner, .filtre-inner, .synthese-profil, main, .pied-inner {
+  max-width: var(--largeur); margin-left: auto; margin-right: auto;
+  padding-left: var(--gouttiere); padding-right: var(--gouttiere); box-sizing: border-box;
+}
+.filtre-profil { padding-left: 0; padding-right: 0; }
+footer { padding-left: 0; padding-right: 0; }
+main { padding-top: 40px; }
+
+/* Sommaire : 2 rangées régulières de 7 étiquettes, recherche à droite */
+.nav-inner { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 10px 18px; align-items: center; padding-top: 10px; padding-bottom: 10px; }
+.sommaire { display: grid !important; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.sommaire a {
+  text-align: center; overflow: hidden; text-overflow: ellipsis; padding: 7px 4px;
+  color: var(--blanc); border: 1.5px solid transparent;
+  background: var(--degrade-fonce); background-attachment: fixed;
+}
+.sommaire a:hover { color: var(--blanc); border-color: transparent; filter: brightness(1.18); }
+.sommaire a.actif { background: var(--blanc); color: var(--bordeaux); border-color: var(--bordeaux); filter: none; }
+.recherche { width: 100%; }
+
+/* Filtres : les 5 menus sur une ligne en grand écran */
+.filtre-champ select { padding-left: 38px; font-size: .86rem; }
+.pastille { left: 7px; width: 24px; height: 24px; }
+.filtre-inner { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+
+/* Boutons secondaires aux couleurs de la charte */
+.filtre-reset, .sections-outils button {
+  background: var(--blanc); color: var(--bordeaux); border: 1.5px solid var(--bordeaux); border-radius: 4px;
+}
+.filtre-reset:hover, .sections-outils button:hover { background: var(--degrade-fonce); color: var(--blanc); border-color: transparent; }
+
+/* Tablette : recherche au-dessus, étiquettes en grille souple */
+@media (max-width: 1000px) {
+  .nav-inner { grid-template-columns: 1fr; }
+  .recherche { order: -1; }
+  .sommaire { grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); }
+  /* Filtres en 3 + 2, qui occupent toute la largeur */
+  .filtre-inner { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .filtre-champ { grid-column: span 2; }
+  .filtre-champ:nth-of-type(4), .filtre-champ:nth-of-type(5) { grid-column: span 3; }
+}
+/* Mobile : marges réduites, une rangée d'étiquettes qui défile du doigt */
+@media (max-width: 700px) {
+  :root { --gouttiere: 16px; }
+  .filtre-profil { padding-left: 0; padding-right: 0; }
+  .sommaire { display: flex !important; }
+  .sommaire a { flex: 0 0 auto; padding: 6px 11px; }
+  .filtre-inner { grid-template-columns: 1fr; }
+  .filtre-champ, .filtre-champ:nth-of-type(4), .filtre-champ:nth-of-type(5) { grid-column: auto; }
+}
+@media print { .sommaire a { background: none; } }
+
+/* ── ACCUEIL EN TUILES, PUIS UNE RUBRIQUE À LA FOIS ── */
+@media screen {
+  body.vue-accueil main > .section, body.vue-accueil .nav-rubriques { display: none; }
+  body.vue-rubrique .accueil-tuiles, body.vue-rubrique .filtre-profil, body.vue-rubrique .synthese-profil { display: none !important; }
+  body.vue-rubrique main > .section:not(.courante) { display: none; }
+  .sections-outils, body.vue-rubrique .section-toggle { display: none !important; }
+  body.vue-rubrique .section-header.repliable { cursor: default; }
+}
+.tuiles-titre { font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; color: var(--texte-doux); font-weight: 700; margin: 4px 0 14px; }
+.tuiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 32px; }
+.tuile {
+  display: flex; flex-direction: column; gap: 6px; min-height: 124px; padding: 18px 18px 16px; border-radius: 8px;
+  text-decoration: none; color: var(--blanc);
+  /* Un seul dégradé pour toute la grille, comme une mosaïque découpée dans le bandeau */
+  background: var(--degrade-fonce); background-attachment: fixed;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.tuile:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.18); }
+.tuile:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+.tuile-icone svg { width: 28px; height: 28px; }
+.tuile-titre { font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .95rem; }
+.tuile-desc { font-size: .82rem; font-weight: 500; color: rgba(255,255,255,.9); line-height: 1.4; }
+.tuile.vedette { grid-column: span 2; min-height: 136px; }
+.tuile.vedette .tuile-titre { font-size: 1.1rem; }
+@media (prefers-reduced-motion: reduce) { .tuile { transition: none; } .tuile:hover { transform: none; } }
+
+/* Lien Accueil dans la barre collée */
+.nav-inner { grid-template-columns: auto minmax(0, 1fr) 240px; gap: 10px 14px; }
+.sommaire a { font-size: .66rem; letter-spacing: .02em; padding-left: 3px; padding-right: 3px; }
+.lien-accueil {
+  display: inline-flex; align-items: center; gap: 6px; align-self: center; white-space: nowrap; text-decoration: none;
+  font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--bordeaux); background: var(--blanc); border: 1.5px solid var(--bordeaux); border-radius: 999px; padding: 7px 12px;
+}
+.lien-accueil svg { width: 15px; height: 15px; }
+.lien-accueil.actif, .lien-accueil:hover { color: var(--blanc); background: var(--degrade-fonce); border-color: transparent; }
+
+/* Précédente / suivante en bas de chaque rubrique */
+.nav-rubriques { display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; margin: 8px 0 24px; }
+.nav-rubriques a {
+  text-decoration: none; font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  border-radius: 4px; padding: 11px 14px; border: 1.5px solid var(--bordeaux); color: var(--bordeaux); background: var(--blanc);
+}
+.nav-rubriques .nav-suiv { text-align: right; color: var(--blanc); background: var(--degrade-fonce); border-color: transparent; }
+.nav-rubriques a:hover { filter: brightness(1.1); }
+
+@media (max-width: 1000px) {
+  .tuiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tuile.vedette { grid-column: span 1; }
+  .nav-inner { grid-template-columns: auto minmax(0, 1fr); }
+  .recherche { grid-column: 1 / -1; }
+  /* Tablette et mobile : une seule rangée d'étiquettes qui défile, pour une barre basse */
+  .sommaire { display: flex !important; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .sommaire::-webkit-scrollbar { display: none; }
+  .sommaire a { flex: 0 0 auto; padding: 6px 11px; font-size: .68rem; }
+}
+@media (max-width: 700px) {
+  .tuiles { gap: 8px; }
+  .tuile, .tuile.vedette { min-height: 92px; padding: 12px; }
+  .tuile-desc { display: none; }
+  .tuile-titre, .tuile.vedette .tuile-titre { font-size: .82rem; }
+  .lien-accueil span { display: none; }
+  .lien-accueil { padding: 6px 9px; }
+  .nav-inner .lien-accueil { flex: 0 0 auto; }
+  .nav-inner .sommaire { flex: 1 1 0; min-width: 0; }
+  .nav-rubriques { grid-template-columns: 1fr 1fr; }
+  .nav-rubriques .nav-accueil { grid-column: 1 / -1; text-align: center; }
+}
+@media print { .accueil-tuiles, .nav-rubriques, .lien-accueil { display: none !important; } }
 </style>
 </head>
 <body>
@@ -936,6 +1065,7 @@ footer strong { color: var(--blanc); }
 
 <nav class="sommaire-wrap" aria-label="Sommaire">
   <div class="nav-inner">
+    <a href="#accueil" class="lien-accueil" id="lien-accueil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Accueil</span></a>
     <div class="sommaire" id="sommaire-liens">
       <a href="#priorites">Priorités</a>
       <a href="#etapes">Étapes</a>
@@ -968,19 +1098,19 @@ footer strong { color: var(--blanc); }
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg></span>
       <select id="filtre-provenance" aria-label="Pays de provenance">
-        <option value="">Toutes provenances</option>
-        <option value="ue">Retour depuis UE / EEE / Suisse</option>
-        <option value="royaume-uni">Retour depuis le Royaume-Uni</option>
-        <option value="etats-unis">Retour depuis les États-Unis</option>
-        <option value="hors-ue">Retour depuis un autre pays hors UE</option>
+        <option value="">Provenance</option>
+        <option value="ue">UE / EEE / Suisse</option>
+        <option value="royaume-uni">Royaume-Uni</option>
+        <option value="etats-unis">États-Unis</option>
+        <option value="hors-ue">Autre pays hors UE</option>
       </select>
     </div>
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span>
       <select id="filtre-situation" aria-label="Situation professionnelle">
-        <option value="">Toutes situations</option>
-        <option value="avec-emploi">Avec un emploi à l'arrivée</option>
-        <option value="sans-emploi">Sans emploi à l'arrivée</option>
+        <option value="">Situation</option>
+        <option value="avec-emploi">Avec un emploi</option>
+        <option value="sans-emploi">Sans emploi</option>
         <option value="etudiant">Étudiant</option>
         <option value="retraite">Retraité</option>
       </select>
@@ -988,24 +1118,24 @@ footer strong { color: var(--blanc); }
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/></svg></span>
       <select id="filtre-conjoint" aria-label="Conjoint">
-        <option value="">Avec ou sans conjoint</option>
+        <option value="">Conjoint</option>
         <option value="seul">Seul</option>
-        <option value="conjoint-fr-ue">Conjoint français ou européen</option>
-        <option value="conjoint-hors-ue">Conjoint non européen</option>
+        <option value="conjoint-fr-ue">Français ou UE</option>
+        <option value="conjoint-hors-ue">Hors UE</option>
       </select>
     </div>
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 3.1a4 4 0 0 1 0 7.8M21 21v-2a4 4 0 0 0-3-3.9"/></svg></span>
       <select id="filtre-enfants" aria-label="Enfants">
-        <option value="">Avec ou sans enfants</option>
-        <option value="oui">Avec des enfants</option>
+        <option value="">Enfants</option>
+        <option value="oui">Avec enfants</option>
         <option value="non">Sans enfant</option>
       </select>
     </div>
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13c-2.5 0-5 2.4-5 4.6 0 1.6 1.3 2.4 2.6 2.4 1 0 1.6-.5 2.4-.5s1.4.5 2.4.5c1.3 0 2.6-.8 2.6-2.4 0-2.2-2.5-4.6-5-4.6z"/><circle cx="5.5" cy="10.5" r="1.8"/><circle cx="9" cy="6" r="1.8"/><circle cx="15" cy="6" r="1.8"/><circle cx="18.5" cy="10.5" r="1.8"/></svg></span>
       <select id="filtre-animal" aria-label="Animal de compagnie">
-        <option value="">Avec ou sans animal</option>
+        <option value="">Animal</option>
         <option value="oui">Avec un animal</option>
         <option value="non">Sans animal</option>
       </select>
@@ -1034,6 +1164,27 @@ footer strong { color: var(--blanc); }
 
 
 <main id="main">
+
+<!-- Accueil : une tuile par rubrique ; chaque rubrique s'affiche ensuite seule -->
+<div class="accueil-tuiles" id="accueil">
+  <h2 class="tuiles-titre">Choisissez une rubrique</h2>
+  <div class="tuiles">
+    <a class="tuile vedette" href="#priorites"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></span><span class="tuile-titre">Priorités</span><span class="tuile-desc">Les 5 points à anticiper avant tout</span></a>
+    <a class="tuile vedette" href="#etapes"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></span><span class="tuile-titre">Étapes</span><span class="tuile-desc">Votre calendrier, de 6 mois avant à 6 mois après</span></a>
+    <a class="tuile" href="#docs"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span><span class="tuile-titre">Documents</span><span class="tuile-desc">Papiers à réunir, consulat et vote</span></a>
+    <a class="tuile" href="#sante"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/><path d="M8 12h2l1-2 2 4 1-2h2"/></svg></span><span class="tuile-titre">Santé</span><span class="tuile-desc">Assurance maladie, CFE, carte Vitale</span></a>
+    <a class="tuile" href="#emploi"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><span class="tuile-titre">Emploi</span><span class="tuile-desc">Chômage, France Travail, diplômes</span></a>
+    <a class="tuile" href="#fiscalite"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span><span class="tuile-titre">Fiscalité</span><span class="tuile-desc">Impôts, banque, comptes à l'étranger</span></a>
+    <a class="tuile" href="#logement"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg></span><span class="tuile-titre">Logement</span><span class="tuile-desc">Location, Visale, aides de la CAF</span></a>
+    <a class="tuile" href="#famille"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 3.1a4 4 0 0 1 0 7.8M21 21v-2a4 4 0 0 0-3-3.9"/></svg></span><span class="tuile-titre">Famille</span><span class="tuile-desc">Mariage, enfants, conjoint, allocations</span></a>
+    <a class="tuile" href="#scolarite"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></span><span class="tuile-titre">Scolarité</span><span class="tuile-desc">École, collège, lycée, études</span></a>
+    <a class="tuile" href="#douanes"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span><span class="tuile-titre">Douanes</span><span class="tuile-desc">Déménagement, permis, animaux</span></a>
+    <a class="tuile" href="#retraite"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/></svg></span><span class="tuile-titre">Retraite</span><span class="tuile-desc">Pensions, santé du retraité, carrière</span></a>
+    <a class="tuile" href="#bareme"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16v-5M12 16V7M17 16v-8"/></svg></span><span class="tuile-titre">Barèmes 2026</span><span class="tuile-desc">Montants et délais clés</span></a>
+    <a class="tuile" href="#glossaire"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h9"/></svg></span><span class="tuile-titre">Glossaire</span><span class="tuile-desc">Tous les sigles expliqués</span></a>
+    <a class="tuile" href="#ressources"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><span class="tuile-titre">Ressources</span><span class="tuile-desc">Sites officiels et numéros utiles</span></a>
+  </div>
+</div>
 
 <!-- 01 -->
 <section class="section" id="priorites">
@@ -1794,6 +1945,8 @@ footer strong { color: var(--blanc); }
   </div>
 </section>
 
+
+<nav class="nav-rubriques" id="nav-rubriques" aria-label="Navigation entre les rubriques"></nav>
 </main>
 
 <div style="text-align:center;padding:24px 20px 0;">
@@ -2204,7 +2357,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.className = 'section-toggle';
     btn.textContent = '▾';
     header.appendChild(btn);
-    header.addEventListener('click', () => replier(sec, !sec.classList.contains('replie')));
+    header.addEventListener('click', () => { if (!document.body.classList.contains('vue-rubrique')) replier(sec, !sec.classList.contains('replie')); });
     // Par défaut, seules Priorités et Étapes sont ouvertes, pour une page courte
     let replie = !['priorites', 'etapes'].includes(sec.id);
     try { const memo = localStorage.getItem(cleReplie(sec.id)); if (memo !== null) replie = memo === '1'; } catch(e) {}
@@ -2233,8 +2386,59 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', () => deplierCible(a.getAttribute('href')));
   });
-  window.addEventListener('hashchange', () => deplierCible(location.hash));
-  deplierCible(location.hash);
+  // Navigation : l'accueil en tuiles, ou une seule rubrique selon l'ancre de l'adresse
+  const navRubriques = document.getElementById('nav-rubriques');
+  const lienAccueil = document.getElementById('lien-accueil');
+  const liensSommaire = [...document.querySelectorAll('#sommaire-liens a')];
+  const barreSommaire = document.getElementById('sommaire-liens');
+  const estAffichee = sec => sec.style.display !== 'none';
+  const hauteurBarre = () => document.querySelector('.sommaire-wrap').offsetHeight;
+  const marquer = id => {
+    if (lienAccueil) lienAccueil.classList.toggle('actif', !id);
+    liensSommaire.forEach(a => {
+      const actif = !!id && a.getAttribute('href') === '#' + id;
+      a.classList.toggle('actif', actif);
+      if (actif) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+      // Sur mobile, garde l'étiquette active visible dans la rangée qui défile
+      if (actif && barreSommaire.scrollWidth > barreSommaire.clientWidth) {
+        barreSommaire.scrollLeft = a.offsetLeft - barreSommaire.clientWidth / 2 + a.offsetWidth / 2;
+      }
+    });
+  };
+  const lienNav = (sec, classe, texte) => {
+    const a = document.createElement('a');
+    a.href = '#' + sec.id; a.className = classe; a.textContent = texte;
+    return a;
+  };
+  const afficherVue = (cibleId, options = {}) => {
+    const el = cibleId && document.getElementById(cibleId);
+    const sec = el && el.closest('main > .section');
+    if (!sec || !estAffichee(sec)) {
+      document.body.classList.add('vue-accueil'); document.body.classList.remove('vue-rubrique');
+      sections.forEach(s => s.classList.remove('courante'));
+      marquer(null); navRubriques.replaceChildren();
+      if (!options.sansDefilement) window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+    document.body.classList.remove('vue-accueil'); document.body.classList.add('vue-rubrique');
+    sections.forEach(s => s.classList.toggle('courante', s === sec));
+    replier(sec, false, false);
+    marquer(sec.id);
+    // Rubriques précédente et suivante, parmi celles que le profil affiche
+    const dispo = sections.filter(estAffichee); const i = dispo.indexOf(sec);
+    const titre = s => s.querySelector('h2').textContent.trim();
+    const accueil = document.createElement('a'); accueil.href = '#accueil'; accueil.className = 'nav-accueil'; accueil.textContent = '← Accueil';
+    navRubriques.replaceChildren(accueil,
+      dispo[i - 1] ? lienNav(dispo[i - 1], 'nav-prec', '← ' + titre(dispo[i - 1])) : document.createElement('span'),
+      dispo[i + 1] ? lienNav(dispo[i + 1], 'nav-suiv', titre(dispo[i + 1]) + ' →') : document.createElement('span'));
+    // Cible précise (encadré) : on l'ouvre et on la montre ; sinon, haut de la rubrique
+    const cible = el !== sec ? el : null;
+    if (cible) { const det = cible.tagName === 'DETAILS' ? cible : cible.closest('details'); if (det) det.open = true; }
+    const repere = cible || document.getElementById('main');
+    // Saut immédiat (le défilement animé de la page fausserait le positionnement)
+    window.scrollTo({ top: repere.getBoundingClientRect().top + window.scrollY - hauteurBarre() - (cible ? 16 : 0), behavior: 'instant' });
+  };
+  window.addEventListener('hashchange', () => afficherVue(location.hash.slice(1)));
 
   // Un filtre qui ouvre un encadré déplie aussi sa rubrique
   FILTRES.map(nom => 'filtre-' + nom).forEach(id => {
@@ -2244,6 +2448,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const sec = d.closest('.section');
         if (sec) replier(sec, false);
       });
+      const courante = sections.find(s => s.classList.contains('courante'));
+      if (courante && !estAffichee(courante)) { history.replaceState(null, '', location.pathname + location.search); afficherVue(null); }
     });
   });
 
@@ -2256,6 +2462,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (sec) replier(sec, false);
     });
   }
+  afficherVue(location.hash.slice(1), { sansDefilement: !location.hash });
 
   // Copier le lien du profil
   const btnCopier = document.getElementById('copier-lien-profil');
@@ -2334,11 +2541,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const fermer = () => { blocResultats.hidden = true; champRecherche.setAttribute('aria-expanded', 'false'); };
     const aller = r => {
       fermer();
-      replier(r.sec, false);
-      if (r.el.tagName === 'DETAILS') r.el.open = true;
-      const det = r.el.closest('details'); if (det) det.open = true;
-      const haut = r.el.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: haut, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      // Adresse mise à jour sans déclencher de saut, pour que le bouton Retour ramène ici
+      history.pushState(null, '', location.pathname + location.search + '#' + r.sec.id);
+      afficherVue(r.sec.id);
+      if (r.el !== r.sec) {
+        const det = r.el.tagName === 'DETAILS' ? r.el : r.el.closest('details'); if (det) det.open = true;
+        window.scrollTo({ top: r.el.getBoundingClientRect().top + window.scrollY - hauteurBarre() - 16, behavior: 'instant' });
+      }
       r.el.classList.add('cible-recherche');
       setTimeout(() => r.el.classList.remove('cible-recherche'), 2500);
     };
@@ -2385,28 +2594,6 @@ document.addEventListener('DOMContentLoaded', () => {
       aller(resultatsCourants[+b.dataset.i]);
     });
     document.addEventListener('click', e => { if (!e.target.closest('.recherche')) fermer(); });
-  }
-
-  // Sommaire : la rubrique en cours de lecture est surlignée
-  const liensSommaire = [...document.querySelectorAll('#sommaire-liens a')];
-  const barreSommaire = document.getElementById('sommaire-liens');
-  if (liensSommaire.length && 'IntersectionObserver' in window) {
-    const marquer = id => {
-      liensSommaire.forEach(a => {
-        const actif = a.getAttribute('href') === '#' + id;
-        a.classList.toggle('actif', actif);
-        if (actif) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
-        // Sur mobile, fait défiler la rangée de liens pour garder la rubrique active visible
-        if (actif && barreSommaire.scrollWidth > barreSommaire.clientWidth) {
-          barreSommaire.scrollLeft = a.offsetLeft - barreSommaire.clientWidth / 2 + a.offsetWidth / 2;
-        }
-      });
-    };
-    const observateur = new IntersectionObserver(entrees => {
-      const visibles = entrees.filter(e => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-      if (visibles[0]) marquer(visibles[0].target.id);
-    }, { rootMargin: '-120px 0px -60% 0px' });
-    sections.forEach(sec => observateur.observe(sec));
   }
 
   // Sécurisation liens externes (belt-and-suspenders)
