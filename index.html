@@ -1084,9 +1084,44 @@ main { padding-top: 40px; }
 
 /* ── STYLE DU SITE FRANCAIS-DU-MONDE.ORG : à plat, coins droits, ardoise, beige, barre rose sous les titres ── */
 @media screen {
-  :root { --beige-teinte: rgba(150,64,30,.12); --beige-plein: #EADFDA; --gris-bouton: #6E777E; }
+  /* Gris clair du site à la place du sable : fond de page gris très clair, filets gris neutres */
+  .pastille { background: #EFEFEF; color: var(--ardoise); }
+  /* Comme sur leur site : page blanche ; le sable seulement en un bloc (les tuiles de l'accueil, comme « À la une ») */
+  body { background: var(--blanc); }
+  /* Bloc du titre en sable, sur toute la largeur */
+  .titre-page { background: #F2E8E4; box-shadow: 0 0 0 100vmax #F2E8E4; clip-path: inset(0 -100vmax); padding-top: 30px; padding-bottom: 8px; }
+  /* Titre plus compact et surtitre plus lisible, en proportion avec le titre */
+  .titre-surtitre { font-size: .95rem; letter-spacing: .14em; }
+  .titre-page h1 { margin: 4px 0 10px; padding-bottom: 12px; }
+  .titre-page p { margin: 0; }
+  .titre-page h1 { border-bottom-color: #DCCAC4; }
+  /* Accueil : le bloc sable des tuiles colle au bloc des filtres, sans bande blanche */
+  body.vue-accueil main { padding-top: 0; padding-bottom: 24px; }
+  /* Bloc des filtres en gris clair (le gris #EFEFEF du site), menus en blanc */
+  .filtre-profil { background: #EFEFEF; border-bottom-color: #E2E2E2; }
+  .filtre-inner select, .filtre-champ select { background: var(--blanc); }
+  .filtre-profil .filtre-reset { background: var(--blanc); border: 1px solid #DADADA; }
+  .filtre-profil .filtre-reset:hover { background: #E2E2E2; }
+  /* Boutons des rubriques : le dégradé du bandeau, d'un seul tenant sur toute la barre
+     (légèrement assombri pour que le texte blanc reste lisible) */
+  .nav-inner .sommaire a {
+    color: var(--blanc);
+    background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade);
+    background-attachment: fixed; background-size: 100vw 100vh;
+  }
+  .nav-inner .sommaire a:hover { color: var(--blanc); background: var(--violet); }
+  .nav-inner .sommaire a.actif { background: var(--blanc); color: var(--ardoise); box-shadow: inset 0 0 0 2px var(--ardoise); }
+  /* Bloc « Choisissez une rubrique » sur fond blanc ; cartes bordées d'un filet gris */
+  .accueil-tuiles { padding-top: 36px; padding-bottom: 8px; }
+  .accueil-tuiles .tuiles .tuile:nth-child(n) { border-left: 1px solid #E2E2E2; border-right: 1px solid #E2E2E2; border-bottom: 1px solid #E2E2E2; }
+  .accueil-tuiles .tuiles .tuile:nth-child(n):hover, .accueil-tuiles .tuiles .tuile:nth-child(n):focus-visible { background: #F2E8E4; box-shadow: none; }
+  @media (prefers-reduced-motion: no-preference) { .accueil-tuiles .tuiles .tuile { transition: background-color .15s ease; } }
+  details, details[data-type] { border: 1px solid #EAEAEA; border-left-width: 3px; }
+  details:not([data-type="important"]) { border-left-color: #EAEAEA; }
+  .rappel-profil { border-color: #EAEAEA; }
+  :root { --fond: #FFFFFF; --filet: #E2E2E2; --beige-teinte: #EFEFEF; --beige-plein: #E2E2E2; --gris-bouton: #6E777E; }
   /* Barre du sommaire : blanche ; Accueil + recherche en haut, rubriques dessous */
-  .sommaire-wrap { background: var(--blanc); border-bottom: 1px solid #EAEAEA; box-shadow: 0 1px 6px rgba(0,0,0,.05); }
+  .sommaire-wrap { background: #F2E8E4; border-bottom: 1px solid #DCCAC4; box-shadow: 0 4px 6px -4px rgba(0,0,0,.12); }
   .nav-inner { grid-template-columns: auto minmax(0, 1fr); gap: 8px 10px; padding-top: 12px; padding-bottom: 12px; }
   .lien-accueil { grid-row: 1; grid-column: 1; }
   .recherche { grid-row: 1; grid-column: 2; }
@@ -1188,6 +1223,26 @@ main { padding-top: 40px; }
   .section h2 { font-size: 1.35rem; }
   .section h2::after { width: 90px; height: 10px; }
 }
+/* Bouton Imprimer : dégradé du bandeau, légèrement assombri pour la lisibilité */
+@media screen {
+  body .btn-print { background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade); border: 0; color: var(--blanc); }
+  body .btn-print:hover { background: linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.28)), var(--degrade); }
+}
+.pied-guide a { color: var(--blanc); text-decoration: underline; text-underline-offset: 2px; }
+/* Bouton Accueil : le violet du dégradé du bandeau */
+@media screen {
+  .nav-inner .lien-accueil, .nav-inner .lien-accueil.actif { background: var(--violet); color: var(--blanc); }
+  .nav-inner .lien-accueil:hover { background: #4E4680; }
+}
+/* Bas de rubrique : « Accueil » en violet comme le bouton du haut, rubrique précédente en sable */
+@media screen {
+  .nav-rubriques a.nav-accueil { background: var(--violet); color: var(--blanc); }
+  .nav-rubriques a.nav-accueil:hover { background: #4E4680; filter: none; }
+  .nav-rubriques a.nav-prec { background: #F2E8E4; color: var(--ardoise); }
+  .nav-rubriques a.nav-prec:hover { background: #E8DAD4; filter: none; }
+}
+/* Drapeau à côté du titre (écran et impression) */
+.drapeau { display: inline-block; height: .72em; width: 1.08em; margin-left: .4em; vertical-align: baseline; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 </style>
 </head>
 <body>
@@ -1211,7 +1266,7 @@ main { padding-top: 40px; }
 
 <div class="titre-page">
   <span class="titre-surtitre">Guide pratique</span>
-  <h1>Revenir vivre en France</h1>
+  <h1>Revenir vivre en France<svg class="drapeau" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#000091"/><rect x="1" width="1" height="2" fill="#FFFFFF"/><rect x="2" width="1" height="2" fill="#E1000F"/></svg></h1>
   <p>Démarches, droits et ressources officielles après une expatriation.</p>
 </div>
 
@@ -2115,7 +2170,7 @@ main { padding-top: 40px; }
   <div class="pied-inner">
     <div class="pied-guide">
       <strong>Français du monde – ADFE — Section France</strong><br>
-  Sources officielles : service-public.gouv.fr · diplomatie.gouv.fr · francetravail.fr · impots.gouv.fr · caf.fr · cleiss.fr · interieur.gouv.fr · douane.gouv.fr<br>
+  Informations tirées des sites officiels de l'administration : <a href="#ressources">voir la rubrique Ressources</a><br>
   Guide mis à jour — octobre 2026 · Ce document est un outil d'orientation et ne remplace pas un conseil individualisé.
     </div>
   </div>
@@ -2659,7 +2714,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Bouton « Revenir en haut » : apparaît après un écran de défilement
   const btnHaut = document.getElementById('retour-haut');
   if (btnHaut) {
-    const majHaut = () => btnHaut.classList.toggle('visible', window.scrollY > window.innerHeight);
+    const majHaut = () => btnHaut.classList.toggle('visible', window.scrollY > 300);
     window.addEventListener('scroll', majHaut, { passive: true });
     majHaut();
     btnHaut.addEventListener('click', () => {
