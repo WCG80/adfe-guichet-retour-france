@@ -21,7 +21,7 @@ html { scroll-behavior: smooth; }
 body { font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 17px; line-height: 1.65; color: var(--texte); background: var(--fond); }
 
 /* Bandeau et titre */
-.bandeau-site { background: var(--degrade); padding-bottom: 1px; }
+.bandeau-site { background: url('carte-monde.png') center top / cover no-repeat, var(--degrade); padding-bottom: 1px; }
 .bandeau-inner {
   max-width: 1080px; margin: 0 auto 22px; padding: 24px 32px 10px;
   display: flex; align-items: center; gap: 18px; flex-wrap: wrap;

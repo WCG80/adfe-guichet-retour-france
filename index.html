@@ -723,6 +723,8 @@ footer strong { color: var(--blanc); }
 
 /* ── HABILLAGE DU SITE ADFE (option B) — retirer .chrome-site pour l'option A ── */
 .bandeau-site { background: var(--degrade); }
+/* Carte du monde du bandeau de francais-du-monde.org (copie locale : assets/carte-monde.png), posée sur le dégradé */
+@media screen { .bandeau-site { background: url('assets/carte-monde.png') center top / cover no-repeat, var(--degrade); } }
 .bandeau-inner {
   max-width: 1080px; margin: 0 auto; padding: 24px 32px 0;
   display: flex; align-items: center; gap: 18px;
@@ -774,6 +776,8 @@ footer strong { color: var(--blanc); }
 }
 @media print {
   .chrome-site, .sommaire-wrap { display: none !important; }
+  .bandeau-site.chrome-site { display: block !important; background: none; }
+  .bandeau-site .bandeau-inner { display: none !important; }
   .titre-page h1 { font-size: 16pt; color: #000; }
 }
 
@@ -1089,7 +1093,13 @@ main { padding-top: 40px; }
   /* Comme sur leur site : page blanche ; le sable seulement en un bloc (les tuiles de l'accueil, comme « À la une ») */
   body { background: var(--blanc); }
   /* Bloc du titre en sable, sur toute la largeur */
-  .titre-page { background: #F2E8E4; box-shadow: 0 0 0 100vmax #F2E8E4; clip-path: inset(0 -100vmax); padding-top: 30px; padding-bottom: 8px; }
+  /* Titre dans le bandeau dégradé, comme le titre d'accueil de francais-du-monde.org */
+  .bandeau-site .titre-page { background: none; text-align: left; padding-top: 4px; padding-bottom: 34px; }
+  .bandeau-site .titre-surtitre { color: var(--blanc); opacity: .9; }
+  .bandeau-site .titre-page h1 { color: var(--blanc); border-bottom: 0; padding-bottom: 0; margin: 4px 0 0; }
+  .bandeau-site .titre-page h1::after { content: ''; display: block; width: 106px; height: 14px; background: var(--blanc); margin-top: 16px; }
+  .bandeau-site .titre-page p { color: var(--blanc); margin-top: 14px; }
+  .bandeau-site .drapeau { box-shadow: 0 0 0 1px rgba(255,255,255,.7); }
   /* Titre plus compact et surtitre plus lisible, en proportion avec le titre */
   .titre-surtitre { font-size: .95rem; letter-spacing: .14em; }
   .titre-page h1 { margin: 4px 0 10px; padding-bottom: 12px; }
@@ -1097,8 +1107,10 @@ main { padding-top: 40px; }
   .titre-page h1 { border-bottom-color: #DCCAC4; }
   /* Accueil : le bloc sable des tuiles colle au bloc des filtres, sans bande blanche */
   body.vue-accueil main { padding-top: 0; padding-bottom: 24px; }
-  /* Bloc des filtres en gris clair (le gris #EFEFEF du site), menus en blanc */
-  .filtre-profil { background: #EFEFEF; border-bottom-color: #E2E2E2; }
+  /* Bloc des filtres en sable, dans la continuité de la barre du sommaire ; menus en blanc */
+  .filtre-profil { background: #F2E8E4; border-bottom-color: #DCCAC4; }
+  /* « Votre situation » en vrai titre, comme les titres du site */
+  .filtre-profil .filtre-label { font-size: 1.3rem; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--ardoise); margin-bottom: 2px; }
   .filtre-inner select, .filtre-champ select { background: var(--blanc); }
   .filtre-profil .filtre-reset { background: var(--blanc); border: 1px solid #DADADA; }
   .filtre-profil .filtre-reset:hover { background: #E2E2E2; }
@@ -1119,9 +1131,9 @@ main { padding-top: 40px; }
   details, details[data-type] { border: 1px solid #EAEAEA; border-left-width: 3px; }
   details:not([data-type="important"]) { border-left-color: #EAEAEA; }
   .rappel-profil { border-color: #EAEAEA; }
-  :root { --fond: #FFFFFF; --filet: #E2E2E2; --beige-teinte: #EFEFEF; --beige-plein: #E2E2E2; --gris-bouton: #6E777E; }
+  :root { --fond: #FFFFFF; --filet: #E2E2E2; --beige-teinte: #EFEFEF; --beige-plein: #E2E2E2; --gris-bouton: #8A9399; }
   /* Barre du sommaire : blanche ; Accueil + recherche en haut, rubriques dessous */
-  .sommaire-wrap { background: #F2E8E4; border-bottom: 1px solid #DCCAC4; box-shadow: 0 4px 6px -4px rgba(0,0,0,.12); }
+  .sommaire-wrap { background: #F2E8E4; border-bottom: 0; box-shadow: none; }
   .nav-inner { grid-template-columns: auto minmax(0, 1fr); gap: 8px 10px; padding-top: 12px; padding-bottom: 12px; }
   .lien-accueil { grid-row: 1; grid-column: 1; }
   .recherche { grid-row: 1; grid-column: 2; }
@@ -1169,7 +1181,7 @@ main { padding-top: 40px; }
   .tuile-desc { color: #5E6A73; font-size: .86rem; }
   .tuile:hover { transform: none; box-shadow: none; }
   .tuile:hover .tuile-titre { color: var(--rouge); }
-  /* « Lire la suite » : bouton gris du site, un peu plus foncé pour rester lisible (contraste AA) */
+  /* « Lire la suite » : bouton gris du site, un peu plus foncé que le leur pour rester lisible */
   .tuile::after {
     content: 'Lire la suite'; margin-top: auto; align-self: flex-start; padding: 5px 13px;
     font-size: .74rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase;
@@ -1249,8 +1261,8 @@ main { padding-top: 40px; }
 
 <a href="#main" class="skip-link">Aller au contenu</a>
 <!-- ═══ EN-TÊTE DU GUIDE aux couleurs de francais-du-monde.org (option B : page séparée) ═══
-     Pour intégrer le guide dans une page du site (option A), supprimer le bandeau .chrome-site :
-     le site fournira alors lui-même son en-tête. -->
+     Pour intégrer le guide dans une page du site (option A), retirer le bandeau .chrome-site
+     en gardant son bloc .titre-page : le site fournira alors lui-même son en-tête. -->
 <div class="bandeau-site chrome-site">
   <div class="bandeau-inner">
     <img class="logo-section" src="assets/logo-section-france.png" alt="Logo de la Section France" width="72" height="72">
@@ -1261,14 +1273,15 @@ main { padding-top: 40px; }
       <a href="conjoint-es.html" hreflang="es" lang="es" title="Página en español para el cónyuge extranjero">ES</a>
     </nav>
   </div>
+  <div class="titre-page">
+    <span class="titre-surtitre">Guide pratique</span>
+    <h1>Revenir vivre en France<svg class="drapeau" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#000091"/><rect x="1" width="1" height="2" fill="#FFFFFF"/><rect x="2" width="1" height="2" fill="#E1000F"/></svg></h1>
+    <p>Démarches, droits et ressources officielles après une expatriation.</p>
+  </div>
 </div>
 <!-- ═══ fin de l'en-tête ═══ -->
 
-<div class="titre-page">
-  <span class="titre-surtitre">Guide pratique</span>
-  <h1>Revenir vivre en France<svg class="drapeau" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#000091"/><rect x="1" width="1" height="2" fill="#FFFFFF"/><rect x="2" width="1" height="2" fill="#E1000F"/></svg></h1>
-  <p>Démarches, droits et ressources officielles après une expatriation.</p>
-</div>
+
 
 <nav class="sommaire-wrap" aria-label="Sommaire">
   <div class="nav-inner">
@@ -1301,7 +1314,7 @@ main { padding-top: 40px; }
 
 <div class="filtre-profil" role="search" aria-label="Filtrer le guide par profil">
   <div class="filtre-inner">
-    <span class="filtre-label">Votre situation :</span>
+    <span class="filtre-label">Votre situation</span>
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg></span>
       <select id="filtre-provenance" aria-label="Pays de provenance">
@@ -2668,6 +2681,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: repere.getBoundingClientRect().top + window.scrollY - hauteurBarre() - (cible ? 16 : 0), behavior: 'instant' });
   };
   window.addEventListener('hashchange', () => afficherVue(location.hash.slice(1)));
+  // Second clic sur la rubrique déjà ouverte : on la referme et on revient à l'accueil
+  liensSommaire.forEach(a => a.addEventListener('click', e => {
+    if (a.classList.contains('actif')) { e.preventDefault(); location.hash = '#accueil'; }
+  }));
 
   // Un filtre qui ouvre un encadré déplie aussi sa rubrique
   FILTRES.map(nom => 'filtre-' + nom).forEach(id => {
