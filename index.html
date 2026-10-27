@@ -1081,6 +1081,113 @@ main { padding-top: 40px; }
   .tuile-icone { width: 32px; height: 32px; }
   .tuile-icone svg { width: 18px; height: 18px; }
 }
+
+/* ── STYLE DU SITE FRANCAIS-DU-MONDE.ORG : à plat, coins droits, ardoise, beige, barre rose sous les titres ── */
+@media screen {
+  :root { --beige-teinte: rgba(150,64,30,.12); --beige-plein: #EADFDA; --gris-bouton: #6E777E; }
+  /* Barre du sommaire : blanche ; Accueil + recherche en haut, rubriques dessous */
+  .sommaire-wrap { background: var(--blanc); border-bottom: 1px solid #EAEAEA; box-shadow: 0 1px 6px rgba(0,0,0,.05); }
+  .nav-inner { grid-template-columns: auto minmax(0, 1fr); gap: 8px 10px; padding-top: 12px; padding-bottom: 12px; }
+  .lien-accueil { grid-row: 1; grid-column: 1; }
+  .recherche { grid-row: 1; grid-column: 2; }
+  .sommaire { grid-row: 2; grid-column: 1 / -1; gap: 6px; }
+  .sommaire a {
+    font-size: .72rem; font-weight: 600; letter-spacing: .06em; padding: 9px 4px; border-radius: 4px; border: 0;
+    background: var(--beige-teinte); color: var(--ardoise);
+  }
+  .sommaire a:hover { background: var(--beige-plein); color: var(--ardoise); }
+  .sommaire a.actif { background: var(--ardoise); color: var(--blanc); }
+  .lien-accueil {
+    font-size: .74rem; font-weight: 600; letter-spacing: .06em; padding: 0 16px; min-height: 42px;
+    border-radius: 4px; border: 0; background: var(--ardoise); color: var(--blanc);
+  }
+  .lien-accueil:hover, .lien-accueil.actif { background: #1B2730; color: var(--blanc); }
+  .recherche input {
+    min-height: 42px; font-size: .95rem; padding: 10px 12px 10px 40px;
+    border: 1.5px solid var(--ardoise); border-radius: 4px; background: var(--blanc);
+  }
+  .recherche input::placeholder { color: #6B7780; opacity: 1; }
+  .recherche input:focus-visible { outline: 3px solid var(--rose); outline-offset: 0; }
+  .recherche-icone { left: 13px; width: 19px; height: 19px; color: var(--ardoise); }
+
+  /* Titre de l'accueil comme « À la une » */
+  .tuiles-titre {
+    font-size: 2rem; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--ardoise); margin: 8px 0 26px;
+  }
+  .tuiles-titre::after { content: ''; display: block; width: 130px; height: 14px; background: var(--rose); margin-top: 14px; }
+
+  /* Tuiles : cartes blanches à plat, sans icône ronde ni liseré de couleur */
+  .tuiles { gap: 12px; }
+  .tuile, .tuiles .tuile:nth-child(n) {
+    background: var(--blanc); border: 0; border-top: 3px solid var(--rouge); border-radius: 0; box-shadow: none; transform: none;
+    padding: 20px 20px 22px; min-height: 0; justify-content: flex-start; gap: 6px;
+  }
+  /* Petit liseré de couleur en haut, aux couleurs du bandeau */
+  .tuiles .tuile:nth-child(4n+2) { border-top-color: var(--violet); }
+  .tuiles .tuile:nth-child(4n+3) { border-top-color: var(--teal); }
+  .tuiles .tuile:nth-child(4n+4) { border-top-color: var(--rose); }
+  .tuile .tuile-icone { display: none; }
+  .tuile-titre, .tuile.vedette .tuile-titre {
+    text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 1.12rem; color: var(--ardoise); line-height: 1.3;
+  }
+  .tuile.vedette .tuile-titre { font-size: 1.3rem; }
+  .tuile-desc { color: #5E6A73; font-size: .86rem; }
+  .tuile:hover { transform: none; box-shadow: none; }
+  .tuile:hover .tuile-titre { color: var(--rouge); }
+  /* « Lire la suite » : bouton gris du site, un peu plus foncé pour rester lisible (contraste AA) */
+  .tuile::after {
+    content: 'Lire la suite'; margin-top: auto; align-self: flex-start; padding: 5px 13px;
+    font-size: .74rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase;
+    color: var(--blanc); background: var(--gris-bouton);
+  }
+  .tuile:hover::after { background: var(--ardoise); }
+  .tuile-desc { margin-bottom: 14px; }
+
+  /* Titres de rubrique : même casse et même barre que le site */
+  .section h2 { text-transform: none; font-weight: 600; font-size: 1.8rem; letter-spacing: 0; }
+  .section h2::after { width: 130px; height: 14px; margin-top: 14px; }
+
+  /* Boutons : ardoise plein ou beige, coins droits */
+  .btn-print, .filtre-statut, .nav-rubriques .nav-suiv { background: var(--gris-bouton); color: var(--blanc); border-color: var(--gris-bouton); border-radius: 0; }
+  .btn-print:hover, .nav-rubriques .nav-suiv:hover { background: var(--ardoise); filter: none; }
+  .filtre-reset, .sections-outils button, .nav-rubriques a {
+    background: var(--beige-teinte); color: var(--ardoise); border: 0; border-radius: 4px;
+  }
+  .filtre-reset:hover, .sections-outils button:hover { background: var(--beige-plein); color: var(--ardoise); }
+  .rappel-profil a, .synthese-voir { color: var(--teal-fonce); }
+}
+@media screen {
+  /* Encadrés dépliables : blancs, titres ardoise en minuscules ; seul « important » garde un liseré rouge */
+  details, details[data-type="info"], details[data-type="special"] { background: var(--blanc); border-left: 3px solid transparent; }
+  details[data-type="important"] { background: var(--blanc); border-left-color: var(--rouge); }
+  .sum-title, details[data-type="special"] .sum-title { color: var(--ardoise); text-transform: none; letter-spacing: 0; font-size: 1.05rem; }
+  details > summary:hover .sum-title { color: var(--rouge); }
+  details[open] > summary .sum-icon { background: var(--ardoise); border-color: var(--ardoise); }
+  /* Points clés du profil : même sobriété */
+  .synthese-inner { border-top: 0; border-bottom: 1px solid #EAEAEA; }
+  .synthese-titre { color: var(--ardoise); }
+  .synthese-tag, .synthese-tag.alerte { background: var(--fond); border-left: 3px solid var(--rose); }
+  .synthese-tag.alerte { border-left-color: var(--rouge); }
+}
+/* Barre sous le titre de chaque rubrique : même couleur que le liseré de sa carte d'accueil */
+@media screen {
+  #priorites h2::after, #emploi h2::after, #scolarite h2::after, #glossaire h2::after { background: var(--rouge); }
+  #etapes h2::after, #fiscalite h2::after, #douanes h2::after, #ressources h2::after { background: var(--violet); }
+  #docs h2::after, #logement h2::after, #retraite h2::after { background: var(--teal); }
+  #sante h2::after, #famille h2::after, #bareme h2::after { background: var(--rose); }
+}
+@media screen and (max-width: 1000px) {
+  .sommaire a { padding: 8px 12px; }
+}
+@media screen and (max-width: 700px) {
+  .lien-accueil { padding: 0 12px; }
+  .tuiles-titre { font-size: 1.5rem; }
+  .tuile, .tuiles .tuile:nth-child(n) { padding: 14px; }
+  .tuile-titre, .tuile.vedette .tuile-titre { font-size: .98rem; }
+  .tuile::after { display: none; }
+  .section h2 { font-size: 1.35rem; }
+  .section h2::after { width: 90px; height: 10px; }
+}
 </style>
 </head>
 <body>
