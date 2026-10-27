@@ -1253,6 +1253,21 @@ main { padding-top: 40px; }
   .nav-rubriques a.nav-prec { background: #F2E8E4; color: var(--ardoise); }
   .nav-rubriques a.nav-prec:hover { background: #E8DAD4; filter: none; }
 }
+/* Tailles et épaisseurs des titres alignées sur le rendu de francais-du-monde.org (demi-gras, sans espacement) */
+@media screen {
+  .bandeau-site .titre-page h1 { font-weight: 600; letter-spacing: 0; font-size: 2.2rem; }
+  .bandeau-site .titre-surtitre { font-weight: 500; }
+  .tuiles-titre { font-size: 2.4rem; font-weight: 600; }
+  .section h2 { font-weight: 600; font-size: 2rem; }
+  .filtre-profil .filtre-label { font-weight: 600; font-size: 1.4rem; }
+  .tuile-titre { font-size: 1.1rem; }
+  .tuile.vedette .tuile-titre { font-size: 1.2rem; }
+}
+@media screen and (max-width: 700px) {
+  .bandeau-site .titre-page h1 { font-size: 1.6rem; }
+  .tuiles-titre { font-size: 1.7rem; }
+  .section h2 { font-size: 1.45rem; }
+}
 /* Drapeau à côté du titre (écran et impression) */
 .drapeau { display: inline-block; height: .72em; width: 1.08em; margin-left: .4em; vertical-align: baseline; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 </style>
