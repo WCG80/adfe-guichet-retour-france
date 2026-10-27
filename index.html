@@ -1122,13 +1122,16 @@ main { padding-top: 40px; }
   .filtre-profil .filtre-reset:hover { background: #E2E2E2; }
   /* Boutons des rubriques : le dégradé du bandeau, d'un seul tenant sur toute la barre
      (légèrement assombri pour que le texte blanc reste lisible) */
-  .nav-inner .sommaire a {
-    color: var(--blanc);
-    background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade);
-    background-attachment: fixed; background-size: 100vw 100vh;
-  }
-  .nav-inner .sommaire a:hover { color: var(--blanc); background: var(--violet); }
-  .nav-inner .sommaire a.actif { background: var(--blanc); color: var(--ardoise); box-shadow: inset 0 0 0 2px var(--ardoise); }
+  /* Boutons des rubriques : blancs, avec dessous un trait d'une teinte du dégradé (du rouge au vert sur chaque rangée) ;
+     au survol et pour la rubrique ouverte, le bouton se remplit de sa teinte */
+  .nav-inner .sommaire a { --c: #9A2230; color: var(--ardoise); background: var(--blanc); box-shadow: inset 0 -4px 0 var(--c), 0 1px 2px rgba(0,0,0,.08); }
+  .nav-inner .sommaire a:nth-child(7n+2) { --c: #8A2340; }
+  .nav-inner .sommaire a:nth-child(7n+3) { --c: #7A2E52; }
+  .nav-inner .sommaire a:nth-child(7n+4) { --c: #66406E; }
+  .nav-inner .sommaire a:nth-child(7n+5) { --c: #574A7E; }
+  .nav-inner .sommaire a:nth-child(7n+6) { --c: #4F5185; }
+  .nav-inner .sommaire a:nth-child(7n+7) { --c: #3E7066; }
+  .nav-inner .sommaire a:hover, .nav-inner .sommaire a.actif { color: var(--blanc); background: var(--c); box-shadow: none; }
   /* Bloc « Choisissez une rubrique » sur fond blanc ; cartes bordées d'un filet gris */
   .accueil-tuiles { padding-top: 36px; padding-bottom: 8px; }
   .accueil-tuiles .tuiles .tuile:nth-child(n) { border-left: 1px solid #E2E2E2; border-right: 1px solid #E2E2E2; border-bottom: 1px solid #E2E2E2; }
@@ -1140,7 +1143,7 @@ main { padding-top: 40px; }
   :root { --fond: #FFFFFF; --filet: #E2E2E2; --beige-teinte: #EFEFEF; --beige-plein: #E2E2E2; --gris-bouton: #8A9399; }
   /* Barre du sommaire : blanche ; Accueil + recherche en haut, rubriques dessous */
   .sommaire-wrap { background: #F2E8E4; border-bottom: 0; box-shadow: none; }
-  .nav-inner { grid-template-columns: auto minmax(0, 1fr); gap: 8px 10px; padding-top: 12px; padding-bottom: 12px; }
+  .nav-inner { grid-template-columns: auto minmax(0, 1fr); gap: 16px 10px; padding-top: 12px; padding-bottom: 12px; }
   .lien-accueil { grid-row: 1; grid-column: 1; }
   .recherche { grid-row: 1; grid-column: 2; }
   .sommaire { grid-row: 2; grid-column: 1 / -1; gap: 6px; }
@@ -1187,14 +1190,6 @@ main { padding-top: 40px; }
   .tuile-desc { color: #5E6A73; font-size: .86rem; }
   .tuile:hover { transform: none; box-shadow: none; }
   .tuile:hover .tuile-titre { color: var(--rouge); }
-  /* « Lire la suite » : bouton gris du site, un peu plus foncé que le leur pour rester lisible */
-  .tuile::after {
-    content: 'Lire la suite'; margin-top: auto; align-self: flex-start; padding: 5px 13px;
-    font-size: .74rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase;
-    color: var(--blanc); background: var(--gris-bouton);
-  }
-  .tuile:hover::after { background: var(--ardoise); }
-  .tuile-desc { margin-bottom: 14px; }
 
   /* Titres de rubrique : même casse et même barre que le site */
   .section h2 { text-transform: none; font-weight: 600; font-size: 1.8rem; letter-spacing: 0; }
@@ -1237,7 +1232,6 @@ main { padding-top: 40px; }
   .tuiles-titre { font-size: 1.5rem; }
   .tuile, .tuiles .tuile:nth-child(n) { padding: 14px; }
   .tuile-titre, .tuile.vedette .tuile-titre { font-size: .98rem; }
-  .tuile::after { display: none; }
   .section h2 { font-size: 1.35rem; }
   .section h2::after { width: 90px; height: 10px; }
 }
@@ -1305,6 +1299,36 @@ main { padding-top: 40px; }
   .bandeau-site .logo-section { width: 64px; height: 64px; }
   .bandeau-site .bandeau-inner > span { font-size: 15px; }
 }
+/* Barre collée réduite à une seule ligne quand on descend dans la page :
+   Accueil, rubriques sur une rangée qui défile, loupe qui ouvre la recherche */
+.btn-loupe { display: none; }
+@media screen {
+  body.barre-compacte .nav-inner { grid-template-columns: auto minmax(0, 1fr) auto; row-gap: 8px; padding-top: 7px; padding-bottom: 7px; }
+  body.barre-compacte .lien-accueil { min-height: 36px; }
+  body.barre-compacte .sommaire {
+    grid-row: 1; grid-column: 2; display: flex !important; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+  }
+  body.barre-compacte .sommaire::-webkit-scrollbar { display: none; }
+  body.barre-compacte .sommaire a { flex: 0 0 auto; padding: 8px 12px; }
+  body.barre-compacte .btn-loupe {
+    display: inline-flex; align-items: center; justify-content: center; grid-row: 1; grid-column: 3;
+    width: 38px; height: 36px; border: 1.5px solid var(--ardoise); border-radius: 4px; background: var(--blanc); color: var(--ardoise); cursor: pointer;
+  }
+  body.barre-compacte .btn-loupe svg { width: 18px; height: 18px; }
+  body.barre-compacte .btn-loupe[aria-expanded="true"] { background: var(--ardoise); color: var(--blanc); }
+  body.barre-compacte .recherche { display: none; }
+  body.barre-compacte.recherche-ouverte .recherche { display: flex; grid-row: 2; grid-column: 1 / -1; }
+}
+/* Flèche en bas à droite de chaque carte de l'accueil, pour montrer qu'elle s'ouvre au clic */
+@media screen {
+  .accueil-tuiles .tuile { position: relative; padding-right: 48px; }
+  .accueil-tuiles .tuile::after {
+    content: '→'; position: absolute; right: 18px; bottom: 14px;
+    font-size: 1.5rem; line-height: 1; font-weight: 600; color: var(--ardoise);
+  }
+  .accueil-tuiles .tuile:hover::after, .accueil-tuiles .tuile:focus-visible::after { color: var(--rouge); transform: translateX(4px); }
+  @media (prefers-reduced-motion: no-preference) { .accueil-tuiles .tuile::after { transition: transform .15s ease, color .15s ease; } }
+}
 /* Drapeau à côté du titre (écran et impression) */
 .drapeau { display: inline-block; height: .72em; width: 1.08em; margin-left: .4em; vertical-align: baseline; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 </style>
@@ -1335,6 +1359,7 @@ main { padding-top: 40px; }
 
 
 
+<div id="repere-barre" aria-hidden="true"></div>
 <nav class="sommaire-wrap" aria-label="Sommaire">
   <div class="nav-inner">
     <a href="#accueil" class="lien-accueil" id="lien-accueil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Accueil</span></a>
@@ -1354,6 +1379,7 @@ main { padding-top: 40px; }
       <a href="#glossaire">Glossaire</a>
       <a href="#ressources">Ressources</a>
     </div>
+    <button type="button" class="btn-loupe" id="btn-loupe" aria-label="Ouvrir la recherche" aria-expanded="false" aria-controls="recherche-guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
     <div class="recherche" role="search">
       <label for="recherche-guide" class="sr-only">Rechercher dans le guide</label>
       <svg class="recherche-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -2781,6 +2807,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Bouton « Revenir en haut » : apparaît après un écran de défilement
+  // Barre collée : réduite à une ligne dès qu'on a dépassé l'en-tête (seuils différents pour éviter le clignotement)
+  // (repère placé juste avant la barre : sa position ne bouge pas quand la barre colle ou change de hauteur)
+  const repereBarre = document.getElementById('repere-barre');
+  const btnLoupe = document.getElementById('btn-loupe');
+  if (repereBarre && btnLoupe) {
+    const debutBarre = () => repereBarre.getBoundingClientRect().top + window.scrollY;
+    let haut = debutBarre();
+    const majBarre = () => {
+      haut = debutBarre();
+      const compacte = document.body.classList.contains('barre-compacte') ? window.scrollY > haut + 10 : window.scrollY > haut + 80;
+      document.body.classList.toggle('barre-compacte', compacte);
+      if (!compacte && document.body.classList.contains('recherche-ouverte')) {
+        document.body.classList.remove('recherche-ouverte'); btnLoupe.setAttribute('aria-expanded', 'false');
+      }
+    };
+    window.addEventListener('scroll', majBarre, { passive: true });
+    window.addEventListener('resize', majBarre);
+    majBarre();
+    btnLoupe.addEventListener('click', () => {
+      const ouverte = document.body.classList.toggle('recherche-ouverte');
+      btnLoupe.setAttribute('aria-expanded', String(ouverte));
+      if (ouverte) document.getElementById('recherche-guide').focus({ preventScroll: true });
+    });
+  }
+
   const btnHaut = document.getElementById('retour-haut');
   if (btnHaut) {
     const majHaut = () => btnHaut.classList.toggle('visible', window.scrollY > 300);
