@@ -1398,6 +1398,87 @@ main { padding-top: 40px; }
 .liens a { text-decoration-color: rgba(163,23,42,.35); }
 .liens a:hover { color: var(--ardoise); }
 
+/* Rubrique « Retour en urgence » : numéro d'urgence bien visible, tuile au liseré rouge */
+.urgence-numero { background: #FBF1F2; border-left: 4px solid var(--rouge); padding: 12px 16px; font-weight: 600; color: var(--ardoise); }
+.urgence-numero a { color: var(--rouge); font-weight: 700; white-space: nowrap; }
+@media screen {
+  /* Tuile « Retour en urgence » : dernière, sur toute la largeur, fond rouge, texte et liseré jaunes */
+  .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n) { border: 0; border-top: 4px solid #FFE27A; background: var(--rouge); grid-column: 1 / -1; min-height: 0; }
+  .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n):hover { background: #8E1A21; }
+  .accueil-tuiles .tuile.tuile-urgence .tuile-titre, .accueil-tuiles .tuile.tuile-urgence:hover .tuile-titre { color: #FFE27A; }
+  .accueil-tuiles .tuile.tuile-urgence .tuile-desc { color: #FFE27A; }
+  .accueil-tuiles .tuile.tuile-urgence::after, .accueil-tuiles .tuile.tuile-urgence:hover::after { color: #FFE27A; }
+  .sommaire { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  /* Bouton « Urgence » en rouge pour qu'on le repère tout de suite */
+  /* Bouton « Violences » : fond noir, texte blanc, liseré rouge du dégradé */
+  .nav-inner .sommaire a.chip-violences:nth-child(n) { --c: #1B1B1B; color: var(--blanc); background: #1B1B1B; box-shadow: inset 0 -4px 0 var(--rouge), 0 1px 2px rgba(0,0,0,.08); }
+  .nav-inner .sommaire a.chip-violences:nth-child(n):hover { background: #000; box-shadow: inset 0 -4px 0 var(--rouge); }
+  /* Rubrique ouverte : gris foncé, encadré de rouge */
+  .nav-inner .sommaire a.chip-violences.actif:nth-child(n) { background: #4A4F55; color: var(--blanc); box-shadow: inset 0 0 0 3px var(--rouge), inset 0 -5px 0 var(--rouge); }
+  /* Liseré jaune, comme la tuile « Retour en urgence » : il ressort bien sur le rouge */
+  .nav-inner .sommaire a.chip-urgence:nth-child(n) { --c: var(--rouge); color: #FFE27A; background: var(--rouge); box-shadow: inset 0 -4px 0 #FFE27A, 0 1px 2px rgba(0,0,0,.08); }
+  .nav-inner .sommaire a.chip-urgence:nth-child(n):hover { background: #8E1A21; box-shadow: inset 0 -4px 0 #FFE27A; }
+  .nav-inner .sommaire a.chip-urgence.actif:nth-child(n) { background: #FFE27A; color: var(--rouge); box-shadow: inset 0 0 0 2px var(--rouge), inset 0 -4px 0 var(--rouge); }
+  .nav-inner .sommaire a:nth-child(8n+1) { --c: #9A2230; }
+  .nav-inner .sommaire a:nth-child(8n+2) { --c: #8A2340; }
+  .nav-inner .sommaire a:nth-child(8n+3) { --c: #7A2E52; }
+  .nav-inner .sommaire a:nth-child(8n+4) { --c: #6A3A66; }
+  .nav-inner .sommaire a:nth-child(8n+5) { --c: #5E4476; }
+  .nav-inner .sommaire a:nth-child(8n+6) { --c: #534D84; }
+  .nav-inner .sommaire a:nth-child(8n+7) { --c: #48607A; }
+  .nav-inner .sommaire a:nth-child(8n+8) { --c: #3E7066; }
+}
+/* Rubrique Violences : tuile pleine largeur sobre, numéros, bouton « Quitter rapidement » */
+.violences-titre { font-size: 1.25rem; font-weight: 600; color: var(--ardoise); margin: 30px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--rose); }
+.violences-numeros { margin-top: 12px; }
+.violences-numeros a { color: var(--rouge); font-weight: 700; white-space: nowrap; }
+.violences-numeros strong { color: var(--ardoise); }
+.quitter-vite { display: none; }
+@media screen {
+  .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n) { grid-column: 1 / -1; min-height: 0; border-top-color: var(--violet); background: #F1EFF7; }
+  .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n):hover { background: #E6E2F1; }
+  body.vue-violences .quitter-vite {
+    display: block; position: fixed; left: 16px; bottom: 16px; z-index: 400; cursor: pointer;
+    background: var(--ardoise); color: var(--blanc); border: 0; border-radius: 4px; padding: 12px 18px;
+    font: inherit; font-size: .85rem; font-weight: 700; letter-spacing: .02em; box-shadow: 0 3px 12px rgba(0,0,0,.25);
+  }
+  body.vue-violences .quitter-vite:hover { background: #1B2730; }
+}
+@media print { .quitter-vite { display: none !important; } }
+/* Six menus de profil : une ligne sur ordinateur, 3 + 3 sur tablette ; menu « Partenaire » grisé pour un célibataire */
+@media screen {
+  .filtre-profil .filtre-inner { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .filtre-profil .filtre-label { grid-column: 1 / 4; }
+  .filtre-profil .filtre-actions { grid-column: 4 / -1; }
+  .filtre-champ:nth-of-type(6) .pastille { background: #3E7066; }
+  .filtre-champ:nth-of-type(5) .pastille { background: #46637C; }
+  .filtre-profil select:disabled { opacity: .45; cursor: not-allowed; }
+}
+@media screen and (max-width: 1000px) {
+  .filtre-profil .filtre-champ:nth-of-type(n), .filtre-profil .filtre-champ:nth-of-type(4), .filtre-profil .filtre-champ:nth-of-type(5) { grid-column: span 2; }
+}
+@media screen and (max-width: 700px) {
+  .filtre-profil .filtre-inner { grid-template-columns: 1fr auto; }
+  .filtre-profil .filtre-label { grid-column: 1; }
+  .filtre-profil .filtre-actions { grid-column: 2; }
+  .filtre-profil .filtre-champ:nth-of-type(n) { grid-column: 1 / -1; }
+}
+/* Illustrations des cartes et des filtres (dessins originaux, deux tons, dans l'esprit des pictogrammes de France Diplomatie) */
+@media screen {
+  .accueil-tuiles .tuiles .tuile:nth-child(n) { position: relative; padding-left: 86px; padding-right: 48px; }
+  .accueil-tuiles .tuile .tuile-icone {
+    display: block; position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+    width: 50px; height: 50px; background: none; border-radius: 0;
+  }
+  .accueil-tuiles .tuile .tuile-icone svg { width: 50px; height: 50px; }
+  .filtre-profil .pastille, .filtre-champ:nth-of-type(n) .pastille { background: none; width: 26px; height: 26px; border-radius: 0; }
+  .filtre-profil .pastille svg { width: 26px; height: 26px; }
+}
+@media screen and (max-width: 700px) {
+  .accueil-tuiles .tuiles .tuile:nth-child(n) { padding-left: 62px; }
+  .accueil-tuiles .tuile .tuile-icone { left: 12px; width: 38px; height: 38px; }
+  .accueil-tuiles .tuile .tuile-icone svg { width: 38px; height: 38px; }
+}
 /* Drapeau à côté du titre (écran et impression) */
 .drapeau { display: inline-block; height: .72em; width: 1.08em; margin-left: .4em; vertical-align: baseline; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 </style>
@@ -1447,6 +1528,8 @@ main { padding-top: 40px; }
       <a href="#bareme">Barèmes</a>
       <a href="#glossaire">Glossaire</a>
       <a href="#ressources">Ressources</a>
+      <a href="#violences" class="chip-violences">Violences</a>
+      <a href="#urgence" class="chip-urgence">Urgence</a>
     </div>
     <button type="button" class="btn-loupe" id="btn-loupe" aria-label="Ouvrir la recherche" aria-expanded="false" aria-controls="recherche-guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
     <div class="recherche" role="search">
@@ -1463,7 +1546,7 @@ main { padding-top: 40px; }
   <div class="filtre-inner">
     <span class="filtre-label">Votre situation</span>
     <div class="filtre-champ">
-      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg></span>
+      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18" fill="#D3EBDD" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 24h36M24 6c-6 6-6 30 0 36M24 6c6 6 6 30 0 36" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <select id="filtre-provenance" aria-label="Pays de provenance">
         <option value="">Provenance</option>
         <option value="ue">UE / EEE / Suisse</option>
@@ -1473,7 +1556,7 @@ main { padding-top: 40px; }
       </select>
     </div>
     <div class="filtre-champ">
-      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span>
+      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="15" width="38" height="26" rx="4" fill="#DCD8EE" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 15v-4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4M5 26h38" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 23v6" stroke="#AE1F27" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
       <select id="filtre-situation" aria-label="Situation professionnelle">
         <option value="">Situation</option>
         <option value="avec-emploi">Avec un emploi</option>
@@ -1483,16 +1566,27 @@ main { padding-top: 40px; }
       </select>
     </div>
     <div class="filtre-champ">
-      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/></svg></span>
-      <select id="filtre-conjoint" aria-label="Conjoint">
-        <option value="">Conjoint</option>
-        <option value="seul">Seul</option>
-        <option value="conjoint-fr-ue">Français ou UE</option>
-        <option value="conjoint-hors-ue">Hors UE</option>
+      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="29" r="11" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="29" r="11" fill="none" stroke="#AE1F27" stroke-width="2.6"/><path d="M26 10l4-4 4 4-4 5z" fill="#F6D9DF" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg></span>
+      <select id="filtre-couple" aria-label="Situation de couple">
+        <option value="">Couple</option>
+        <option value="seul">Célibataire</option>
+        <option value="marie">Marié(e)</option>
+        <option value="pacse">Pacsé(e)</option>
+        <option value="union-libre">En couple, sans PACS ni mariage</option>
+      </select>
+    </div>
+    <div class="filtre-champ" id="champ-partenaire">
+      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="16" cy="15" r="7" fill="#F6D9DF" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 40v-3a12 12 0 0 1 17-11" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="33" cy="32" r="10" fill="#D3EBDD" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 32h20M33 22c-3.5 3-3.5 17 0 20M33 22c3.5 3 3.5 17 0 20" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg></span>
+      <select id="filtre-conjoint" aria-label="Nationalité du conjoint ou partenaire">
+        <option value="">Partenaire</option>
+        <option value="francais">Français(e)</option>
+        <option value="ue">UE / EEE / Suisse</option>
+        <option value="etats-unis">Américain(e)</option>
+        <option value="hors-ue">Autre, hors UE</option>
       </select>
     </div>
     <div class="filtre-champ">
-      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 3.1a4 4 0 0 1 0 7.8M21 21v-2a4 4 0 0 0-3-3.9"/></svg></span>
+      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="17" cy="13" r="6" fill="#DCD8EE" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 40v-6a11 11 0 0 1 22 0v6" fill="#DCD8EE" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="22" r="4.5" fill="#F6D9DF" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 40v-4a7 7 0 0 1 14 0v4z" fill="#F6D9DF" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <select id="filtre-enfants" aria-label="Enfants">
         <option value="">Enfants</option>
         <option value="oui">Avec enfants</option>
@@ -1500,7 +1594,7 @@ main { padding-top: 40px; }
       </select>
     </div>
     <div class="filtre-champ">
-      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13c-2.5 0-5 2.4-5 4.6 0 1.6 1.3 2.4 2.6 2.4 1 0 1.6-.5 2.4-.5s1.4.5 2.4.5c1.3 0 2.6-.8 2.6-2.4 0-2.2-2.5-4.6-5-4.6z"/><circle cx="5.5" cy="10.5" r="1.8"/><circle cx="9" cy="6" r="1.8"/><circle cx="15" cy="6" r="1.8"/><circle cx="18.5" cy="10.5" r="1.8"/></svg></span>
+      <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26c-5 0-10 4.8-10 9.2 0 3.2 2.6 4.8 5.2 4.8 2 0 3.2-1 4.8-1s2.8 1 4.8 1c2.6 0 5.2-1.6 5.2-4.8 0-4.4-5-9.2-10-9.2z" fill="#F6D9DF" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><g fill="#F2E8E4" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="11" cy="21" r="3.6"/><circle cx="18" cy="12" r="3.6"/><circle cx="30" cy="12" r="3.6"/><circle cx="37" cy="21" r="3.6"/></g></svg></span>
       <select id="filtre-animal" aria-label="Animal de compagnie">
         <option value="">Animal</option>
         <option value="oui">Avec un animal</option>
@@ -1539,20 +1633,22 @@ main { padding-top: 40px; }
 <div class="accueil-tuiles" id="accueil">
   <h2 class="tuiles-titre">Choisissez une rubrique</h2>
   <div class="tuiles">
-    <a class="tuile vedette" href="#priorites"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></span><span class="tuile-titre">Priorités</span><span class="tuile-desc">Les 5 points à anticiper avant tout</span></a>
-    <a class="tuile vedette" href="#etapes"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></span><span class="tuile-titre">Étapes</span><span class="tuile-desc">Votre calendrier, de 6 mois avant à 6 mois après</span></a>
-    <a class="tuile" href="#docs"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span><span class="tuile-titre">Documents</span><span class="tuile-desc">Papiers à réunir, consulat et vote</span></a>
-    <a class="tuile" href="#sante"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/><path d="M8 12h2l1-2 2 4 1-2h2"/></svg></span><span class="tuile-titre">Santé</span><span class="tuile-desc">Assurance maladie, CFE, carte Vitale</span></a>
-    <a class="tuile" href="#emploi"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><span class="tuile-titre">Emploi</span><span class="tuile-desc">Chômage, France Travail, diplômes</span></a>
-    <a class="tuile" href="#fiscalite"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span><span class="tuile-titre">Fiscalité</span><span class="tuile-desc">Impôts, banque, comptes à l'étranger</span></a>
-    <a class="tuile" href="#logement"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg></span><span class="tuile-titre">Logement</span><span class="tuile-desc">Location, Visale, aides de la CAF</span></a>
-    <a class="tuile" href="#famille"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 3.1a4 4 0 0 1 0 7.8M21 21v-2a4 4 0 0 0-3-3.9"/></svg></span><span class="tuile-titre">Famille</span><span class="tuile-desc">Mariage, enfants, conjoint, allocations</span></a>
-    <a class="tuile" href="#scolarite"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></span><span class="tuile-titre">Scolarité</span><span class="tuile-desc">École, collège, lycée, études</span></a>
-    <a class="tuile" href="#douanes"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span><span class="tuile-titre">Douanes</span><span class="tuile-desc">Déménagement, permis, animaux</span></a>
-    <a class="tuile" href="#retraite"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/></svg></span><span class="tuile-titre">Retraite</span><span class="tuile-desc">Pensions, santé du retraité, carrière</span></a>
-    <a class="tuile" href="#bareme"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16v-5M12 16V7M17 16v-8"/></svg></span><span class="tuile-titre">Barèmes 2026</span><span class="tuile-desc">Montants et délais clés</span></a>
-    <a class="tuile" href="#glossaire"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h9"/></svg></span><span class="tuile-titre">Glossaire</span><span class="tuile-desc">Tous les sigles expliqués</span></a>
-    <a class="tuile" href="#ressources"><span class="tuile-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><span class="tuile-titre">Ressources</span><span class="tuile-desc">Sites officiels et numéros utiles</span></a>
+    <a class="tuile vedette" href="#priorites"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="8" width="28" height="34" rx="3" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="5" width="14" height="7" rx="2" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 22l3 3 5-6M16 33l3 3 5-6" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M28 23h6M28 34h6" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tuile-titre">Priorités</span><span class="tuile-desc">Les 5 points à anticiper avant tout</span></a>
+    <a class="tuile vedette" href="#etapes"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="11" width="34" height="30" rx="3" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 19v-5a3 3 0 0 1 3-3h28a3 3 0 0 1 3 3v5z" fill="#F6D9DF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7v8M32 7v8" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="30" r="6.5" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 30l2.2 2.2L27.5 28" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span><span class="tuile-titre">Étapes</span><span class="tuile-desc">Votre calendrier, de 6 mois avant à 6 mois après</span></a>
+    <a class="tuile" href="#docs"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="6" width="26" height="36" rx="3" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="21" r="7" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 21h14M24 14c-3 4-3 10 0 14M24 14c3 4 3 10 0 14" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 34h12" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span><span class="tuile-titre">Documents</span><span class="tuile-desc">Papiers à réunir, consulat et vote</span></a>
+    <a class="tuile" href="#sante"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="15" width="36" height="25" rx="4" fill="#F6D9DF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 15v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 21.5v12M18 27.5h12" stroke="#AE1F27" stroke-width="3.2" stroke-linecap="round" fill="none"/></svg></span><span class="tuile-titre">Santé</span><span class="tuile-desc">Assurance maladie, CFE, carte Vitale</span></a>
+    <a class="tuile" href="#emploi"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="4" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 16v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M6 26h36" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="20.5" y="23" width="7" height="6" rx="1.5" fill="#FFFFFF" stroke="#AE1F27" stroke-width="2"/></svg></span><span class="tuile-titre">Emploi</span><span class="tuile-desc">Chômage, France Travail, diplômes</span></a>
+    <a class="tuile" href="#fiscalite"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M11 6h18l8 8v28H11z" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 6v8h8" fill="#F2E8E4" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 17h8M16 23h11" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="31" cy="33" r="8.5" fill="#F6D9DF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 29.8a4.2 4.2 0 1 0 0 6.4M27 32h5M27 34.4h5" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-width="1.8"/></svg></span><span class="tuile-titre">Fiscalité</span><span class="tuile-desc">Impôts, banque, comptes à l'étranger</span></a>
+    <a class="tuile" href="#logement"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 21v19h24V21" fill="#F2E8E4" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 23L24 9l17 14" fill="none" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 40V30h8v10" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="15.5" y="23.5" width="5" height="4.5" rx="1" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"/><path d="M32 13v-4h3v6.5" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tuile-titre">Logement</span><span class="tuile-desc">Location, Visale, aides de la CAF</span></a>
+    <a class="tuile" href="#famille"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="15" cy="13" r="5" fill="#F6D9DF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 36v-5a9 9 0 0 1 18 0v5" fill="#F6D9DF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="33" cy="13" r="5" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 36v-5a9 9 0 0 1 18 0v5" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="25" r="4" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 42v-3a6.5 6.5 0 0 1 13 0v3z" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tuile-titre">Famille</span><span class="tuile-desc">Mariage, enfants, conjoint, allocations</span></a>
+    <a class="tuile" href="#scolarite"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 22v9c0 3 5.4 6 12 6s12-3 12-6v-9" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 18l20-9 20 9-20 9z" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 20v10" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="40" cy="32.5" r="2" fill="#AE1F27"/></svg></span><span class="tuile-titre">Scolarité</span><span class="tuile-desc">École, collège, lycée, études</span></a>
+    <a class="tuile" href="#douanes"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="15" width="34" height="25" rx="4" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 15v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M15 15v25M33 15v25" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="27.5" r="4.5" fill="#FFFFFF" stroke="#AE1F27" stroke-width="2"/></svg></span><span class="tuile-titre">Douanes</span><span class="tuile-desc">Déménagement, permis, animaux</span></a>
+    <a class="tuile" href="#retraite"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20M14 42h20" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6c0 9 8 12 8 18s-8 9-8 18h16c0-9-8-12-8-18s8-9 8-18z" fill="#F2E8E4" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.5 38.5c1.5-3.5 4.5-5.5 4.5-5.5s3 2 4.5 5.5zM20.5 13h7l-3.5 4.5z" fill="#AE1F27"/></svg></span><span class="tuile-titre">Retraite</span><span class="tuile-desc">Pensions, santé du retraité, carrière</span></a>
+    <a class="tuile" href="#bareme"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="5" width="26" height="38" rx="4" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="16" y="10" width="16" height="8" rx="1.5" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><g fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"><rect x="16" y="23" width="4" height="4" rx="1"/><rect x="22" y="23" width="4" height="4" rx="1"/><rect x="16" y="30" width="4" height="4" rx="1"/><rect x="22" y="30" width="4" height="4" rx="1"/><rect x="16" y="37" width="4" height="2" rx="1"/><rect x="22" y="37" width="4" height="2" rx="1"/></g><rect x="28" y="23" width="4" height="16" rx="1" fill="#AE1F27"/></svg></span><span class="tuile-titre">Barèmes 2026</span><span class="tuile-desc">Montants et délais clés</span></a>
+    <a class="tuile" href="#glossaire"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 13c-4-3-10-4-17-3v27c7-1 13 0 17 3 4-3 10-4 17-3V10c-7-1-13 0-17 3z" fill="#F6D9DF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 13v27M29 20h7M29 25h7M29 30h5" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 31l3.7-11 3.7 11M12.8 27h4.8" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-width="2"/></svg></span><span class="tuile-titre">Glossaire</span><span class="tuile-desc">Tous les sigles expliqués</span></a>
+    <a class="tuile" href="#ressources"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="22" cy="22" r="14" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 22h28M22 8c-5 5-5 23 0 28M22 8c5 5 5 23 0 28" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 29l11 4.6-4.7 1.6-1.6 4.7z" fill="#AE1F27" stroke="#AE1F27" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="tuile-titre">Ressources</span><span class="tuile-desc">Sites officiels et numéros utiles</span></a>
+    <a class="tuile tuile-violences" href="#violences"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5l15 6v11c0 10-6 17-15 21C15 39 9 32 9 22V11z" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 31s-7-4.5-7-9.2a3.8 3.8 0 0 1 7-2.1 3.8 3.8 0 0 1 7 2.1c0 4.7-7 9.2-7 9.2z" fill="#AE1F27" stroke="#AE1F27" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="tuile-titre">Violences : vous protéger</span><span class="tuile-desc">Numéros d'aide, mise à l'abri, droits du conjoint étranger</span></a>
+    <a class="tuile tuile-urgence" href="#urgence"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l19 34H5z" fill="#FFE27A" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 18v11" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="34" r="1.8" fill="#273844"/></svg></span><span class="tuile-titre">Retour en urgence</span><span class="tuile-desc">Crise, guerre, catastrophe : consignes et contacts</span></a>
   </div>
 </div>
 
@@ -1866,7 +1962,7 @@ main { padding-top: 40px; }
   <details data-type="special" id="fiscal-us">
     <summary><span class="sum-title">Attention spécifique — Double nationalité franco-américaine</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
-      <p>Les citoyens américains (y compris les binationaux franco-américains) sont tenus de déclarer leurs revenus mondiaux aux autorités fiscales américaines, quel que soit leur pays de résidence. Cette obligation ne dépend pas de l'âge : elle s'applique dès que les revenus dépassent les seuils fixés par l'IRS, et tant que la nationalité américaine est conservée. S'y ajoute la déclaration des comptes financiers étrangers (FBAR). Consultez un conseiller fiscal qualifié avant et après le retour.</p>
+      <p>Les citoyens américains (y compris les binationaux franco-américains) sont tenus de déclarer leurs revenus mondiaux aux autorités fiscales américaines, quel que soit leur pays de résidence. Cela vaut aussi pour un conjoint ou partenaire américain qui s'installe en France avec vous. Pour son visa et son titre de séjour, il suit les mêmes règles que tout partenaire non européen. Cette obligation ne dépend pas de l'âge : elle s'applique dès que les revenus dépassent les seuils fixés par l'IRS, et tant que la nationalité américaine est conservée. S'y ajoute la déclaration des comptes financiers étrangers (FBAR). Consultez un conseiller fiscal qualifié avant et après le retour.</p>
       <p><strong>Retraite :</strong> l'accord de sécurité sociale France–États-Unis de 1987 permet de prendre en compte les périodes d'assurance des deux pays ; chaque pays calcule et verse ensuite sa propre pension.</p>
     </div>
   </details>
@@ -1979,6 +2075,13 @@ main { padding-top: 40px; }
         <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F13213" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — allocations familiales</a>
         <a href="https://www.caf.fr/allocataires/aides-et-demarches/ma-situation/vie-personnelle/je-viens-resider-en-france" target="_blank" rel="noopener noreferrer">CAF — je viens résider en France</a>
       </div>
+    </div>
+  </details>
+  <details data-type="info" id="conjoint-europeen">
+    <summary><span class="sum-title">Conjoint ou partenaire européen (UE, EEE, Suisse)</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Un citoyen de l'Union européenne, de l'Espace économique européen ou de Suisse peut s'installer en France <strong>sans visa ni titre de séjour</strong> : la carte de séjour est facultative, mais peut être utile dans les démarches. Au-delà de 3 mois, il doit exercer une activité, ou disposer de ressources suffisantes et d'une assurance maladie. Après 5 ans de séjour régulier, il acquiert un droit au séjour permanent.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2651" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — séjour d'un Européen en France</a></div>
     </div>
   </details>
   <details data-type="info" id="conjoint-etranger-famille">
@@ -2347,6 +2450,8 @@ main { padding-top: 40px; }
     <ul class="numeros">
       <li><strong>Allô Service public</strong> — renseignements administratifs généraux : <a href="tel:3939">3939</a> · depuis l'étranger : <a href="tel:+33173603939">+33 1 73 60 39 39</a> (depuis un poste fixe)
         <span class="horaires">Lun. et jeu. 8h30–18h15, mar. et mer. 8h30–13h, ven. 13h–17h</span></li>
+      <li><strong>Centre de crise et de soutien</strong> (ministère des Affaires étrangères), urgence grave à l'étranger : <a href="tel:+33153591100">+33 1 53 59 11 00</a>
+        <span class="horaires">24h/24, 7j/7</span></li>
       <li><strong>Assurance maladie</strong> : <a href="tel:3646">3646</a> · depuis l'étranger : <a href="tel:+33184903646">+33 1 84 90 36 46</a>
         <span class="horaires">Lun.–ven. 8h30–17h</span></li>
       <li><strong>CFE</strong> (Caisse des Français de l'étranger) : <a href="tel:+33164146262">+33 1 64 14 62 62</a>
@@ -2423,6 +2528,146 @@ main { padding-top: 40px; }
   </div>
 </section>
 
+<!-- 15 -->
+<section class="section" id="violences">
+  <div class="section-header">
+    <span class="section-num">15</span>
+    <div><span class="section-label">Couple, famille</span><h2>Violences : vous protéger</h2></div>
+  </div>
+  <p>Si vous subissez des violences dans votre couple ou votre famille — physiques, psychologiques, sexuelles, économiques, ou la confiscation de vos papiers —, vous pouvez être aidé·e <strong>depuis l'étranger</strong>, préparer votre <strong>retour en France</strong> et y être protégé·e <strong>une fois rentré·e</strong>. Le bouton <strong>« Quitter rapidement »</strong>, en bas de l'écran, remplace cette page par la page d'accueil de Google d'un seul clic.</p>
+  <p class="prudence">Pour plus de discrétion, consultez cette page en navigation privée. Si quelqu'un arrive, le bouton « Quitter rapidement » (ou deux appuis sur la touche Échap) ouvre aussitôt la page d'accueil de Google, et le bouton Retour du navigateur ne ramène pas ici.</p>
+
+  <h3 class="violences-titre">Vous vivez encore à l'étranger</h3>
+  <div class="urgence-numero">En danger immédiat : appelez les <strong>numéros d'urgence du pays</strong> (police, secours), puis votre <strong>consulat</strong>, joignable par une permanence en dehors des heures d'ouverture.</div>
+  <ul class="numeros violences-numeros">
+    <li><strong>Tchat avec des policiers ou gendarmes français</strong> (plateforme PNAV) : <a href="https://www.service-public.fr/cmi" target="_blank" rel="noopener noreferrer">service-public.fr/cmi</a>
+      <span class="horaires">Gratuit, 24h/24, 7j/7, depuis n'importe quel pays · l'historique de discussion est effacé</span></li>
+    <li><strong>SAVE YOU</strong>, plateforme dédiée aux familles françaises établies à l'étranger, partenaire du ministère des Affaires étrangères : <a href="mailto:saveyou@jointhesorority.com">saveyou@jointhesorority.com</a>
+      <span class="horaires">Gratuit et confidentiel, partout dans le monde</span></li>
+    <li><strong>France Victimes</strong> depuis l'étranger : <a href="tel:+33180523376">+33 1 80 52 33 76</a>
+      <span class="horaires">7j/7, 9h–20h (heure de Paris) · <a href="mailto:victimes@116006.fr">victimes@116006.fr</a></span></li>
+  </ul>
+  <details data-type="important" id="violences-etranger">
+    <summary><span class="sum-title">Ce que vous pouvez faire sur place</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Faites <strong>constater vos blessures</strong> dans un centre médical (blessures physiques et conséquences psychologiques) et prenez-les en photo.</li>
+        <li>Le <strong>consulat</strong> vous oriente vers des structures locales spécialisées (aide juridique, sociale, médicale) ; des référents y sont formés aux violences sexistes et sexuelles. Il peut vous accompagner dans certaines démarches administratives. Il n'a en revanche aucun pouvoir de police ni de justice.</li>
+        <li><strong>Porter plainte</strong> auprès de la police locale permet de mettre en place une protection sur place : gardez une copie de la plainte. Le consulat vous indique comment faire et quels documents fournir.</li>
+        <li>Vous pouvez aussi porter plainte <strong>en France</strong>, par courrier : auprès du procureur de la République de Paris si vous et l'auteur des violences vivez à l'étranger, ou auprès du procureur du lieu de résidence de l'auteur s'il vit en France.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/files/files/conseils-aux-voyageurs/fiche-ndeg6-2-guide-vfe-2026.pdf" target="_blank" rel="noopener noreferrer">France Diplomatie — fiche « Victime de violences au sein du couple à l'étranger » (PDF)</a><a href="https://arretonslesviolences.gouv.fr/besoin-d-aide/violences-au-sein-du-couple" target="_blank" rel="noopener noreferrer">arretonslesviolences.gouv.fr — violences au sein du couple</a></div>
+    </div>
+  </details>
+  <details data-type="important" id="violences-retour">
+    <summary><span class="sum-title">Rentrer en France pour vous mettre à l'abri</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Le <strong>consulat</strong> peut faciliter votre retour en France, en lien avec les services compétents. Si vos papiers ont été confisqués, dites-le : il peut délivrer un laissez-passer pour rentrer.</li>
+        <li><strong>Avant de partir</strong>, contactez une association spécialisée ou agréée par le ministère de la Justice : elle peut organiser votre prise en charge en France, dont un hébergement sécurisé (réseau Solidarité Femmes). SAVE YOU et France Victimes travaillent ensemble pour que l'aide continue au moment du départ et une fois en France.</li>
+        <li>Copiez ou scannez vos papiers d'identité, carte Vitale, bulletins de salaire et vos preuves (certificats médicaux, plaintes). Gardez-les dans une boîte mail que vous seul·e connaissez, ou confiez-les à un proche, un avocat ou une association. L'application gratuite <strong>Mémo de vie</strong> permet de les conserver en sécurité.</li>
+        <li>Ouvrez si possible un compte bancaire à votre nom, avec une adresse différente de celle de l'auteur des violences.</li>
+      </ul>
+      <p><strong>Si vous voulez rentrer avec vos enfants</strong> sans l'accord de l'autre parent, ce départ peut être considéré comme un déplacement illicite d'enfants (convention de La Haye de 1980) et conduire à une demande de retour des enfants dans le pays quitté. Parlez-en au consulat et à un avocat avant de partir.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.memo-de-vie.org/" target="_blank" rel="noopener noreferrer">Mémo de vie</a><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/famille-scolarite/que-faire-en-cas-de-deplacement-illicite" target="_blank" rel="noopener noreferrer">France Diplomatie — déplacement illicite d'enfants</a><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/vol-ou-perte-de-documents-a-l-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — papiers perdus ou confisqués</a></div>
+    </div>
+  </details>
+
+  <h3 class="violences-titre">Une fois rentré·e en France</h3>
+  <div class="urgence-numero">En danger immédiat : <a href="tel:17">17</a> ou <a href="tel:112">112</a> · par SMS, si vous ne pouvez pas parler : <a href="sms:114">114</a></div>
+  <ul class="numeros violences-numeros">
+    <li><strong>3919 — Violences Femmes Info</strong> : <a href="tel:3919">3919</a>, gratuit et anonyme
+      <span class="horaires">24h/24, 7j/7 · joignable uniquement depuis la France · écoute et orientation, ce n'est pas un numéro d'urgence</span></li>
+    <li><strong>116 006 — France Victimes</strong> : <a href="tel:116006">116 006</a>
+      <span class="horaires">7j/7, 9h–20h, gratuit</span></li>
+    <li><strong>119 — Allô Enfance en danger</strong> : <a href="tel:119">119</a>
+      <span class="horaires">24h/24, 7j/7, gratuit et confidentiel</span></li>
+  </ul>
+  <details data-type="info" id="violences-france">
+    <summary><span class="sum-title">Être protégé·e en France</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Vous pouvez porter plainte dans n'importe quel commissariat ou brigade de gendarmerie.</li>
+        <li>Le <strong>juge aux affaires familiales</strong> peut délivrer une <strong>ordonnance de protection</strong> dans un délai maximal de 6 jours à partir de la fixation de l'audience (éloignement de l'auteur, logement, enfants). En cas de danger grave et immédiat, une ordonnance provisoire peut être rendue sans audience, sous 24 heures. Les mesures durent au maximum 12 mois.</li>
+        <li><strong>Hébergement</strong> : des places d'hébergement d'urgence sont réservées en priorité aux victimes ; appelez le <a href="tel:115">115</a>.</li>
+        <li>Un <strong>avocat</strong> peut vous conseiller et rédiger la demande d'ordonnance de protection ; selon vos ressources, ses frais peuvent être pris en charge par l'aide juridictionnelle.</li>
+        <li>Pour être accompagné·e : France Victimes (116 006) ou l'annuaire des associations d'Arrêtons les violences.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.justice.fr/themes/ordonnance-protection" target="_blank" rel="noopener noreferrer">justice.fr — l'ordonnance de protection</a><a href="https://annuaire.arretonslesviolences.gouv.fr/" target="_blank" rel="noopener noreferrer">Arrêtons les violences — trouver une association</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F12544" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — violences conjugales</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="violences-conjoint">
+    <summary><span class="sum-title">En France : conjoint étranger victime de violences</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Si la vie commune s'arrête à cause de violences conjugales, le <strong>droit au séjour est maintenu</strong> : la préfecture ne peut pas refuser le titre pour ce motif. Les violences se prouvent par tous moyens : plainte, certificats médicaux, témoignages, attestations. Si vous portez plainte, la carte de séjour temporaire est renouvelée pendant toute la procédure pénale. Une personne qui bénéficie d'une ordonnance de protection peut obtenir une carte de séjour « vie privée et familiale », délivrée gratuitement.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2209" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — carte de séjour « vie privée et familiale »</a></div>
+    </div>
+  </details>
+</section>
+
+<!-- 16 -->
+<section class="section" id="urgence">
+  <div class="section-header">
+    <span class="section-num">16</span>
+    <div><span class="section-label">Crise, guerre, catastrophe</span><h2>Retour en urgence</h2></div>
+  </div>
+  <p>Si vous devez quitter votre pays de résidence en urgence — conflit, troubles graves, catastrophe naturelle —, <strong>suivez d'abord les consignes de l'ambassade ou du consulat</strong>. Cette rubrique rassemble ce qu'il faut savoir avant de partir et à l'arrivée ; le reste du guide s'applique ensuite comme pour tout retour.</p>
+  <p class="urgence-numero">Ligne d'urgence du Centre de crise et de soutien du ministère des Affaires étrangères, 24h/24 et 7j/7 : <a href="tel:+33153591100">+33 1 53 59 11 00</a></p>
+  <details data-type="important" id="urgence-sur-place">
+    <summary><span class="sum-title">Sur place : rester informé et joignable</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Inscrivez-vous au <strong>registre des Français établis hors de France</strong> auprès de votre consulat ou, pour un séjour de moins de six mois, sur <strong>Ariane</strong> : vous recevrez les messages de sécurité si la situation l'exige.</li>
+        <li>Suivez la fiche <strong>Conseils aux voyageurs</strong> de votre pays et les comptes de l'ambassade ou du consulat.</li>
+        <li>Seuls l'ambassadeur et l'officier de sécurité peuvent ordonner un regroupement ou une évacuation. Suivez strictement leurs consignes et celles des forces de sécurité.</li>
+        <li>Si vos enfants sont à l'école, ne vous précipitez pas vers l'établissement en cas de crise, sauf instruction contraire.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/conseils-aux-voyageurs/" target="_blank" rel="noopener noreferrer">France Diplomatie — Conseils aux voyageurs</a><a href="https://pastel.diplomatie.gouv.fr/fildariane/" target="_blank" rel="noopener noreferrer">Ariane — inscription</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="urgence-sac">
+    <summary><span class="sum-title">Préparer un sac d'évacuation</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Le ministère recommande un kit pour <strong>trois jours</strong>, dans des contenants étanches, facile à attraper :</p>
+      <ul>
+        <li>eau (au moins 3 litres par jour et par personne), nourriture non périssable, trousse de secours, médicaments, produits d'hygiène ;</li>
+        <li>documents : passeport, carte d'identité, permis de conduire, livret de famille, carnet de santé ;</li>
+        <li>argent en petites coupures, téléphone et chargeur, batterie externe, lampe torche, radio portable.</li>
+      </ul>
+      <p>Lors d'une évacuation, le poids des bagages est annoncé au dernier moment et souvent <strong>limité à 10 kg</strong>. Pour un animal, prévoyez eau, nourriture et un carnet de vaccination à jour.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/conseils-aux-voyageurs/fiches-pratiques/risques/que-faire-en-cas-d-evacuation" target="_blank" rel="noopener noreferrer">France Diplomatie — que faire en cas d'évacuation</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="urgence-papiers">
+    <summary><span class="sum-title">Papiers perdus ou volés</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>En cas de vol, portez plainte auprès de la police locale ; en cas de perte, adressez-vous directement à l'ambassade ou au consulat. Selon la situation, il peut délivrer un <strong>laissez-passer</strong>, valable uniquement pour rentrer en France, ou un passeport temporaire. Ces documents sont payants et ne sont pas délivrés automatiquement.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/vol-ou-perte-de-documents-a-l-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — vol ou perte de documents</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="urgence-frais">
+    <summary><span class="sum-title">Qui paie le retour ?</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Les consulats ne prennent pas en charge les frais médicaux ni le rapatriement, qui peut coûter très cher en cas de maladie ou d'accident grave : <strong>vérifiez votre assurance rapatriement</strong>. Dans les situations d'une gravité exceptionnelle, le consulat peut organiser un retour aux frais de l'État, sous réserve de remboursement : ce n'est pas un droit.</p>
+      <p>Les évacuations collectives de ressortissants sont décidées par les autorités françaises en cas de danger imminent ; les consignes sont alors données par l'ambassade.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/urgence-ou-difficulte" target="_blank" rel="noopener noreferrer">France Diplomatie — urgence ou difficulté</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="urgence-arrivee">
+    <summary><span class="sum-title">À l'arrivée en France</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>Sans hébergement</strong> : appelez le <a href="tel:115">115</a>, gratuit, 24h/24, et adressez-vous au centre communal d'action sociale (CCAS) de la mairie. Lors des rapatriements organisés par l'État, l'association <strong>France Horizon</strong> peut être chargée d'accueillir et d'accompagner les personnes.</li>
+        <li><strong>Santé</strong> : les règles de la <a href="#sante">rubrique Santé</a> s'appliquent. Si vous étiez adhérent de la CFE, vos droits maladie sont maintenus jusqu'à 3 mois après votre retour définitif : prévenez-la rapidement.</li>
+        <li><strong>Soutien psychologique</strong> : une fois vos droits ouverts, le dispositif <strong>Mon soutien psy</strong> rembourse jusqu'à 12 séances par an chez un psychologue conventionné, sans passer par un médecin.</li>
+        <li><strong>Enfants</strong> : l'inscription se fait à la mairie pour l'école primaire, et auprès des services de l'académie pour le collège et le lycée ; voir la <a href="#scolarite">rubrique Scolarité</a>.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2003" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — hébergement d'urgence</a><a href="https://www.ameli.fr/assure/remboursements/rembourse/remboursement-seance-psychologue-mon-soutien-psy" target="_blank" rel="noopener noreferrer">ameli.fr — Mon soutien psy</a><a href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer">France Horizon</a></div>
+    </div>
+  </details>
+</section>
+
+
 
 <nav class="nav-rubriques" id="nav-rubriques" aria-label="Navigation entre les rubriques"></nav>
 </main>
@@ -2432,6 +2677,7 @@ main { padding-top: 40px; }
   <p class="note-impression">La fiche imprimée reprend votre profil, vos dates et uniquement les rubriques qui vous concernent.</p>
 </div>
 
+<button type="button" class="quitter-vite" id="quitter-vite">Quitter rapidement</button>
 <button type="button" class="retour-haut" id="retour-haut" aria-label="Revenir en haut de la page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <footer class="pied-site">
@@ -2448,13 +2694,23 @@ main { padding-top: 40px; }
 // ── FONCTIONS GLOBALES (accessibles depuis les attributs HTML onchange/onclick) ──
 
 // Menus du profil : identifiant HTML = 'filtre-' + nom, nom = paramètre d'URL
-const FILTRES = ['provenance', 'situation', 'conjoint', 'enfants', 'animal'];
+const FILTRES = ['provenance', 'situation', 'couple', 'conjoint', 'enfants', 'animal'];
+// Libellés complets (rappel du profil, fiche imprimée) quand le texte du menu seul ne suffit pas
+const LIBELLES = { conjoint: { francais: 'Partenaire français(e)', ue: 'Partenaire UE / EEE / Suisse', 'etats-unis': 'Partenaire américain(e)', 'hors-ue': 'Partenaire hors UE' } };
+const libelleFiltre = nom => { const el = document.getElementById('filtre-' + nom); return (LIBELLES[nom] || {})[el.value] || el.options[el.selectedIndex].text; };
 const valeurFiltre = nom => { const el = document.getElementById('filtre-' + nom); return el ? el.value : ''; };
 
 function appliquerFiltres() {
   const provenance = valeurFiltre('provenance');
   const situation  = valeurFiltre('situation');
-  const conjoint   = valeurFiltre('conjoint');
+  const couple     = valeurFiltre('couple');
+  const celibataire = couple === 'seul';
+  // Menu « Partenaire » désactivé pour un célibataire
+  const selPart = document.getElementById('filtre-conjoint');
+  if (selPart) { if (celibataire) selPart.value = ''; selPart.disabled = celibataire; }
+  const conjoint   = celibataire ? '' : valeurFiltre('conjoint');
+  const partHorsUE = conjoint === 'hors-ue' || conjoint === 'etats-unis';
+  const nonMarie   = couple === 'pacse' || couple === 'union-libre';
   const enfants    = valeurFiltre('enfants');
   const animal     = valeurFiltre('animal');
 
@@ -2490,17 +2746,18 @@ function appliquerFiltres() {
 
   // Emploi, fiscalité, douanes
   afficher('chomage-u1', !estHorsUE, estUE || estUK);
-  afficher('fiscal-us',  true, estUS);
-  afficher('permis',     true, estUS);
+  afficher('fiscal-us',  true, estUS || conjoint === 'etats-unis');
+  afficher('permis',     true, estUS || conjoint === 'etats-unis');
   afficher('animal',     animal !== 'non', animal === 'oui');
 
   // Conjoint
-  afficher('conjoint-etranger',             !conjoint || conjoint === 'conjoint-hors-ue', conjoint === 'conjoint-hors-ue');
-  afficher('conjoint-etranger-famille',     !conjoint || conjoint === 'conjoint-hors-ue', conjoint === 'conjoint-hors-ue');
-  afficher('conjoint-accompagnant',         conjoint !== 'seul' && situation !== 'avec-emploi');
-  afficher('conjoint-accompagnant-famille', conjoint !== 'seul');
-  afficher('mariage-etranger',  conjoint !== 'seul', conjoint === 'conjoint-hors-ue');
-  afficher('couple-non-marie',  conjoint !== 'seul');
+  afficher('conjoint-etranger',             !celibataire && (!conjoint || partHorsUE), partHorsUE);
+  afficher('conjoint-etranger-famille',     !celibataire && (!conjoint || partHorsUE), partHorsUE);
+  afficher('conjoint-europeen',             !celibataire && (!conjoint || conjoint === 'ue'), conjoint === 'ue');
+  afficher('conjoint-accompagnant',         !celibataire && situation !== 'avec-emploi');
+  afficher('conjoint-accompagnant-famille', !celibataire);
+  afficher('mariage-etranger',  !couple || couple === 'marie', couple === 'marie' && partHorsUE);
+  afficher('couple-non-marie',  !couple || nonMarie, nonMarie && partHorsUE);
   afficher('naissance-etranger', enfants !== 'non', enfants === 'oui');
 
   // Sections entières masquées selon le profil (avec leurs liens de navigation)
@@ -2534,7 +2791,7 @@ function appliquerFiltres() {
   const rappel = document.getElementById('rappel-profil');
   if (rappel) {
     const choix = FILTRES.filter(nom => valeurFiltre(nom)).map(nom => {
-      const el = document.getElementById('filtre-' + nom); return el.options[el.selectedIndex].text;
+      return libelleFiltre(nom);
     });
     rappel.innerHTML = choix.length
       ? '<span><strong>Votre profil :</strong> ' + choix.join(' · ') + '</span><a href="#accueil">Modifier</a>'
@@ -2581,7 +2838,7 @@ function appliquerFiltres() {
     point(`<strong>Santé :</strong> un délai de résidence préalable s'applique avant l'ouverture des droits PUMA. Prévoyez une couverture transitoire.`, true);
     point(`<strong>Logement :</strong> sans fiches de paie françaises, pensez à la garantie Visale (si vous avez moins de 30 ans) avant de signer un bail.`);
     point(`<strong>CAF :</strong> déposez votre dossier d'aides au logement dès l'emménagement — l'aide est due à partir du mois suivant la demande.`);
-    if (conjoint !== 'seul') point(`<strong>Conjoint accompagnant :</strong> si vous avez démissionné pour suivre votre conjoint, vérifiez vos droits au chômage auprès de France Travail.`);
+    if (!celibataire) point(`<strong>Conjoint accompagnant :</strong> si vous avez démissionné pour suivre votre conjoint, vérifiez vos droits au chômage auprès de France Travail.`);
   } else if (situation === 'avec-emploi') {
     point(`<strong>Santé :</strong> une activité professionnelle ouvre la prise en charge des soins dès la première heure travaillée.`);
     point(`<strong>Logement :</strong> attention à la période d'essai — certains bailleurs refusent de signer tant qu'elle n'est pas terminée. La garantie Visale reste utile.`, true);
@@ -2603,8 +2860,18 @@ function appliquerFiltres() {
   }
 
   // Conjoint
-  if (conjoint === 'conjoint-hors-ue') {
-    point(`<strong>Conjoint :</strong> si vous vous êtes mariés à l'étranger, faites d'abord transcrire le mariage (indispensable pour son visa). Validez ensuite son VLS-TS sur le portail ANEF dans les 3 mois suivant l'arrivée ; ses droits santé s'ouvrent séparément — prévoyez une couverture transitoire. Une page lui est dédiée en <a href="conjoint-en.html" hreflang="en">anglais</a> et en <a href="conjoint-es.html" hreflang="es">espagnol</a>.`, true);
+  const pages = `Une page lui est dédiée en <a href="conjoint-en.html" hreflang="en">anglais</a> et en <a href="conjoint-es.html" hreflang="es">espagnol</a>.`;
+  if (partHorsUE && nonMarie) {
+    point(`<strong>Partenaire :</strong> les règles du « conjoint de Français » ne s'appliquent pas à un partenaire pacsé ou en union libre : pas de visa de partenaire (en général visa « visiteur », sans droit de travailler), et la carte « vie privée et familiale » dépend de la stabilité de la vie commune. Renseignez-vous avant de fixer la date du retour. ${pages}`, true);
+  } else if (conjoint === 'ue') {
+    point(`<strong>Partenaire :</strong> un citoyen de l'UE, de l'EEE ou de Suisse n'a besoin ni de visa ni de titre de séjour. Au-delà de 3 mois, il doit avoir une activité, ou des ressources suffisantes et une assurance maladie.`);
+  }
+  if (conjoint === 'etats-unis') {
+    point(`<strong>Citoyens américains :</strong> votre partenaire américain reste tenu de déclarer ses revenus aux États-Unis, même installé en France.`);
+    point(`<strong>Permis :</strong> son permis américain ne s'échange contre un permis français que s'il vient d'un État ayant un accord avec la France ; sinon, il devra repasser le permis dans l'année.`);
+  }
+  if (partHorsUE && !nonMarie) {
+    point(`<strong>Conjoint :</strong> si vous vous êtes mariés à l'étranger, faites d'abord transcrire le mariage (indispensable pour son visa). Validez ensuite son VLS-TS sur le portail ANEF dans les 3 mois suivant l'arrivée ; ses droits santé s'ouvrent séparément — prévoyez une couverture transitoire. ${pages}`, true);
   }
 
   // Enfants
@@ -2629,7 +2896,7 @@ function appliquerFiltres() {
   // Chaque point clé renvoie vers la rubrique qui le détaille
   const rubriqueDe = { 'Santé':'sante', 'Coordination':'sante', 'Chômage':'emploi', 'Conjoint accompagnant':'emploi', 'Fiscalité':'fiscalite',
     'Citoyens américains':'fiscalite', 'Permis':'douanes', 'Animal':'douanes', 'Logement':'logement', 'CAF':'logement', 'Études':'scolarite',
-    'Scolarité':'scolarite', 'Retraite':'retraite', 'Conjoint':'famille', 'Allocations':'famille' };
+    'Scolarité':'scolarite', 'Retraite':'retraite', 'Conjoint':'famille', 'Partenaire':'famille', 'Allocations':'famille' };
   synthesePoints.innerHTML = points.map(p => {
     const etiquette = (p.texte.match(/<strong>([^<:]+?)\s*:/) || [])[1];
     let id = rubriqueDe[etiquette];
@@ -2665,6 +2932,9 @@ function restaurerProfil() {
   } else {
     try { profil = JSON.parse(localStorage.getItem('adfe-profil') || '{}') || {}; } catch(e) { profil = {}; }
   }
+  if (profil.conjoint === 'seul') { profil.couple = 'seul'; delete profil.conjoint; }
+  else if (profil.conjoint === 'conjoint-hors-ue') profil.conjoint = 'hors-ue';
+  else if (profil.conjoint === 'conjoint-fr-ue') delete profil.conjoint;
   FILTRES.forEach(nom => {
     const el = document.getElementById('filtre-' + nom);
     const v = profil[nom];
@@ -2679,10 +2949,9 @@ function preparerFiche() {
   const bloc = document.getElementById('fiche-entete');
   if (!bloc) return;
   const echapper = t => t.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
-  const intitules = { provenance:'Provenance', situation:'Situation', conjoint:'Conjoint', enfants:'Enfants', animal:'Animal' };
+  const intitules = { provenance:'Provenance', situation:'Situation', couple:'Couple', conjoint:'Nationalité du partenaire', enfants:'Enfants', animal:'Animal' };
   const lignes = FILTRES.filter(nom => valeurFiltre(nom)).map(nom => {
-    const el = document.getElementById('filtre-' + nom);
-    return '<li><strong>' + intitules[nom] + ' :</strong> ' + echapper(el.options[el.selectedIndex].text) + '</li>';
+    return '<li><strong>' + intitules[nom] + ' :</strong> ' + echapper(libelleFiltre(nom)) + '</li>';
   });
   const dateRetour = document.getElementById('date-retour');
   if (dateRetour && dateRetour.value) {
@@ -2936,6 +3205,24 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: repere.getBoundingClientRect().top + window.scrollY - hauteurBarre() - (cible ? 16 : 0), behavior: 'instant' });
   };
   window.addEventListener('hashchange', () => afficherVue(location.hash.slice(1)));
+  // Rubrique Violences : bouton « Quitter rapidement » visible seulement dans cette rubrique ;
+  // il remplace la page dans l'historique par un site neutre (le bouton Retour ne ramène pas ici)
+  const majVueViolences = () => document.body.classList.toggle('vue-violences', location.hash === '#violences' || !!document.querySelector('#violences.courante'));
+  window.addEventListener('hashchange', majVueViolences); majVueViolences();
+  const btnQuitter = document.getElementById('quitter-vite');
+  const quitterVite = () => {
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+    location.replace('https://www.google.com/');
+  };
+  if (btnQuitter) btnQuitter.addEventListener('click', quitterVite);
+  // Deux appuis rapides sur Échap font la même chose, dans la rubrique Violences
+  let dernierEchap = 0;
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !document.body.classList.contains('vue-violences')) return;
+    const maintenant = Date.now();
+    if (maintenant - dernierEchap < 800) quitterVite();
+    dernierEchap = maintenant;
+  });
   // Second clic sur la rubrique déjà ouverte : on la referme et on revient à l'accueil
   liensSommaire.forEach(a => a.addEventListener('click', e => {
     if (a.classList.contains('actif')) { e.preventDefault(); location.hash = '#accueil'; }
