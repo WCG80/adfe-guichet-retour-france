@@ -1465,22 +1465,50 @@ main { padding-top: 40px; }
 }
 /* Illustrations des cartes et des filtres (dessins originaux, deux tons, dans l'esprit des pictogrammes de France Diplomatie) */
 @media screen {
-  .accueil-tuiles .tuiles .tuile:nth-child(n) { position: relative; padding-left: 86px; padding-right: 48px; }
+  .accueil-tuiles .tuiles .tuile:nth-child(n) { position: relative; padding-left: 74px; padding-right: 48px; }
   .accueil-tuiles .tuile .tuile-icone {
     display: block; position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
-    width: 50px; height: 50px; background: none; border-radius: 0;
+    width: 40px; height: 40px; background: none; border-radius: 0;
   }
-  .accueil-tuiles .tuile .tuile-icone svg { width: 50px; height: 50px; }
+  .accueil-tuiles .tuile .tuile-icone svg { width: 40px; height: 40px; }
   .filtre-profil .pastille, .filtre-champ:nth-of-type(n) .pastille { background: none; width: 26px; height: 26px; border-radius: 0; }
   .filtre-profil .pastille svg { width: 26px; height: 26px; }
 }
 @media screen and (max-width: 700px) {
-  .accueil-tuiles .tuiles .tuile:nth-child(n) { padding-left: 62px; }
-  .accueil-tuiles .tuile .tuile-icone { left: 12px; width: 38px; height: 38px; }
-  .accueil-tuiles .tuile .tuile-icone svg { width: 38px; height: 38px; }
+  .accueil-tuiles .tuiles .tuile:nth-child(n) { padding-left: 56px; }
+  .accueil-tuiles .tuile .tuile-icone { left: 12px; width: 32px; height: 32px; }
+  .accueil-tuiles .tuile .tuile-icone svg { width: 32px; height: 32px; }
+}
+/* Menu « Nationalité du partenaire » affiché seulement pour un couple : 5 ou 6 menus selon le cas */
+@media screen {
+  .filtre-profil .filtre-champ[hidden] { display: none !important; }
+  .filtre-profil .filtre-inner.sans-partenaire { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+/* Ordinateur : colonnes ajustées à la longueur des libellés (« Situation professionnelle », « Nationalité du partenaire ») */
+@media screen and (min-width: 1001px) {
+  /* Six menus : deux rangées de trois, pour que les libellés tiennent en entier */
+  .filtre-profil .filtre-inner { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 14px; }
+  .filtre-profil .filtre-inner .filtre-champ:nth-of-type(n) { grid-column: auto; }
+  .filtre-profil .filtre-inner.sans-partenaire { grid-template-columns: 1fr 1.45fr 1.25fr .9fr .9fr; }
+  .filtre-profil .filtre-label { grid-column: 1 / 2; }
+  .filtre-profil .filtre-actions { grid-column: 2 / -1; }
+  .filtre-profil .filtre-inner.sans-partenaire .filtre-label { grid-column: 1 / 3; }
+  .filtre-profil .filtre-inner.sans-partenaire .filtre-actions { grid-column: 3 / -1; }
+}
+@media screen and (max-width: 1000px) {
+  .filtre-profil .filtre-inner.sans-partenaire .filtre-champ:nth-of-type(5), .filtre-profil .filtre-inner.sans-partenaire .filtre-champ:nth-of-type(6) { grid-column: span 3; }
+}
+@media screen and (max-width: 700px) {
+  .filtre-profil .filtre-inner.sans-partenaire { grid-template-columns: 1fr auto; }
+  .filtre-profil .filtre-inner.sans-partenaire .filtre-champ:nth-of-type(n) { grid-column: 1 / -1; }
 }
 /* Drapeau à côté du titre (écran et impression) */
 .drapeau { display: inline-block; height: .72em; width: 1.08em; margin-left: .4em; vertical-align: baseline; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
+/* « Filtres actifs » et « Réinitialiser » sous les menus, alignés à droite */
+@media screen {
+  .filtre-profil .filtre-inner .filtre-label, .filtre-profil .filtre-inner.sans-partenaire .filtre-label { grid-row: auto; grid-column: 1 / -1; }
+  .filtre-profil .filtre-inner .filtre-actions, .filtre-profil .filtre-inner.sans-partenaire .filtre-actions { grid-row: auto; grid-column: 1 / -1; justify-content: flex-end; margin-top: 2px; }
+}
 </style>
 </head>
 <body>
@@ -1558,7 +1586,7 @@ main { padding-top: 40px; }
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="15" width="38" height="26" rx="4" fill="#DCD8EE" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 15v-4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4M5 26h38" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 23v6" stroke="#AE1F27" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
       <select id="filtre-situation" aria-label="Situation professionnelle">
-        <option value="">Situation</option>
+        <option value="">Situation professionnelle</option>
         <option value="avec-emploi">Avec un emploi</option>
         <option value="sans-emploi">Sans emploi</option>
         <option value="etudiant">Étudiant</option>
@@ -1567,8 +1595,8 @@ main { padding-top: 40px; }
     </div>
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="29" r="11" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="29" r="11" fill="none" stroke="#AE1F27" stroke-width="2.6"/><path d="M26 10l4-4 4 4-4 5z" fill="#F6D9DF" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg></span>
-      <select id="filtre-couple" aria-label="Situation de couple">
-        <option value="">Couple</option>
+      <select id="filtre-couple" aria-label="Situation familiale">
+        <option value="">Situation familiale</option>
         <option value="seul">Célibataire</option>
         <option value="marie">Marié(e)</option>
         <option value="pacse">Pacsé(e)</option>
@@ -1578,10 +1606,11 @@ main { padding-top: 40px; }
     <div class="filtre-champ" id="champ-partenaire">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="16" cy="15" r="7" fill="#F6D9DF" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 40v-3a12 12 0 0 1 17-11" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="33" cy="32" r="10" fill="#D3EBDD" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 32h20M33 22c-3.5 3-3.5 17 0 20M33 22c3.5 3 3.5 17 0 20" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg></span>
       <select id="filtre-conjoint" aria-label="Nationalité du conjoint ou partenaire">
-        <option value="">Partenaire</option>
+        <option value="">Nationalité du partenaire</option>
         <option value="francais">Français(e)</option>
         <option value="ue">UE / EEE / Suisse</option>
         <option value="etats-unis">Américain(e)</option>
+        <option value="algerie">Algérien(ne)</option>
         <option value="hors-ue">Autre, hors UE</option>
       </select>
     </div>
@@ -2084,10 +2113,23 @@ main { padding-top: 40px; }
       <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2651" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — séjour d'un Européen en France</a></div>
     </div>
   </details>
+  <details data-type="info" id="conjoint-algerien">
+    <summary><span class="sum-title">Conjoint ou partenaire algérien</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Le séjour des Algériens en France relève de l'<strong>accord franco-algérien de 1968</strong>, et non des règles générales : votre conjoint reçoit un <strong>certificat de résidence</strong>, et non une carte de séjour.</p>
+      <ul>
+        <li><strong>Marié(e) à un(e) Français(e)</strong> : un certificat de résidence d'un an « vie privée et familiale » est délivré de plein droit, à trois conditions : être entré régulièrement en France (un visa de court séjour suffit), que l'époux ou l'épouse soit resté(e) français(e), et que le mariage célébré à l'étranger ait été transcrit au préalable à l'état civil français. Une visite médicale auprès de l'OFII est nécessaire ; la demande se fait en ligne sur le portail ANEF.</li>
+        <li><strong>Après un an de mariage</strong>, avec une vie commune effective, il peut obtenir un certificat de résidence de 10 ans, délivré et renouvelé gratuitement.</li>
+        <li><strong>Pacsé(e) ou en couple sans être marié(e)</strong> : l'accord prévoit d'autres règles ; renseignez-vous auprès de la préfecture.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2215" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — certificat de résidence d'un an pour Algérien</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2257" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — certificat de résidence de 10 ans</a></div>
+    </div>
+  </details>
   <details data-type="info" id="conjoint-etranger-famille">
     <summary><span class="sum-title">Conjoint étranger non européen</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
       <p>Validation du VLS-TS à l'arrivée en France (dans les 3 mois), puis demande de titre de séjour via le portail officiel des étrangers en France.</p>
+      <p><strong>Cas particuliers selon la nationalité</strong> : un conjoint <strong>algérien</strong> relève de l'accord franco-algérien de 1968 (voir l'encadré dédié). Un conjoint <strong>tunisien</strong> marié depuis au moins un an peut obtenir une carte de résident de 10 ans grâce à l'accord franco-tunisien, si la vie commune continue et que le mariage a été transcrit. Un conjoint <strong>britannique</strong> suit les règles générales depuis le Brexit, sauf s'il vivait déjà en France avant 2021 ou si votre lien familial est antérieur à cette date (accord de retrait).</p>
       <p><strong>Enfants de nationalité étrangère</strong> : un mineur n'a pas besoin de titre de séjour, mais un document de circulation pour étranger mineur (DCEM) facilite ses voyages hors de France. Un enfant majeur doit demander son propre titre de séjour dans les 2 mois suivant l'arrivée.</p>
       <div class="liens"><div class="liens-titre">À consulter</div><a href="conjoint-en.html" hreflang="en">Page pour votre conjoint en anglais</a><a href="conjoint-es.html" hreflang="es">Page pour votre conjoint en espagnol</a><a href="https://etrangers-en-france.interieur.gouv.fr/services-en-ligne" target="_blank" rel="noopener noreferrer">interieur.gouv.fr — étrangers en France</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2718" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — DCEM</a></div>
     </div>
@@ -2696,7 +2738,7 @@ main { padding-top: 40px; }
 // Menus du profil : identifiant HTML = 'filtre-' + nom, nom = paramètre d'URL
 const FILTRES = ['provenance', 'situation', 'couple', 'conjoint', 'enfants', 'animal'];
 // Libellés complets (rappel du profil, fiche imprimée) quand le texte du menu seul ne suffit pas
-const LIBELLES = { conjoint: { francais: 'Partenaire français(e)', ue: 'Partenaire UE / EEE / Suisse', 'etats-unis': 'Partenaire américain(e)', 'hors-ue': 'Partenaire hors UE' } };
+const LIBELLES = { conjoint: { francais: 'Partenaire français(e)', ue: 'Partenaire UE / EEE / Suisse', 'etats-unis': 'Partenaire américain(e)', algerie: 'Partenaire algérien(ne)', 'hors-ue': 'Partenaire hors UE' } };
 const libelleFiltre = nom => { const el = document.getElementById('filtre-' + nom); return (LIBELLES[nom] || {})[el.value] || el.options[el.selectedIndex].text; };
 const valeurFiltre = nom => { const el = document.getElementById('filtre-' + nom); return el ? el.value : ''; };
 
@@ -2707,9 +2749,15 @@ function appliquerFiltres() {
   const celibataire = couple === 'seul';
   // Menu « Partenaire » désactivé pour un célibataire
   const selPart = document.getElementById('filtre-conjoint');
-  if (selPart) { if (celibataire) selPart.value = ''; selPart.disabled = celibataire; }
-  const conjoint   = celibataire ? '' : valeurFiltre('conjoint');
-  const partHorsUE = conjoint === 'hors-ue' || conjoint === 'etats-unis';
+  const enCouple = ['marie', 'pacse', 'union-libre'].includes(couple);
+  if (selPart) { if (!enCouple) selPart.value = ''; selPart.disabled = !enCouple; }
+  const champPart = document.getElementById('champ-partenaire');
+  if (champPart) champPart.hidden = !enCouple;
+  const blocFiltres = champPart && champPart.closest('.filtre-inner');
+  if (blocFiltres) blocFiltres.classList.toggle('sans-partenaire', !enCouple);
+  const conjoint   = enCouple ? valeurFiltre('conjoint') : '';
+  const partHorsUE = conjoint === 'hors-ue' || conjoint === 'etats-unis' || conjoint === 'algerie';
+  const partAlgerie = conjoint === 'algerie';
   const nonMarie   = couple === 'pacse' || couple === 'union-libre';
   const enfants    = valeurFiltre('enfants');
   const animal     = valeurFiltre('animal');
@@ -2754,6 +2802,7 @@ function appliquerFiltres() {
   afficher('conjoint-etranger',             !celibataire && (!conjoint || partHorsUE), partHorsUE);
   afficher('conjoint-etranger-famille',     !celibataire && (!conjoint || partHorsUE), partHorsUE);
   afficher('conjoint-europeen',             !celibataire && (!conjoint || conjoint === 'ue'), conjoint === 'ue');
+  afficher('conjoint-algerien',             !celibataire && (!conjoint || partAlgerie), partAlgerie);
   afficher('conjoint-accompagnant',         !celibataire && situation !== 'avec-emploi');
   afficher('conjoint-accompagnant-famille', !celibataire);
   afficher('mariage-etranger',  !couple || couple === 'marie', couple === 'marie' && partHorsUE);
@@ -2861,7 +2910,11 @@ function appliquerFiltres() {
 
   // Conjoint
   const pages = `Une page lui est dédiée en <a href="conjoint-en.html" hreflang="en">anglais</a> et en <a href="conjoint-es.html" hreflang="es">espagnol</a>.`;
-  if (partHorsUE && nonMarie) {
+  if (partAlgerie && !nonMarie) {
+    point(`<strong>Conjoint :</strong> le séjour d'un conjoint algérien relève de l'accord franco-algérien de 1968. Marié à un Français, il reçoit dès l'arrivée un certificat de résidence d'un an (un visa de court séjour suffit, si le mariage célébré à l'étranger a été transcrit), puis un certificat de 10 ans après un an de mariage. ${pages}`, true);
+  } else if (partAlgerie && nonMarie) {
+    point(`<strong>Partenaire :</strong> le séjour d'un partenaire algérien relève de l'accord franco-algérien de 1968, dont les règles diffèrent pour un couple non marié : renseignez-vous auprès de la préfecture avant de fixer la date du retour. ${pages}`, true);
+  } else if (partHorsUE && nonMarie) {
     point(`<strong>Partenaire :</strong> les règles du « conjoint de Français » ne s'appliquent pas à un partenaire pacsé ou en union libre : pas de visa de partenaire (en général visa « visiteur », sans droit de travailler), et la carte « vie privée et familiale » dépend de la stabilité de la vie commune. Renseignez-vous avant de fixer la date du retour. ${pages}`, true);
   } else if (conjoint === 'ue') {
     point(`<strong>Partenaire :</strong> un citoyen de l'UE, de l'EEE ou de Suisse n'a besoin ni de visa ni de titre de séjour. Au-delà de 3 mois, il doit avoir une activité, ou des ressources suffisantes et une assurance maladie.`);
@@ -2870,7 +2923,7 @@ function appliquerFiltres() {
     point(`<strong>Citoyens américains :</strong> votre partenaire américain reste tenu de déclarer ses revenus aux États-Unis, même installé en France.`);
     point(`<strong>Permis :</strong> son permis américain ne s'échange contre un permis français que s'il vient d'un État ayant un accord avec la France ; sinon, il devra repasser le permis dans l'année.`);
   }
-  if (partHorsUE && !nonMarie) {
+  if (partHorsUE && !nonMarie && !partAlgerie) {
     point(`<strong>Conjoint :</strong> si vous vous êtes mariés à l'étranger, faites d'abord transcrire le mariage (indispensable pour son visa). Validez ensuite son VLS-TS sur le portail ANEF dans les 3 mois suivant l'arrivée ; ses droits santé s'ouvrent séparément — prévoyez une couverture transitoire. ${pages}`, true);
   }
 
@@ -2949,7 +3002,7 @@ function preparerFiche() {
   const bloc = document.getElementById('fiche-entete');
   if (!bloc) return;
   const echapper = t => t.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
-  const intitules = { provenance:'Provenance', situation:'Situation', couple:'Couple', conjoint:'Nationalité du partenaire', enfants:'Enfants', animal:'Animal' };
+  const intitules = { provenance:'Provenance', situation:'Situation professionnelle', couple:'Situation familiale', conjoint:'Nationalité du partenaire', enfants:'Enfants', animal:'Animal' };
   const lignes = FILTRES.filter(nom => valeurFiltre(nom)).map(nom => {
     return '<li><strong>' + intitules[nom] + ' :</strong> ' + echapper(libelleFiltre(nom)) + '</li>';
   });
