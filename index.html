@@ -1274,6 +1274,28 @@ main { padding-top: 40px; }
   .tuiles-titre { font-size: 1.7rem; }
   .section h2 { font-size: 1.45rem; }
 }
+/* Bloc « Votre situation » : titre et Réinitialiser sur la même ligne, puis les 5 menus sur une ligne */
+@media screen {
+  .filtre-profil .filtre-inner { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .filtre-profil .filtre-label { grid-row: 1; grid-column: 1 / 4; }
+  .filtre-profil .filtre-actions { grid-row: 1; grid-column: 4 / -1; }
+  .filtre-profil .filtre-champ, .filtre-profil .filtre-champ:nth-of-type(n) { grid-column: auto; }
+}
+/* Tablette : 3 menus puis 2 plus larges */
+@media screen and (max-width: 1000px) {
+  .filtre-profil .filtre-inner { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .filtre-profil .filtre-label { grid-column: 1 / 4; }
+  .filtre-profil .filtre-actions { grid-column: 4 / -1; }
+  .filtre-profil .filtre-champ:nth-of-type(n) { grid-column: span 2; }
+  .filtre-profil .filtre-champ:nth-of-type(4), .filtre-profil .filtre-champ:nth-of-type(5) { grid-column: span 3; }
+}
+/* Mobile : un menu par ligne */
+@media screen and (max-width: 700px) {
+  .filtre-profil .filtre-inner { grid-template-columns: 1fr auto; }
+  .filtre-profil .filtre-label { grid-column: 1; }
+  .filtre-profil .filtre-actions { grid-column: 2; }
+  .filtre-profil .filtre-champ:nth-of-type(n), .filtre-profil .filtre-champ:nth-of-type(4), .filtre-profil .filtre-champ:nth-of-type(5) { grid-column: 1 / -1; }
+}
 /* Drapeau à côté du titre (écran et impression) */
 .drapeau { display: inline-block; height: .72em; width: 1.08em; margin-left: .4em; vertical-align: baseline; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 </style>
