@@ -1296,6 +1296,15 @@ main { padding-top: 40px; }
   .filtre-profil .filtre-actions { grid-column: 2; }
   .filtre-profil .filtre-champ:nth-of-type(n), .filtre-profil .filtre-champ:nth-of-type(4), .filtre-profil .filtre-champ:nth-of-type(5) { grid-column: 1 / -1; }
 }
+/* Logo de la section et nom de l'association un peu plus grands dans le bandeau */
+@media screen {
+  .bandeau-site .logo-section { width: 92px; height: 92px; }
+  .bandeau-site .bandeau-inner > span { font-size: 20px; }
+}
+@media screen and (max-width: 700px) {
+  .bandeau-site .logo-section { width: 64px; height: 64px; }
+  .bandeau-site .bandeau-inner > span { font-size: 15px; }
+}
 /* Drapeau à côté du titre (écran et impression) */
 .drapeau { display: inline-block; height: .72em; width: 1.08em; margin-left: .4em; vertical-align: baseline; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 </style>
