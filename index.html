@@ -1329,6 +1329,69 @@ main { padding-top: 40px; }
   .accueil-tuiles .tuile:hover::after, .accueil-tuiles .tuile:focus-visible::after { color: var(--rouge); transform: translateX(4px); }
   @media (prefers-reduced-motion: no-preference) { .accueil-tuiles .tuile::after { transition: transform .15s ease, color .15s ease; } }
 }
+/* ── RESSOURCES : cartes avec logo, comme la page « Liens utiles » de l'ADFE ── */
+.ress-groupe { margin-top: 30px; }
+.ress-titre { font-size: 1.15rem; font-weight: 600; color: var(--ardoise); margin: 0 0 12px; }
+.ress-titre span { font-weight: 500; font-size: .9rem; color: var(--texte-doux); }
+.ress-grille { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.ress-carte {
+  position: relative; display: flex; flex-direction: column; gap: 10px; padding: 16px 16px 16px;
+  background: var(--blanc); border: 1px solid #E2E2E2; text-decoration: none; color: var(--texte);
+}
+.ress-carte::after { content: '→'; position: absolute; right: 14px; bottom: 10px; font-size: 1.2rem; font-weight: 600; color: var(--ardoise); }
+.ress-carte:hover { background: #F2E8E4; }
+.ress-carte:hover::after { color: var(--rouge); }
+.ress-carte:focus-visible { outline: 3px solid var(--violet); outline-offset: 2px; }
+.ress-logo { height: 46px; display: flex; align-items: center; }
+.ress-logo img { max-height: 46px; max-width: 150px; width: auto; height: auto; object-fit: contain; }
+.ress-sigle {
+  display: inline-flex; align-items: center; justify-content: center; height: 40px; min-width: 40px; padding: 0 10px;
+  border-radius: 20px; background: var(--ardoise); color: var(--blanc); font-weight: 700; font-size: .8rem; letter-spacing: .04em;
+}
+.ress-texte { display: flex; flex-direction: column; gap: 2px; padding-right: 24px; }
+.ress-texte strong { color: var(--ardoise); font-weight: 600; font-size: .98rem; }
+.ress-texte span { color: #5E6A73; font-size: .85rem; line-height: 1.4; }
+/* Numéros utiles : cartes sur deux colonnes, numéros bien visibles */
+.ress-numeros .numeros { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0; }
+.ress-numeros .numeros li { margin: 0; padding: 14px 16px; background: var(--blanc); border: 1px solid #E2E2E2; border-left: 4px solid var(--rouge); font-size: .9rem; }
+.ress-numeros .numeros li strong { color: var(--ardoise); }
+.ress-numeros .numeros a { color: var(--rouge); font-weight: 700; white-space: nowrap; }
+.ress-numeros .horaires { display: block; margin-top: 4px; color: #5E6A73; font-size: .8rem; }
+@media (max-width: 1000px) { .ress-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) {
+  .ress-grille, .ress-numeros .numeros { grid-template-columns: 1fr; }
+  .ress-carte { flex-direction: row; align-items: center; gap: 14px; }
+  .ress-logo { width: 84px; flex: 0 0 84px; justify-content: center; }
+  .ress-logo img { max-width: 84px; max-height: 40px; }
+}
+@media print {
+  .ress-grille { display: block; }
+  .ress-carte { display: block; border: 0; padding: 2px 0; }
+  .ress-carte::after { content: " (" attr(href) ")"; position: static; font-size: 8pt; color: #555; }
+  .ress-logo { display: none; }
+}
+
+/* ── GLOSSAIRE : index des lettres, termes en cartes sur deux colonnes ── */
+.gl-index { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 8px; }
+.gl-index a {
+  display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px;
+  background: #F2E8E4; color: var(--ardoise); font-weight: 700; text-decoration: none;
+}
+.gl-index a:hover { background: var(--violet); color: var(--blanc); }
+.gl-groupe { margin-top: 22px; scroll-margin-top: 80px; }
+.gl-lettre { font-size: 1.5rem; font-weight: 600; color: var(--ardoise); margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--rose); }
+.gl-groupe .glossaire { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.gl-terme { background: var(--blanc); border: 1px solid #E2E2E2; padding: 12px 14px; }
+.gl-terme dt { margin: 0; color: var(--ardoise); text-transform: none; letter-spacing: 0; font-weight: 700; font-size: 1rem; }
+.gl-terme dd { margin: 4px 0 0; padding: 0; border: 0; color: #4A565F; font-size: .88rem; line-height: 1.5; }
+@media (max-width: 700px) { .gl-groupe .glossaire { grid-template-columns: 1fr; } .gl-index a { width: 32px; height: 32px; } }
+@media print { .gl-index { display: none; } .gl-groupe .glossaire { display: block; } .gl-terme { border: 0; padding: 2px 0; } }
+
+/* Liens : rouge du site ADFE à la place du vert */
+:root { --teal-fonce: #A3172A; }
+.liens a { text-decoration-color: rgba(163,23,42,.35); }
+.liens a:hover { color: var(--ardoise); }
+
 /* Drapeau à côté du titre (écran et impression) */
 .drapeau { display: inline-block; height: .72em; width: 1.08em; margin-left: .4em; vertical-align: baseline; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
 </style>
@@ -2116,54 +2179,133 @@ main { padding-top: 40px; }
     <div><span class="section-label">Références</span><h2>Glossaire</h2></div>
   </div>
   <p>Les sigles de l'administration française changent régulièrement. Si vous êtes parti depuis longtemps, certains organismes ont pu changer de nom : les anciennes appellations sont indiquées entre parenthèses.</p>
-  <dl class="glossaire">
-    <dt>Action Logement</dt><dd>Organisme paritaire du logement des salariés — délivre notamment la garantie Visale.</dd>
-    <dt>Agirc-Arrco</dt><dd>Régime de retraite complémentaire obligatoire des salariés du secteur privé.</dd>
-    <dt>ALD</dt><dd>Affection de longue durée — régime de prise en charge spécifique à vérifier à la réaffiliation.</dd>
-    <dt>Ameli</dt><dd>Site et compte en ligne de l'Assurance maladie (ameli.fr) — suivi des remboursements, attestations de droits, messagerie avec la CPAM.</dd>
-    <dt>ANEF</dt><dd>Administration numérique pour les étrangers en France — portail en ligne des démarches de séjour, dont la validation du VLS-TS.</dd>
-    <dt>ANTS / France Titres</dt><dd>Agence nationale des titres sécurisés, renommée France Titres en 2024 — démarches en ligne pour le permis de conduire, la carte grise et les papiers d'identité.</dd>
-    <dt>APL / ALS / ALF</dt><dd>Les trois aides au logement versées par la CAF : aide personnalisée au logement, allocation de logement sociale, allocation de logement familiale.</dd>
-    <dt>ARE</dt><dd>Allocation d'aide au retour à l'emploi — l'allocation chômage versée par France Travail.</dd>
-    <dt>BMAF</dt><dd>Base mensuelle de calcul des allocations familiales — sert de référence pour de nombreuses prestations CAF.</dd>
-    <dt>C2S</dt><dd>Complémentaire santé solidaire (anciennement CMU-C et ACS) — complémentaire santé gratuite ou à faible coût selon les ressources.</dd>
-    <dt>CAF</dt><dd>Caisse d'allocations familiales — verse les aides au logement, les prestations familiales, le RSA et la prime d'activité.</dd>
-    <dt>Carte Vitale</dt><dd>Carte de l'Assurance maladie permettant le remboursement direct des soins — à demander sur Ameli une fois les droits ouverts.</dd>
-    <dt>CASNAV</dt><dd>Centre académique pour la scolarisation des enfants nouvellement arrivés et des enfants du voyage.</dd>
-    <dt>CCAS</dt><dd>Centre communal d'action sociale — service social de la mairie, premier recours en cas de difficulté à l'arrivée.</dd>
-    <dt>CFE</dt><dd>Caisse des Français de l'étranger — protection sociale volontaire pendant l'expatriation ; continuité de couverture temporaire au retour.</dd>
-    <dt>CNAV</dt><dd>Caisse nationale d'assurance vieillesse — retraite de base des salariés du privé, gérée localement par les Carsat.</dd>
-    <dt>CNED</dt><dd>Centre national d'enseignement à distance — ses décisions d'orientation sont valables de plein droit à l'entrée dans le système scolaire français.</dd>
-    <dt>CPAM</dt><dd>Caisse primaire d'assurance maladie — interlocuteur local pour l'ouverture et la gestion des droits santé.</dd>
-    <dt>DCEM</dt><dd>Document de circulation pour étranger mineur — facilite les voyages hors de France d'un enfant étranger résidant en France.</dd>
-    <dt>Délai de carence</dt><dd>Période d'attente entre une demande et l'ouverture effective d'un droit.</dd>
-    <dt>DSDEN</dt><dd>Direction des services départementaux de l'Éducation nationale — affecte les élèves dans les collèges et lycées publics du département.</dd>
-    <dt>ENIC-NARIC</dt><dd>Centre français d'évaluation des diplômes étrangers — délivre des attestations de comparabilité.</dd>
-    <dt>Espace particulier</dt><dd>Compte personnel sur impots.gouv.fr — déclaration de revenus, avis d'imposition, changement d'adresse, messagerie avec le centre des impôts.</dd>
-    <dt>Formulaires 2042 / 2042-NR / 2047</dt><dd>Déclaration de revenus (2042), revenus de source française d'un non-résident (2042-NR) et revenus perçus à l'étranger (annexe 2047).</dd>
-    <dt>France Travail</dt><dd>Service public de l'emploi (anciennement Pôle emploi, renommé en 2024) — inscription comme demandeur d'emploi, indemnisation, accompagnement.</dd>
-    <dt>FranceConnect</dt><dd>Identifiant unique permettant de se connecter aux sites publics (Ameli, impots.gouv.fr, CAF…) avec un seul compte.</dd>
-    <dt>I-CAD</dt><dd>Identification des carnivores domestiques — fichier national où chiens, chats et furets doivent être enregistrés.</dd>
-    <dt>IR</dt><dd>Impôt sur le revenu.</dd>
-    <dt>Mutuelle</dt><dd>Complémentaire santé qui rembourse la part des soins non prise en charge par l'Assurance maladie.</dd>
-    <dt>N-2</dt><dd>Revenus de l'avant-dernière année civile — base de calcul de plusieurs prestations et des bourses.</dd>
-    <dt>NIR</dt><dd>Numéro d'inscription au répertoire — le numéro de sécurité sociale, à 13 chiffres plus une clé.</dd>
-    <dt>OFII</dt><dd>Office français de l'immigration et de l'intégration — accueil et parcours d'intégration du conjoint étranger.</dd>
-    <dt>PAJE</dt><dd>Prestation d'accueil du jeune enfant — ensemble d'aides de la CAF pour la naissance et la garde des enfants de moins de 6 ans.</dd>
-    <dt>Prime d'activité</dt><dd>Complément de revenu versé par la CAF aux personnes qui travaillent avec des revenus modestes.</dd>
-    <dt>PUMA</dt><dd>Protection universelle maladie (anciennement CMU de base) — droit à l'assurance maladie sur critère d'activité ou de résidence stable en France.</dd>
-    <dt>RSA</dt><dd>Revenu de solidarité active — revenu minimum versé par la CAF.</dd>
-    <dt>S1106</dt><dd>Formulaire de demande d'ouverture des droits à l'assurance maladie, à déposer à la CPAM à l'arrivée.</dd>
-    <dt>SCEC</dt><dd>Service central d'état civil (Nantes) — conserve les actes des Français nés, mariés ou décédés à l'étranger et en délivre les copies.</dd>
-    <dt>SIP NR</dt><dd>Service des impôts des particuliers non-résidents — compétent si vous perceviez des revenus de source française pendant l'expatriation.</dd>
-    <dt>Transcription</dt><dd>Enregistrement dans l'état civil français d'un événement survenu à l'étranger (naissance, mariage, décès…).</dd>
-    <dt>U1 / U2</dt><dd>Documents portables européens : U1 atteste des périodes d'emploi dans un autre pays UE/EEE ; U2 concerne l'exportation d'allocations chômage.</dd>
-    <dt>UE / EEE</dt><dd>Union européenne / Espace économique européen (UE + Islande, Liechtenstein, Norvège). La Suisse relève d'accords spécifiques.</dd>
-    <dt>URSSAF</dt><dd>Organisme qui collecte les cotisations sociales — interlocuteur des indépendants et auto-entrepreneurs.</dd>
-    <dt>VAE</dt><dd>Validation des acquis de l'expérience.</dd>
-    <dt>Visale</dt><dd>Garantie locative gratuite proposée par Action Logement, ouverte aux moins de 30 ans et à certains salariés — à demander avant la signature du bail.</dd>
-    <dt>VLS-TS</dt><dd>Visa long séjour valant titre de séjour — à valider sur le portail ANEF dans les 3 mois suivant l'arrivée.</dd>
-  </dl>
+  <nav class="gl-index" aria-label="Lettres du glossaire"><a href="#gl-A">A</a><a href="#gl-B">B</a><a href="#gl-C">C</a><a href="#gl-D">D</a><a href="#gl-E">E</a><a href="#gl-F">F</a><a href="#gl-I">I</a><a href="#gl-M">M</a><a href="#gl-N">N</a><a href="#gl-O">O</a><a href="#gl-P">P</a><a href="#gl-R">R</a><a href="#gl-S">S</a><a href="#gl-T">T</a><a href="#gl-U">U</a><a href="#gl-V">V</a></nav>
+  <div class="gl-groupe" id="gl-A">
+    <h3 class="gl-lettre">A</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>Action Logement</dt><dd>Organisme paritaire du logement des salariés — délivre notamment la garantie Visale.</dd></div>
+      <div class="gl-terme"><dt>Agirc-Arrco</dt><dd>Régime de retraite complémentaire obligatoire des salariés du secteur privé.</dd></div>
+      <div class="gl-terme"><dt>ALD</dt><dd>Affection de longue durée — régime de prise en charge spécifique à vérifier à la réaffiliation.</dd></div>
+      <div class="gl-terme"><dt>Ameli</dt><dd>Site et compte en ligne de l'Assurance maladie (ameli.fr) — suivi des remboursements, attestations de droits, messagerie avec la CPAM.</dd></div>
+      <div class="gl-terme"><dt>ANEF</dt><dd>Administration numérique pour les étrangers en France — portail en ligne des démarches de séjour, dont la validation du VLS-TS.</dd></div>
+      <div class="gl-terme"><dt>ANTS / France Titres</dt><dd>Agence nationale des titres sécurisés, renommée France Titres en 2024 — démarches en ligne pour le permis de conduire, la carte grise et les papiers d'identité.</dd></div>
+      <div class="gl-terme"><dt>APL / ALS / ALF</dt><dd>Les trois aides au logement versées par la CAF : aide personnalisée au logement, allocation de logement sociale, allocation de logement familiale.</dd></div>
+      <div class="gl-terme"><dt>ARE</dt><dd>Allocation d'aide au retour à l'emploi — l'allocation chômage versée par France Travail.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-B">
+    <h3 class="gl-lettre">B</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>BMAF</dt><dd>Base mensuelle de calcul des allocations familiales — sert de référence pour de nombreuses prestations CAF.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-C">
+    <h3 class="gl-lettre">C</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>C2S</dt><dd>Complémentaire santé solidaire (anciennement CMU-C et ACS) — complémentaire santé gratuite ou à faible coût selon les ressources.</dd></div>
+      <div class="gl-terme"><dt>CAF</dt><dd>Caisse d'allocations familiales — verse les aides au logement, les prestations familiales, le RSA et la prime d'activité.</dd></div>
+      <div class="gl-terme"><dt>Carte Vitale</dt><dd>Carte de l'Assurance maladie permettant le remboursement direct des soins — à demander sur Ameli une fois les droits ouverts.</dd></div>
+      <div class="gl-terme"><dt>CASNAV</dt><dd>Centre académique pour la scolarisation des enfants nouvellement arrivés et des enfants du voyage.</dd></div>
+      <div class="gl-terme"><dt>CCAS</dt><dd>Centre communal d'action sociale — service social de la mairie, premier recours en cas de difficulté à l'arrivée.</dd></div>
+      <div class="gl-terme"><dt>CFE</dt><dd>Caisse des Français de l'étranger — protection sociale volontaire pendant l'expatriation ; continuité de couverture temporaire au retour.</dd></div>
+      <div class="gl-terme"><dt>CNAV</dt><dd>Caisse nationale d'assurance vieillesse — retraite de base des salariés du privé, gérée localement par les Carsat.</dd></div>
+      <div class="gl-terme"><dt>CNED</dt><dd>Centre national d'enseignement à distance — ses décisions d'orientation sont valables de plein droit à l'entrée dans le système scolaire français.</dd></div>
+      <div class="gl-terme"><dt>CPAM</dt><dd>Caisse primaire d'assurance maladie — interlocuteur local pour l'ouverture et la gestion des droits santé.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-D">
+    <h3 class="gl-lettre">D</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>DCEM</dt><dd>Document de circulation pour étranger mineur — facilite les voyages hors de France d'un enfant étranger résidant en France.</dd></div>
+      <div class="gl-terme"><dt>Délai de carence</dt><dd>Période d'attente entre une demande et l'ouverture effective d'un droit.</dd></div>
+      <div class="gl-terme"><dt>DSDEN</dt><dd>Direction des services départementaux de l'Éducation nationale — affecte les élèves dans les collèges et lycées publics du département.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-E">
+    <h3 class="gl-lettre">E</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>ENIC-NARIC</dt><dd>Centre français d'évaluation des diplômes étrangers — délivre des attestations de comparabilité.</dd></div>
+      <div class="gl-terme"><dt>Espace particulier</dt><dd>Compte personnel sur impots.gouv.fr — déclaration de revenus, avis d'imposition, changement d'adresse, messagerie avec le centre des impôts.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-F">
+    <h3 class="gl-lettre">F</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>Formulaires 2042 / 2042-NR / 2047</dt><dd>Déclaration de revenus (2042), revenus de source française d'un non-résident (2042-NR) et revenus perçus à l'étranger (annexe 2047).</dd></div>
+      <div class="gl-terme"><dt>France Travail</dt><dd>Service public de l'emploi (anciennement Pôle emploi, renommé en 2024) — inscription comme demandeur d'emploi, indemnisation, accompagnement.</dd></div>
+      <div class="gl-terme"><dt>FranceConnect</dt><dd>Identifiant unique permettant de se connecter aux sites publics (Ameli, impots.gouv.fr, CAF…) avec un seul compte.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-I">
+    <h3 class="gl-lettre">I</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>I-CAD</dt><dd>Identification des carnivores domestiques — fichier national où chiens, chats et furets doivent être enregistrés.</dd></div>
+      <div class="gl-terme"><dt>IR</dt><dd>Impôt sur le revenu.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-M">
+    <h3 class="gl-lettre">M</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>Mutuelle</dt><dd>Complémentaire santé qui rembourse la part des soins non prise en charge par l'Assurance maladie.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-N">
+    <h3 class="gl-lettre">N</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>N-2</dt><dd>Revenus de l'avant-dernière année civile — base de calcul de plusieurs prestations et des bourses.</dd></div>
+      <div class="gl-terme"><dt>NIR</dt><dd>Numéro d'inscription au répertoire — le numéro de sécurité sociale, à 13 chiffres plus une clé.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-O">
+    <h3 class="gl-lettre">O</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>OFII</dt><dd>Office français de l'immigration et de l'intégration — accueil et parcours d'intégration du conjoint étranger.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-P">
+    <h3 class="gl-lettre">P</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>PAJE</dt><dd>Prestation d'accueil du jeune enfant — ensemble d'aides de la CAF pour la naissance et la garde des enfants de moins de 6 ans.</dd></div>
+      <div class="gl-terme"><dt>Prime d'activité</dt><dd>Complément de revenu versé par la CAF aux personnes qui travaillent avec des revenus modestes.</dd></div>
+      <div class="gl-terme"><dt>PUMA</dt><dd>Protection universelle maladie (anciennement CMU de base) — droit à l'assurance maladie sur critère d'activité ou de résidence stable en France.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-R">
+    <h3 class="gl-lettre">R</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>RSA</dt><dd>Revenu de solidarité active — revenu minimum versé par la CAF.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-S">
+    <h3 class="gl-lettre">S</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>S1106</dt><dd>Formulaire de demande d'ouverture des droits à l'assurance maladie, à déposer à la CPAM à l'arrivée.</dd></div>
+      <div class="gl-terme"><dt>SCEC</dt><dd>Service central d'état civil (Nantes) — conserve les actes des Français nés, mariés ou décédés à l'étranger et en délivre les copies.</dd></div>
+      <div class="gl-terme"><dt>SIP NR</dt><dd>Service des impôts des particuliers non-résidents — compétent si vous perceviez des revenus de source française pendant l'expatriation.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-T">
+    <h3 class="gl-lettre">T</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>Transcription</dt><dd>Enregistrement dans l'état civil français d'un événement survenu à l'étranger (naissance, mariage, décès…).</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-U">
+    <h3 class="gl-lettre">U</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>U1 / U2</dt><dd>Documents portables européens : U1 atteste des périodes d'emploi dans un autre pays UE/EEE ; U2 concerne l'exportation d'allocations chômage.</dd></div>
+      <div class="gl-terme"><dt>UE / EEE</dt><dd>Union européenne / Espace économique européen (UE + Islande, Liechtenstein, Norvège). La Suisse relève d'accords spécifiques.</dd></div>
+      <div class="gl-terme"><dt>URSSAF</dt><dd>Organisme qui collecte les cotisations sociales — interlocuteur des indépendants et auto-entrepreneurs.</dd></div>
+    </dl>
+  </div>
+  <div class="gl-groupe" id="gl-V">
+    <h3 class="gl-lettre">V</h3>
+    <dl class="glossaire">
+      <div class="gl-terme"><dt>VAE</dt><dd>Validation des acquis de l'expérience.</dd></div>
+      <div class="gl-terme"><dt>Visale</dt><dd>Garantie locative gratuite proposée par Action Logement, ouverte aux moins de 30 ans et à certains salariés — à demander avant la signature du bail.</dd></div>
+      <div class="gl-terme"><dt>VLS-TS</dt><dd>Visa long séjour valant titre de séjour — à valider sur le portail ANEF dans les 3 mois suivant l'arrivée.</dd></div>
+    </dl>
+  </div>
 </section>
 
 <!-- 14 -->
@@ -2172,21 +2314,25 @@ main { padding-top: 40px; }
     <span class="section-num">14</span>
     <div><span class="section-label">Pour aller plus loin</span><h2>Ressources officielles</h2></div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Portails généraux</div>
-    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — Revenir vivre en France</a>
-    <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france" target="_blank" rel="noopener noreferrer">France Diplomatie — préparer son retour</a>
-    <a href="https://www.mesdroitssociaux.gouv.fr/" target="_blank" rel="noopener noreferrer">mesdroitssociaux.gouv.fr — simulateur de droits</a>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Portails généraux</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>service-public.gouv.fr</strong><span>Revenir vivre en France : la fiche officielle</span></span></a>
+      <a class="ress-carte" href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><span class="ress-sigle">MEAE</span></span><span class="ress-texte"><strong>France Diplomatie</strong><span>Préparer son retour</span></span></a>
+      <a class="ress-carte" href="https://www.mesdroitssociaux.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/mesdroitssociaux.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>mesdroitssociaux.gouv.fr</strong><span>Simulateur de vos droits sociaux</span></span></a>
+    </div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Se faire aider · Se connecter</div>
-    <a href="https://www.france-services.gouv.fr/" target="_blank" rel="noopener noreferrer">France services — un agent vous accompagne dans vos démarches, près de chez vous</a>
-    <a href="https://franceconnect.gouv.fr/" target="_blank" rel="noopener noreferrer">FranceConnect — un seul identifiant pour les sites publics</a>
-    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — questionnaire officiel personnalisé « Revenir vivre en France »</a>
-    <a href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer">France Horizon — accueil des Français rapatriés en difficulté</a>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Se faire aider · Se connecter</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.france-services.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-services.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>France services</strong><span>Un agent vous accompagne dans vos démarches, près de chez vous</span></span></a>
+      <a class="ress-carte" href="https://franceconnect.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/franceconnect.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>FranceConnect</strong><span>Un seul identifiant pour les sites publics</span></span></a>
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>Questionnaire « Revenir vivre en France »</strong><span>Le parcours officiel personnalisé de service-public.gouv.fr</span></span></a>
+      <a class="ress-carte" href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-horizon.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>France Horizon</strong><span>Accueil des Français rapatriés en difficulté</span></span></a>
+    </div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Numéros utiles (heure de Paris)</div>
+  <div class="ress-groupe ress-numeros">
+    <h3 class="ress-titre">Numéros utiles <span>(heure de Paris)</span></h3>
     <ul class="numeros">
       <li><strong>Allô Service public</strong> — renseignements administratifs généraux : <a href="tel:3939">3939</a> · depuis l'étranger : <a href="tel:+33173603939">+33 1 73 60 39 39</a> (depuis un poste fixe)
         <span class="horaires">Lun. et jeu. 8h30–18h15, mar. et mer. 8h30–13h, ven. 13h–17h</span></li>
@@ -2205,44 +2351,59 @@ main { padding-top: 40px; }
     </ul>
     <p class="prudence">Numéros vérifiés en octobre 2026 sur les sites officiels. Le coût dépend de votre opérateur, surtout depuis l'étranger.</p>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Santé</div>
-    <a href="https://www.ameli.fr/" target="_blank" rel="noopener noreferrer">ameli.fr — Assurance maladie, compte en ligne</a>
-    <a href="https://www.cfe.fr/" target="_blank" rel="noopener noreferrer">cfe.fr — Caisse des Français de l'étranger</a>
-    <a href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer">cleiss.fr — protection sociale au retour</a>
+
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Santé</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.ameli.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/ameli.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>ameli.fr</strong><span>Assurance maladie, compte en ligne</span></span></a>
+      <a class="ress-carte" href="https://www.cfe.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cfe.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>CFE</strong><span>Caisse des Français de l'étranger</span></span></a>
+      <a class="ress-carte" href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cleiss.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>Cleiss</strong><span>Protection sociale au retour</span></span></a>
+    </div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Emploi · Fiscalité</div>
-    <a href="https://www.francetravail.fr" target="_blank" rel="noopener noreferrer">francetravail.fr — inscription et indemnisation</a>
-    <a href="https://www.impots.gouv.fr/international-particulier/questions/je-reviens-en-france-apres-un-sejour-letranger" target="_blank" rel="noopener noreferrer">impots.gouv.fr — retour en France</a>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Emploi · Fiscalité</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.francetravail.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-travail.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>France Travail</strong><span>Inscription et indemnisation</span></span></a>
+      <a class="ress-carte" href="https://www.impots.gouv.fr/international-particulier/questions/je-reviens-en-france-apres-un-sejour-letranger" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><span class="ress-sigle">DGFiP</span></span><span class="ress-texte"><strong>impots.gouv.fr</strong><span>Revenir en France après un séjour à l'étranger</span></span></a>
+    </div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Logement · Famille</div>
-    <a href="https://www.actionlogement.fr/la-garantie-visale" target="_blank" rel="noopener noreferrer">Action Logement — Visale</a>
-    <a href="https://www.caf.fr" target="_blank" rel="noopener noreferrer">caf.fr — aides au logement et prestations familiales</a>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Logement · Famille</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.actionlogement.fr/la-garantie-visale" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/action-logement.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>Action Logement</strong><span>La garantie Visale</span></span></a>
+      <a class="ress-carte" href="https://www.caf.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/caf.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>caf.fr</strong><span>Aides au logement et prestations familiales</span></span></a>
+    </div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">État civil · Séjour</div>
-    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/R1405" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — acte de naissance d'un Français né à l'étranger (gratuit)</a>
-    <a href="https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/" target="_blank" rel="noopener noreferrer">ANEF — démarches de séjour du conjoint étranger</a>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">État civil · Séjour</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/R1405" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>Acte de naissance</strong><span>D'un Français né à l'étranger (gratuit), sur service-public.gouv.fr</span></span></a>
+      <a class="ress-carte" href="https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/anef.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>ANEF</strong><span>Démarches de séjour du conjoint étranger</span></span></a>
+    </div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Scolarité · Études</div>
-    <a href="https://www.france-education-international.fr/expertises/enic-naric" target="_blank" rel="noopener noreferrer">france-education-international.fr — ENIC-NARIC</a>
-    <a href="https://www.parcoursup.fr/" target="_blank" rel="noopener noreferrer">parcoursup.fr</a>
-    <a href="https://www.cned.fr/" target="_blank" rel="noopener noreferrer">cned.fr — enseignement à distance</a>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Scolarité · Études</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.france-education-international.fr/expertises/enic-naric" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><span class="ress-sigle">FEI</span></span><span class="ress-texte"><strong>ENIC-NARIC</strong><span>Reconnaissance des diplômes étrangers (France Éducation international)</span></span></a>
+      <a class="ress-carte" href="https://www.parcoursup.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/parcoursup.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>Parcoursup</strong><span>Admission dans l'enseignement supérieur</span></span></a>
+      <a class="ress-carte" href="https://www.cned.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cned.svg" alt="" loading="lazy"></span><span class="ress-texte"><strong>CNED</strong><span>Enseignement à distance</span></span></a>
+    </div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Douanes · Véhicule · Animal</div>
-    <a href="https://www.douane.gouv.fr/particuliers/vous-demenagez/en-france-metropolitaine" target="_blank" rel="noopener noreferrer">douane.gouv.fr — déménagement en France</a>
-    <a href="https://ants.gouv.fr/" target="_blank" rel="noopener noreferrer">ants.gouv.fr (France Titres) — permis de conduire, carte grise</a>
-    <a href="https://www.i-cad.fr/" target="_blank" rel="noopener noreferrer">i-cad.fr — identification des chiens, chats et furets</a>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Douanes · Véhicule · Animal</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.douane.gouv.fr/particuliers/vous-demenagez/en-france-metropolitaine" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/douane.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>Douane</strong><span>Déménager en France</span></span></a>
+      <a class="ress-carte" href="https://ants.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><span class="ress-sigle">ANTS</span></span><span class="ress-texte"><strong>France Titres (ANTS)</strong><span>Permis de conduire, carte grise</span></span></a>
+      <a class="ress-carte" href="https://www.i-cad.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/icad.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>I-CAD</strong><span>Identification des chiens, chats et furets</span></span></a>
+    </div>
   </div>
-  <div class="liens">
-    <div class="liens-titre">Retraite</div>
-    <a href="https://www.info-retraite.fr/" target="_blank" rel="noopener noreferrer">info-retraite.fr — relevé de carrière tous régimes</a>
-    <a href="https://www.lassuranceretraite.fr/" target="_blank" rel="noopener noreferrer">lassuranceretraite.fr — retraite de base</a>
-    <a href="https://www.agirc-arrco.fr/" target="_blank" rel="noopener noreferrer">agirc-arrco.fr — retraite complémentaire</a>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Retraite</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.info-retraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/info-retraite.jpg" alt="" loading="lazy"></span><span class="ress-texte"><strong>Info Retraite</strong><span>Relevé de carrière tous régimes</span></span></a>
+      <a class="ress-carte" href="https://www.lassuranceretraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/assurance-retraite.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>L'Assurance retraite</strong><span>Retraite de base</span></span></a>
+      <a class="ress-carte" href="https://www.agirc-arrco.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/agirc-arrco.png" alt="" loading="lazy"></span><span class="ress-texte"><strong>Agirc-Arrco</strong><span>Retraite complémentaire</span></span></a>
+    </div>
   </div>
 </section>
 
