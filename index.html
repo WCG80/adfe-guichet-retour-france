@@ -1089,7 +1089,13 @@ main { padding-top: 40px; }
 /* ── STYLE DU SITE FRANCAIS-DU-MONDE.ORG : à plat, coins droits, ardoise, beige, barre rose sous les titres ── */
 @media screen {
   /* Gris clair du site à la place du sable : fond de page gris très clair, filets gris neutres */
-  .pastille { background: #EFEFEF; color: var(--ardoise); }
+  /* Pictogrammes des filtres : chaque pastille prend une teinte du dégradé du bandeau, du rouge au vert ; icône blanche */
+  .pastille { color: var(--blanc); }
+  .filtre-champ:nth-of-type(1) .pastille { background: #9A2230; }
+  .filtre-champ:nth-of-type(2) .pastille { background: #7E2E4E; }
+  .filtre-champ:nth-of-type(3) .pastille { background: #66406E; }
+  .filtre-champ:nth-of-type(4) .pastille { background: #4F5185; }
+  .filtre-champ:nth-of-type(5) .pastille { background: #3E7066; }
   /* Comme sur leur site : page blanche ; le sable seulement en un bloc (les tuiles de l'accueil, comme « À la une ») */
   body { background: var(--blanc); }
   /* Bloc du titre en sable, sur toute la largeur */
