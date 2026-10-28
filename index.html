@@ -1112,7 +1112,7 @@ main { padding-top: 40px; }
   .titre-page p { margin: 0; }
   .titre-page h1 { border-bottom-color: #DCCAC4; }
   /* Accueil : le bloc sable des tuiles colle au bloc des filtres, sans bande blanche */
-  body.vue-accueil main { padding-top: 0; padding-bottom: 24px; }
+  body.vue-accueil main { padding-top: 0; padding-bottom: 0; }
   /* Bloc des filtres en sable, dans la continuité de la barre du sommaire ; menus en blanc */
   .filtre-profil { background: #F2E8E4; border-bottom-color: #DCCAC4; }
   /* « Votre situation » en vrai titre, comme les titres du site */
@@ -1444,7 +1444,21 @@ main { padding-top: 40px; }
   }
   body.vue-violences .quitter-vite:hover { background: #1B2730; }
 }
-@media print { .quitter-vite { display: none !important; } }
+/* La rubrique Violences ne figure pas dans la fiche générale (une fiche papier qui en parle pourrait être trouvée par l'auteur des violences) ;
+   elle s'imprime seule, sur demande, avec le bouton « Imprimer cette rubrique » */
+.violences-impression { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: .85rem; color: var(--texte-doux); }
+.btn-imprimer-violences { font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; padding: 7px 14px; border-radius: 4px; border: 1.5px solid var(--ardoise); background: var(--blanc); color: var(--ardoise); }
+.btn-imprimer-violences:hover { background: var(--ardoise); color: var(--blanc); }
+@media print {
+  .quitter-vite, .violences-impression, .ecran-seul, #violences > .prudence { display: none !important; }
+  body:not(.impression-violences) #violences { display: none !important; }
+  body.impression-violences main > *:not(#violences), body.impression-violences .chrome-site, body.impression-violences .filtre-profil,
+  body.impression-violences .synthese-profil, body.impression-violences #fiche-entete, body.impression-violences .pied-site,
+  body.impression-violences .note-impression, body.impression-violences .btn-print { display: none !important; }
+  body.impression-violences #violences { display: block !important; }
+  body.impression-violences #violences details { display: block !important; }
+  body.impression-violences #violences details .detail-body { display: block !important; }
+}
 /* Six menus de profil : une ligne sur ordinateur, 3 + 3 sur tablette ; menu « Partenaire » grisé pour un célibataire */
 @media screen {
   .filtre-profil .filtre-inner { grid-template-columns: repeat(6, minmax(0, 1fr)); }
@@ -1508,6 +1522,38 @@ main { padding-top: 40px; }
 @media screen {
   .filtre-profil .filtre-inner .filtre-label, .filtre-profil .filtre-inner.sans-partenaire .filtre-label { grid-row: auto; grid-column: 1 / -1; }
   .filtre-profil .filtre-inner .filtre-actions, .filtre-profil .filtre-inner.sans-partenaire .filtre-actions { grid-row: auto; grid-column: 1 / -1; justify-content: flex-end; margin-top: 2px; }
+}
+/* Encadré « Points clés » allégé : titre et lien de partage sur une ligne, points en liste compacte sur deux colonnes */
+@media screen {
+  .synthese-profil .synthese-inner { padding: 14px 0 18px; background: none; border: 0; border-bottom: 1px solid #EAEAEA; }
+  .synthese-entete { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .synthese-entete .synthese-titre { margin: 0; flex: 1 1 auto; }
+  .synthese-partage { margin: 0; display: flex; align-items: baseline; gap: 10px; font-size: .8rem; color: var(--texte-doux); }
+  .synthese-partager { font: inherit; font-size: .8rem; font-weight: 700; color: var(--rouge); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+  .synthese-partager:hover { color: var(--ardoise); }
+  .synthese-profil .synthese-points { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; }
+  .synthese-profil .synthese-tag, .synthese-profil .synthese-tag.alerte { display: block; background: none; padding: 2px 0 2px 12px; font-size: .86rem; line-height: 1.5; border-left: 3px solid var(--rose); }
+  .synthese-profil .synthese-tag.alerte { border-left-color: var(--rouge); }
+  .synthese-profil .synthese-voir { display: inline; margin: 0 0 0 4px; font-size: .74rem; }
+  .synthese-profil .synthese-tag a:not(.synthese-voir) { color: var(--rouge); font-weight: 600; }
+}
+@media screen and (max-width: 700px) {
+  .synthese-profil .synthese-points { grid-template-columns: 1fr; }
+  .synthese-entete { flex-wrap: wrap; }
+}
+/* Bloc « Imprimer ma fiche » : bandeau compact aligné sur le contenu, bouton à gauche et explication à côté */
+.zone-impression { text-align: center; padding: 24px 20px 0; }
+@media screen {
+  .zone-impression {
+    display: flex; align-items: center; gap: 10px 18px; flex-wrap: wrap; text-align: left;
+    max-width: var(--largeur); margin: 0 auto 32px; padding: 18px var(--gouttiere) 0;
+  }
+  .zone-impression .btn-print { flex: 0 0 auto; margin: 0; }
+  .zone-impression .note-impression { margin: 0; flex: 1 1 280px; font-style: normal; }
+  body.vue-accueil .accueil-tuiles .tuiles { margin-bottom: 0; }
+  body.vue-rubrique main { padding-bottom: 0; }
+  body.vue-rubrique .nav-rubriques { margin-bottom: 0; }
+  body.vue-rubrique .zone-impression { margin-top: 20px; padding-top: 20px; border-top: 1px solid #EAEAEA; }
 }
 </style>
 </head>
@@ -1642,13 +1688,14 @@ main { padding-top: 40px; }
 
 <div class="synthese-profil" id="synthese-profil">
   <div class="synthese-inner">
-    <div class="synthese-titre">Points clés pour votre profil</div>
+    <div class="synthese-entete">
+      <div class="synthese-titre">Points clés pour votre profil</div>
+      <p class="synthese-partage">
+        <span id="copier-lien-statut" role="status" aria-live="polite"></span>
+        <button type="button" class="synthese-partager" id="copier-lien-profil">Partager ce profil</button>
+      </p>
+    </div>
     <div class="synthese-points" id="synthese-points"></div>
-    <p class="synthese-lien">↓ Utilisez le sommaire pour accéder directement à chaque rubrique détaillée.</p>
-    <p class="synthese-partage">
-      <button type="button" class="filtre-reset" id="copier-lien-profil">Copier le lien de ce profil</button>
-      <span id="copier-lien-statut" role="status" aria-live="polite"></span>
-    </p>
   </div>
 </div>
 
@@ -2586,8 +2633,9 @@ main { padding-top: 40px; }
     <span class="section-num">15</span>
     <div><span class="section-label">Couple, famille</span><h2>Violences : vous protéger</h2></div>
   </div>
-  <p>Si vous subissez des violences dans votre couple ou votre famille — physiques, psychologiques, sexuelles, économiques, ou la confiscation de vos papiers —, vous pouvez être aidé·e <strong>depuis l'étranger</strong>, préparer votre <strong>retour en France</strong> et y être protégé·e <strong>une fois rentré·e</strong>. Le bouton <strong>« Quitter rapidement »</strong>, en bas de l'écran, remplace cette page par la page d'accueil de Google d'un seul clic.</p>
+  <p>Si vous subissez des violences dans votre couple ou votre famille — physiques, psychologiques, sexuelles, économiques, ou la confiscation de vos papiers —, vous pouvez être aidé·e <strong>depuis l'étranger</strong>, préparer votre <strong>retour en France</strong> et y être protégé·e <strong>une fois rentré·e</strong>.<span class="ecran-seul"> Le bouton <strong>« Quitter rapidement »</strong>, en bas de l'écran, remplace cette page par la page d'accueil de Google d'un seul clic.</span></p>
   <p class="prudence">Pour plus de discrétion, consultez cette page en navigation privée. Si quelqu'un arrive, le bouton « Quitter rapidement » (ou deux appuis sur la touche Échap) ouvre aussitôt la page d'accueil de Google, et le bouton Retour du navigateur ne ramène pas ici.</p>
+  <p class="violences-impression"><button type="button" class="btn-imprimer-violences" id="imprimer-violences">Imprimer cette rubrique</button> <span>Elle ne figure pas dans la fiche générale : à vous de choisir si vous voulez l'imprimer, et où la garder.</span></p>
 
   <h3 class="violences-titre">Vous vivez encore à l'étranger</h3>
   <div class="urgence-numero">En danger immédiat : appelez les <strong>numéros d'urgence du pays</strong> (police, secours), puis votre <strong>consulat</strong>, joignable par une permanence en dehors des heures d'ouverture.</div>
@@ -2724,7 +2772,7 @@ main { padding-top: 40px; }
 <nav class="nav-rubriques" id="nav-rubriques" aria-label="Navigation entre les rubriques"></nav>
 </main>
 
-<div style="text-align:center;padding:24px 20px 0;">
+<div class="zone-impression">
   <button class="btn-print" onclick="preparerFiche(); window.print()" aria-label="Imprimer ou exporter en PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer ma fiche / PDF</button>
   <p class="note-impression">La fiche imprimée reprend votre profil, vos dates et uniquement les rubriques qui vous concernent.</p>
 </div>
@@ -2942,8 +2990,6 @@ function appliquerFiltres() {
   if (enfants === 'oui') {
     point(`<strong>Scolarité :</strong> demandez le certificat de radiation avant le départ. Pour le collège/lycée, contactez la DSDEN du département d'accueil.`);
     point(`<strong>Allocations :</strong> allocations familiales à partir de 2 enfants — déposez le dossier dès l'arrivée.`);
-  } else if (enfants === 'non' && !estEtudiant) {
-    point(`<strong>Scolarité :</strong> rubrique masquée (sans enfant à charge).`);
   }
 
   // Animal
@@ -2966,7 +3012,7 @@ function appliquerFiltres() {
     let id = rubriqueDe[etiquette];
     if (estRetraite && etiquette === 'Santé') id = 'retraite';
     const sec = id && document.getElementById(id);
-    const lien = sec && sec.style.display !== 'none' ? ' <a class="synthese-voir" href="#' + id + '">Voir la rubrique →</a>' : '';
+    const lien = sec && sec.style.display !== 'none' ? ' <a class="synthese-voir" href="#' + id + '">Voir →</a>' : '';
     return `<div class="synthese-tag${p.alerte ? ' alerte' : ''}">${p.texte}${lien}</div>`;
   }).join('');
 }
@@ -3033,6 +3079,12 @@ function preparerFiche() {
     '<div class="fiche-lien">Retrouvez cette fiche en ligne : ' + echapper(lienProfil()) + '</div>';
 }
 window.addEventListener('beforeprint', preparerFiche);
+// « Imprimer cette rubrique » (Violences) : n'imprime que cette rubrique, tous les encadrés ouverts
+document.getElementById('imprimer-violences')?.addEventListener('click', () => {
+  document.body.classList.add('impression-violences');
+  window.print();
+});
+window.addEventListener('afterprint', () => document.body.classList.remove('impression-violences'));
 
 function reinitialiserFiltres() {
   FILTRES.forEach(nom => { const el = document.getElementById('filtre-' + nom); if (el) el.value = ''; });
