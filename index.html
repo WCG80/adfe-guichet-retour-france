@@ -2120,9 +2120,9 @@ main { padding-top: 40px; }
       <ul>
         <li><strong>Marié(e) à un(e) Français(e)</strong> : un certificat de résidence d'un an « vie privée et familiale » est délivré de plein droit, à trois conditions : être entré régulièrement en France (un visa de court séjour suffit), que l'époux ou l'épouse soit resté(e) français(e), et que le mariage célébré à l'étranger ait été transcrit au préalable à l'état civil français. Une visite médicale auprès de l'OFII est nécessaire ; la demande se fait en ligne sur le portail ANEF.</li>
         <li><strong>Après un an de mariage</strong>, avec une vie commune effective, il peut obtenir un certificat de résidence de 10 ans, délivré et renouvelé gratuitement.</li>
-        <li><strong>Pacsé(e) ou en couple sans être marié(e)</strong> : l'accord prévoit d'autres règles ; renseignez-vous auprès de la préfecture.</li>
+        <li><strong>Pacsé(e) ou en couple sans être marié(e)</strong> : l'accord prévoit d'autres règles. Avant le départ, renseignez-vous auprès du service des visas du consulat de France de votre pays de résidence, ou sur France-Visas, le site officiel des visas ; une fois en France, la préfecture de votre domicile prend le relais.</li>
       </ul>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2215" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — certificat de résidence d'un an pour Algérien</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2257" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — certificat de résidence de 10 ans</a></div>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://france-visas.gouv.fr/" target="_blank" rel="noopener noreferrer">France-Visas — le site officiel des visas pour la France</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2215" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — certificat de résidence d'un an pour Algérien</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2257" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — certificat de résidence de 10 ans</a></div>
     </div>
   </details>
   <details data-type="info" id="conjoint-etranger-famille">
@@ -2913,7 +2913,7 @@ function appliquerFiltres() {
   if (partAlgerie && !nonMarie) {
     point(`<strong>Conjoint :</strong> le séjour d'un conjoint algérien relève de l'accord franco-algérien de 1968. Marié à un Français, il reçoit dès l'arrivée un certificat de résidence d'un an (un visa de court séjour suffit, si le mariage célébré à l'étranger a été transcrit), puis un certificat de 10 ans après un an de mariage. ${pages}`, true);
   } else if (partAlgerie && nonMarie) {
-    point(`<strong>Partenaire :</strong> le séjour d'un partenaire algérien relève de l'accord franco-algérien de 1968, dont les règles diffèrent pour un couple non marié : renseignez-vous auprès de la préfecture avant de fixer la date du retour. ${pages}`, true);
+    point(`<strong>Partenaire :</strong> le séjour d'un partenaire algérien relève de l'accord franco-algérien de 1968, dont les règles diffèrent pour un couple non marié : avant de fixer la date du retour, renseignez-vous auprès du consulat de France de votre pays de résidence ou sur France-Visas. ${pages}`, true);
   } else if (partHorsUE && nonMarie) {
     point(`<strong>Partenaire :</strong> les règles du « conjoint de Français » ne s'appliquent pas à un partenaire pacsé ou en union libre : pas de visa de partenaire (en général visa « visiteur », sans droit de travailler), et la carte « vie privée et familiale » dépend de la stabilité de la vie commune. Renseignez-vous avant de fixer la date du retour. ${pages}`, true);
   } else if (conjoint === 'ue') {
