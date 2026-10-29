@@ -1550,6 +1550,22 @@ main { padding-top: 40px; }
   details, .etapes li, .numeros li { break-inside: avoid; }
   .section h2, details > summary { break-after: avoid; }
 }
+/* Retour depuis une rubrique : lien « Toutes les rubriques » en haut, mot « Accueil » visible aussi sur mobile */
+.retour-rubriques { display: none; }
+body.vue-rubrique .retour-rubriques {
+  display: inline-block; margin: 0 0 12px; padding: 9px 16px; border: 1.5px solid var(--bordeaux); border-radius: 4px;
+  background: var(--blanc); color: var(--bordeaux); font-weight: 700; font-size: 1rem; text-decoration: none;
+}
+body.vue-rubrique .retour-rubriques:hover { background: var(--bordeaux); color: var(--blanc); }
+body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+@media (max-width: 700px) { .lien-accueil span { display: inline; } }
+@media print { .retour-rubriques { display: none !important; } }
+/* « Modifier mon profil » : un vrai bouton, plus visible qu'un lien */
+.rappel-profil a.rappel-modifier {
+  display: inline-block; padding: 6px 12px; border: 1.5px solid var(--bordeaux); border-radius: 4px;
+  background: var(--blanc); color: var(--bordeaux); text-decoration: none; text-align: center;
+}
+.rappel-profil a.rappel-modifier:hover { background: var(--bordeaux); color: var(--blanc); }
 /* Bouton « Voir mon guide personnalisé » : visible dès qu'un choix est fait ; affiche les points clés et y descend */
 .filtre-valider { display: none; }
 /* Même habillage que le bouton « Imprimer ma fiche » : dégradé ADFE assombri, majuscules, coins droits */
@@ -1734,7 +1750,8 @@ main { padding-top: 40px; }
 
 <main id="main">
 
-<!-- En vue rubrique : rappel du profil choisi, modifiable depuis l'accueil -->
+<!-- En vue rubrique : lien de retour vers toutes les rubriques, puis rappel du profil choisi, modifiable depuis l'accueil -->
+<a href="#accueil" class="retour-rubriques">← Toutes les rubriques</a>
 <div class="rappel-profil" id="rappel-profil"></div>
 
 <!-- Accueil : une tuile par rubrique ; chaque rubrique s'affiche ensuite seule -->
@@ -2959,8 +2976,8 @@ function appliquerFiltres() {
     });
     if (dateRetourValide()) choix.push('Retour le ' + formaterDateRetour(dateRetourValide()));
     rappel.innerHTML = choix.length
-      ? '<span><strong>Votre profil :</strong> ' + choix.join(' · ') + '</span><a href="#accueil">Modifier</a>'
-      : '<span>Guide affiché pour toutes les situations.</span><a href="#accueil">Personnaliser selon mon profil</a>';
+      ? '<span><strong>Votre profil :</strong> ' + choix.join(' · ') + '</span><a href="#accueil" class="rappel-modifier">Modifier mon profil</a>'
+      : '<span>Guide affiché pour toutes les situations.</span><a href="#accueil" class="rappel-modifier">Personnaliser selon mon profil</a>';
   }
   const valider = document.getElementById('filtre-valider');
   if (valider) valider.classList.toggle('actif', actif);
