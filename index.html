@@ -1619,14 +1619,16 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .quitter-vite svg { width: 24px; height: 24px; flex: 0 0 auto; }
 }
 /* Pied de page dans l'esprit de francais-du-monde.org : logo centré, textes, puis barre fine de liens en petites majuscules */
-.pied-site { padding: 36px 0 18px; text-align: center; }
+.pied-site { padding: 44px 0 24px; text-align: center; }
 .pied-site .pied-inner { display: block; }
 .pied-centre img { width: 64px; height: 64px; border-radius: 50%; border: 2px solid rgba(255,255,255,.9); box-shadow: 0 3px 14px rgba(0,0,0,.25); }
-.pied-nom { margin: 10px 0 12px; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; line-height: 1.4; }
-.pied-centre p { margin: 4px auto 0; max-width: 760px; font-size: .85rem; line-height: 1.6; text-wrap: balance; }
+/* Logo et nom côte à côte, comme dans le bandeau du haut */
+.pied-marque { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 20px; text-align: left; }
+.pied-nom { margin: 0; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; line-height: 1.4; }
+.pied-centre p { margin: 8px auto 0; max-width: 760px; font-size: .85rem; line-height: 1.6; text-wrap: balance; }
 .pied-centre a { color: var(--blanc); text-decoration: underline; text-underline-offset: 2px; }
-.pied-centre .pied-mention { margin-top: 12px; font-size: .78rem; opacity: .85; }
-.pied-barre { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 0; max-width: 760px; margin: 26px auto 0; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.6); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.pied-centre .pied-mention { margin-top: 18px; font-size: .78rem; opacity: .85; }
+.pied-barre { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 0; max-width: 760px; margin: 32px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.6); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
 /* Liens centrés, séparés par un point médian, alignés sur le texte au-dessus */
 .pied-barre > * + *::before { content: '·'; margin: 0 14px; opacity: .8; }
 .pied-barre a { color: var(--blanc); text-decoration: none; }
@@ -2905,8 +2907,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 <footer class="pied-site">
   <div class="pied-inner">
     <div class="pied-centre">
-      <img src="assets/logo-section-france.png" alt="" width="64" height="64">
-      <div class="pied-nom">Français du monde – ADFE<br>Section France</div>
+      <div class="pied-marque">
+        <img src="assets/logo-section-france.png" alt="" width="64" height="64">
+        <div class="pied-nom">Français du monde – ADFE<br>Section France</div>
+      </div>
       <p>Informations tirées des sites officiels de l'administration : <a href="#ressources">voir la rubrique Ressources</a></p>
       <p>Guide gratuit, rédigé bénévolement pour les Français de l'étranger qui reviennent vivre en France.</p>
       <p class="pied-mention">Guide mis à jour — octobre 2026 · Ce document est un outil d'orientation et ne remplace pas un conseil individualisé.</p>
