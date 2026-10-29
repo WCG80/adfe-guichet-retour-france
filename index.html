@@ -1550,6 +1550,19 @@ main { padding-top: 40px; }
   details, .etapes li, .numeros li { break-inside: avoid; }
   .section h2, details > summary { break-after: avoid; }
 }
+/* Mode d'emploi en trois étapes, dans « Votre situation » : bouton à droite du titre, étapes au-dessus des menus */
+.filtre-profil .filtre-inner .me-ligne, .filtre-profil .filtre-inner .mode-emploi { grid-column: 1 / -1; }
+.me-ligne { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.me-ouvrir { font: inherit; font-size: .85rem; font-weight: 700; color: var(--bordeaux); background: var(--blanc); border: 1.5px solid var(--bordeaux); border-radius: 4px; padding: 6px 12px; cursor: pointer; }
+.me-ouvrir:hover, .me-ouvrir[aria-expanded="true"] { background: var(--bordeaux); color: var(--blanc); }
+.me-ouvrir:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.mode-emploi-etapes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.mode-emploi-etapes li { display: flex; gap: 10px; align-items: flex-start; background: var(--blanc); border-top: 3px solid var(--bordeaux); padding: 12px 14px; font-size: .9rem; line-height: 1.5; }
+.mode-emploi-etapes strong { color: var(--ardoise); }
+.me-num { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--bordeaux); color: var(--blanc); font-weight: 700; font-size: .85rem; }
+.mode-emploi-confidentialite { margin: 10px 0 0; font-size: .82rem; color: var(--texte-doux); font-style: italic; }
+@media (max-width: 700px) { .mode-emploi-etapes { grid-template-columns: 1fr; } }
+@media print { .me-ouvrir, .mode-emploi { display: none !important; } }
 /* Retour depuis une rubrique : lien « Toutes les rubriques » en haut, mot « Accueil » visible aussi sur mobile */
 .retour-rubriques { display: none; }
 body.vue-rubrique .retour-rubriques {
@@ -1661,7 +1674,19 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 
 <div class="filtre-profil" role="search" aria-label="Filtrer le guide par profil">
   <div class="filtre-inner">
-    <span class="filtre-label">Votre situation</span>
+    <div class="me-ligne">
+      <span class="filtre-label">Votre situation</span>
+      <button type="button" class="me-ouvrir" id="mode-emploi-bascule" aria-expanded="false" aria-controls="mode-emploi">Comment utiliser ce guide ?</button>
+    </div>
+    <!-- Mode d'emploi en trois étapes : ouvert à la première visite, puis fermé ; le bouton l'ouvre ou le referme -->
+    <div class="mode-emploi" id="mode-emploi" hidden>
+      <ol class="mode-emploi-etapes">
+        <li><span class="me-num">1</span><span><strong>Indiquez votre situation.</strong> Ajoutez votre date de retour si vous souhaitez un calendrier daté de vos démarches.</span></li>
+        <li><span class="me-num">2</span><span><strong>Cliquez sur « Voir mon guide personnalisé »</strong> : les points clés s'affichent et les rubriques ne gardent que ce qui vous concerne.</span></li>
+        <li><span class="me-num">3</span><span><strong>Ouvrez les rubriques</strong>, cochez les étapes faites, puis imprimez votre fiche ou partagez votre profil.</span></li>
+      </ol>
+      <p class="mode-emploi-confidentialite">Vos choix restent sur votre appareil : rien n'est envoyé ni enregistré ailleurs.</p>
+    </div>
     <div class="filtre-champ">
       <span class="pastille" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18" fill="#D3EBDD" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 24h36M24 6c-6 6-6 30 0 36M24 6c6 6 6 30 0 36" fill="none" stroke="#273844" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <select id="filtre-provenance" aria-label="Pays de provenance">
@@ -3499,6 +3524,27 @@ document.addEventListener('DOMContentLoaded', () => {
       if (courante && !estAffichee(courante)) { history.replaceState(null, '', location.pathname + location.search); afficherVue(null); }
     });
   });
+
+  // Mode d'emploi : ouvert à la première visite, fermé ensuite (dès le premier choix, pour la visite suivante) ; mémorisé sur l'appareil
+  const modeEmploi = document.getElementById('mode-emploi');
+  const basculeMode = document.getElementById('mode-emploi-bascule');
+  if (modeEmploi && basculeMode) {
+    const afficherMode = ouvert => { modeEmploi.hidden = !ouvert; basculeMode.setAttribute('aria-expanded', String(ouvert)); };
+    let memo = null;
+    try { memo = localStorage.getItem('adfe-mode-emploi'); } catch(e) {}
+    let dejaVenu = false;
+    try { dejaVenu = Object.keys(JSON.parse(localStorage.getItem('adfe-profil') || '{}') || {}).length > 0; } catch(e) {}
+    afficherMode(memo ? memo === 'ouvert' : !dejaVenu && !location.search);
+    basculeMode.addEventListener('click', () => {
+      const ouvert = modeEmploi.hidden;
+      afficherMode(ouvert);
+      try { localStorage.setItem('adfe-mode-emploi', ouvert ? 'ouvert' : 'ferme'); } catch(e) {}
+    });
+    // Premier choix dans les menus : l'aide reste ouverte maintenant, mais sera fermée à la prochaine visite
+    document.querySelectorAll('.filtre-profil select, .champ-date-retour').forEach(el => el.addEventListener('change', () => {
+      try { if (!localStorage.getItem('adfe-mode-emploi')) localStorage.setItem('adfe-mode-emploi', 'ferme'); } catch(e) {}
+    }));
+  }
 
   // Profil restauré (lien partagé ou dernière visite) ; un lien partagé déplie les rubriques ciblées
   const depuisLien = restaurerProfil();
