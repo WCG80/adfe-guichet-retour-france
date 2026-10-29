@@ -744,7 +744,6 @@ footer strong { color: var(--blanc); }
 /* Pied de page */
 .pied-site { padding: 48px 20px 28px; font-size: .85rem; }
 .pied-inner { max-width: 940px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.pied-guide { margin-top: 10px; line-height: 1.8; }
 
 @media (max-width: 700px) {
   .bandeau-inner { padding: 18px 16px 8px; margin-bottom: 16px; }
@@ -1228,7 +1227,6 @@ main { padding-top: 40px; }
   body .btn-print { background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade); border: 0; color: var(--blanc); }
   body .btn-print:hover { background: linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.28)), var(--degrade); }
 }
-.pied-guide a { color: var(--blanc); text-decoration: underline; text-underline-offset: 2px; }
 /* Bouton Accueil : même dégradé que « Voir mon guide personnalisé » et « Imprimer ma fiche » */
 @media screen {
   .nav-inner .lien-accueil, .nav-inner .lien-accueil.actif { background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade); color: var(--blanc); }
@@ -1619,6 +1617,22 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 @media screen {
   body.vue-violences .quitter-vite { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; padding: 16px 24px; border-radius: 6px; }
   .quitter-vite svg { width: 24px; height: 24px; flex: 0 0 auto; }
+}
+/* Pied de page dans l'esprit de francais-du-monde.org : logo centré, textes, puis barre fine de liens en petites majuscules */
+.pied-site { padding: 36px 0 18px; text-align: center; }
+.pied-site .pied-inner { display: block; }
+.pied-centre img { width: 64px; height: 64px; border-radius: 50%; border: 2px solid rgba(255,255,255,.9); box-shadow: 0 3px 14px rgba(0,0,0,.25); }
+.pied-nom { margin: 12px 0 14px; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; line-height: 1.4; }
+.pied-centre p { margin: 6px auto 0; max-width: 640px; font-size: .88rem; line-height: 1.6; }
+.pied-centre a { color: var(--blanc); text-decoration: underline; text-underline-offset: 2px; }
+.pied-centre .pied-mention { margin-top: 14px; font-size: .8rem; opacity: .9; }
+.pied-barre { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 24px; margin-top: 26px; padding: 14px 64px 0 0; border-top: 1px solid rgba(255,255,255,.6); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.pied-barre a { color: var(--blanc); text-decoration: none; }
+.pied-barre a:hover { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 700px) {
+  .pied-barre { flex-direction: column; gap: 10px; padding-right: 0; }
+  /* Place pour le bouton rond « revenir en haut » */
+  .pied-site { padding-bottom: 76px; }
 }
 </style>
 </head>
@@ -2887,11 +2901,19 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 
 <footer class="pied-site">
   <div class="pied-inner">
-    <div class="pied-guide">
-      <strong>Français du monde – ADFE — Section France</strong><br>
-  Informations tirées des sites officiels de l'administration : <a href="#ressources">voir la rubrique Ressources</a><br>
-  Guide mis à jour — octobre 2026 · Ce document est un outil d'orientation et ne remplace pas un conseil individualisé.
+    <div class="pied-centre">
+      <img src="assets/logo-section-france.png" alt="" width="64" height="64">
+      <div class="pied-nom">Français du monde – ADFE<br>Section France</div>
+      <p>Informations tirées des sites officiels de l'administration : <a href="#ressources">voir la rubrique Ressources</a></p>
+      <p>Guide gratuit, rédigé bénévolement pour les Français de l'étranger qui reviennent vivre en France.</p>
+      <p class="pied-mention">Guide mis à jour — octobre 2026 · Ce document est un outil d'orientation et ne remplace pas un conseil individualisé.</p>
     </div>
+    <nav class="pied-barre" aria-label="Liens du pied de page">
+      <a class="pied-contact" data-u="wafagonz" data-d="gmail.com" href="#">Contact</a>
+      <a href="#accueil" data-mode-emploi>Comment utiliser ce guide ?</a>
+      <a href="https://francais-du-monde.org/" target="_blank" rel="noopener noreferrer">francais-du-monde.org</a>
+      <span>© Français du monde – ADFE</span>
+    </nav>
   </div>
 </footer>
 
@@ -3549,6 +3571,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let dejaVenu = false;
     try { dejaVenu = Object.keys(JSON.parse(localStorage.getItem('adfe-profil') || '{}') || {}).length > 0; } catch(e) {}
     afficherMode(memo ? memo === 'ouvert' : !dejaVenu && !location.search);
+    // Contact du pied de page : le lien ouvre la messagerie avec l'adresse déjà remplie, sans l'afficher sur la page ;
+    // l'adresse est assemblée au chargement, pour la cacher aux robots qui ramassent les adresses
+    document.querySelectorAll('.pied-contact').forEach(a => {
+      const adresse = a.dataset.u + '@' + a.dataset.d;
+      a.href = 'mailto:' + adresse + '?subject=' + encodeURIComponent('Guide Revenir vivre en France');
+    });
+    // Lien « Comment utiliser ce guide ? » du pied de page : retour à l'accueil, mode d'emploi ouvert
+    document.querySelectorAll('[data-mode-emploi]').forEach(a => a.addEventListener('click', () => {
+      afficherMode(true);
+      setTimeout(() => basculeMode.scrollIntoView({ block: 'center' }), 150);
+    }));
     basculeMode.addEventListener('click', () => {
       const ouvert = modeEmploi.hidden;
       afficherMode(ouvert);
