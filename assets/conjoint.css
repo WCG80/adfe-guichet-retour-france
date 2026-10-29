@@ -84,7 +84,12 @@ main { max-width: 940px; margin: 0 auto; padding: 24px 40px 80px; }
     font: inherit; font-size: .85rem; font-weight: 700; letter-spacing: .02em; box-shadow: 0 3px 12px rgba(0,0,0,.25);
   }
   body.vue-danger .quitter-vite:hover { background: #1B2730; }
+  /* Bouton agrandi, avec un pictogramme au trait (porte de sortie) */
+  body.vue-danger .quitter-vite { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; padding: 16px 24px; border-radius: 6px; }
 }
+.quitter-vite svg { width: 24px; height: 24px; flex: 0 0 auto; }
+.quitter-vite-texte { display: inline-flex; align-items: center; gap: 8px; font-size: .95rem; padding: 10px 16px; }
+.quitter-vite-texte svg { width: 20px; height: 20px; flex: 0 0 auto; }
 
 /* Pied de page */
 footer { background: var(--degrade); color: rgba(255,255,255,.92); text-align: center; padding: 36px 20px; font-size: .85rem; line-height: 1.8; }

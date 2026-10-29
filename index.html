@@ -1570,6 +1570,11 @@ main { padding-top: 40px; }
   details, .etapes li, .numeros li { break-inside: avoid; }
   .section h2, details > summary { break-after: avoid; }
 }
+/* Bouton « Quitter rapidement » agrandi, avec un pictogramme au trait (porte de sortie) */
+@media screen {
+  body.vue-violences .quitter-vite { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; padding: 16px 24px; border-radius: 6px; }
+  .quitter-vite svg { width: 24px; height: 24px; flex: 0 0 auto; }
+}
 </style>
 </head>
 <body>
@@ -1583,8 +1588,8 @@ main { padding-top: 40px; }
     <img class="logo-section" src="assets/logo-section-france.png" alt="Logo de la Section France" width="72" height="72">
     <span>Français du monde – ADFE · Section France</span>
     <nav class="langues" aria-label="Page pour votre conjoint étranger">
-      <a href="conjoint-en.html" hreflang="en" lang="en" title="Page in English for a foreign spouse">For foreign spouses</a>
-      <a href="conjoint-es.html" hreflang="es" lang="es" title="Página en español para el cónyuge extranjero">Para cónyuges extranjeros</a>
+      <a href="conjoint-en.html" hreflang="en" lang="en" title="Page in English for a foreign spouse">Foreign spouse or partner</a>
+      <a href="conjoint-es.html" hreflang="es" lang="es" title="Página en español para el cónyuge extranjero">Cónyuge o pareja extranjera</a>
     </nav>
   </div>
   <div class="titre-page">
@@ -2814,7 +2819,7 @@ main { padding-top: 40px; }
   <p class="note-impression">La fiche imprimée reprend votre profil, vos dates et uniquement les rubriques qui vous concernent.</p>
 </div>
 
-<button type="button" class="quitter-vite" id="quitter-vite">Quitter rapidement</button>
+<button type="button" class="quitter-vite" id="quitter-vite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M9 8l-4 4 4 4"/><path d="M5 12h11"/></svg>Quitter rapidement</button>
 <button type="button" class="retour-haut" id="retour-haut" aria-label="Revenir en haut de la page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <footer class="pied-site">
