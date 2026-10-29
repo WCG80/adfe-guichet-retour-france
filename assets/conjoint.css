@@ -68,6 +68,24 @@ main { max-width: 940px; margin: 0 auto; padding: 24px 40px 80px; }
 .numeros a { color: var(--teal-fonce); white-space: nowrap; }
 .numeros .horaires { display: block; color: var(--texte-doux); font-size: .82rem; }
 
+/* Partie « Si vous êtes en danger » : lien discret en haut, bouton « Quitter rapidement » (fixe quand la partie est à l'écran) */
+.lien-danger { font-size: .85rem; }
+.lien-danger a { color: var(--ardoise); }
+.quitter-vite-texte {
+  font: inherit; font-style: normal; font-size: .8rem; font-weight: 700; cursor: pointer; margin-right: 6px;
+  padding: 6px 12px; border-radius: 4px; border: 1.5px solid var(--ardoise); background: var(--blanc); color: var(--ardoise);
+}
+.quitter-vite-texte:hover { background: var(--ardoise); color: var(--blanc); }
+.quitter-vite { display: none; }
+@media screen {
+  body.vue-danger .quitter-vite {
+    display: block; position: fixed; left: 16px; bottom: 16px; z-index: 400; cursor: pointer;
+    background: var(--ardoise); color: var(--blanc); border: 0; border-radius: 4px; padding: 12px 18px;
+    font: inherit; font-size: .85rem; font-weight: 700; letter-spacing: .02em; box-shadow: 0 3px 12px rgba(0,0,0,.25);
+  }
+  body.vue-danger .quitter-vite:hover { background: #1B2730; }
+}
+
 /* Pied de page */
 footer { background: var(--degrade); color: rgba(255,255,255,.92); text-align: center; padding: 36px 20px; font-size: .85rem; line-height: 1.8; }
 footer a { color: var(--blanc); }
@@ -89,4 +107,6 @@ footer a { color: var(--blanc); }
   .langues { display: none; }
   .section h2::after { display: none; }
   .liens a::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
+  /* Comme dans le guide : la partie sur les violences ne figure pas sur la page imprimée */
+  #danger, .lien-danger, .quitter-vite { display: none !important; }
 }

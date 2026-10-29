@@ -16,7 +16,7 @@
     <img class="logo-section" src="assets/logo-section-france.png" alt="Logo of the France Section" width="72" height="72">
     <span>Français du monde – ADFE · Section France</span>
     <nav class="langues" aria-label="Language">
-      <a href="index.html" hreflang="fr" lang="fr">FR</a>
+      <a href="index.html" hreflang="fr">Full guide (in French)</a>
       <strong aria-current="page">EN</strong>
       <a href="conjoint-es.html" hreflang="es" lang="es">ES</a>
     </nav>
@@ -33,6 +33,7 @@
 <div class="intro">
   <p>Your husband or wife is French and you are moving to France together. This page sums up the steps that concern <strong>you</strong>: the order of the steps, residence permit, French classes, health insurance, work, bank and family benefits, children and driving licence.</p>
   <p class="prudence">Information checked in October 2026 on official French websites. Rules change regularly: always check the links below. In case of doubt, the French version of the guide is the reference.</p>
+  <p class="lien-danger"><a href="#danger">If you are in danger</a></p>
 </div>
 
 <section class="section" id="start">
@@ -67,7 +68,7 @@
 
 <section class="section" id="integration">
   <h2>3. Integration contract and French classes</h2>
-  <p>As a non-European national settling in France for the first time, you will be invited by the French Office for Immigration and Integration (OFII) to sign a <strong>Republican Integration Contract</strong> (CIR). It includes a French language test and, if your level is below A2, free French classes (up to 600 hours, in a classroom or online), as well as civic training on life in France.</p>
+  <p>As a non-European national settling in France for the first time, you will be invited by the French Office for Immigration and Integration (OFII) to sign a <strong>Republican Integration Contract</strong> (CIR). It includes a French language test and, if your level is below A2, French classes (600 hours, in a classroom or online), as well as civic training on life in France.</p>
   <div class="liens"><div class="liens-titre">Official links</div>
     <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F17048?lang=en" target="_blank" rel="noopener noreferrer">service-public.fr — Republican Integration Contract (English)</a>
     <a href="https://www.ofii.fr/" target="_blank" rel="noopener noreferrer">OFII — French Office for Immigration and Integration</a>
@@ -155,8 +156,33 @@
   </dl>
 </section>
 
+<section class="section" id="danger">
+  <h2>10. If you are in danger</h2>
+  <p>Violence in a couple or a family (physical, psychological, sexual, financial, or someone taking your papers) is a crime in France. You can get help, whatever your nationality.</p>
+  <p class="prudence"><button type="button" class="quitter-vite-texte">Leave this page quickly</button> This button, or pressing Escape twice, immediately opens the Google home page.</p>
+  <ul class="numeros">
+    <li><strong>Immediate danger</strong>: <a href="tel:17">17</a> (police) or <a href="tel:112">112</a>
+      <span class="horaires">112 operators speak French or English. If you cannot speak because the person is near you, send a text message to <a href="sms:114">114</a> with your name, your exact address and what is happening.</span></li>
+    <li><strong>3919 – Violences Femmes Info</strong>: <a href="tel:3919">3919</a>
+      <span class="horaires">Free, anonymous, 24 hours a day, 7 days a week; the call does not appear on your phone bill. Interpreters are available in more than 200 languages. It offers listening and advice, but it is not an emergency number.</span></li>
+    <li><strong>116 006 – victim support</strong>: <a href="tel:116006">116 006</a>
+      <span class="horaires">Free, every day from 9 am to 8 pm.</span></li>
+    <li><strong>Emergency accommodation</strong>: <a href="tel:115">115</a></li>
+  </ul>
+  <div class="alerte"><strong>Your residence permit is protected.</strong> If you stop living together because of domestic violence, the prefecture cannot refuse your residence permit for that reason. Violence can be proven by any means: a police complaint, medical certificates, testimonies. If you file a complaint, your temporary residence card is renewed for the whole duration of the criminal proceedings.</div>
+  <ul>
+    <li><strong>Protection order</strong>: you can ask the family judge (<em>juge aux affaires familiales</em>) for a protection order, even without filing a complaint first. In case of serious and immediate danger, the judge decides within 24 hours. It lasts up to 12 months. If you obtain one, you receive a temporary residence card. Depending on your income, legal aid (<em>aide juridictionnelle</em>) can cover your lawyer's and interpreter's fees.</li>
+    <li><strong>Keep copies</strong> of your passport, residence permit and marriage certificate in an email account that only you know.</li>
+  </ul>
+  <div class="liens"><div class="liens-titre">Official links</div>
+    <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F12544?lang=en" target="_blank" rel="noopener noreferrer">service-public.fr — domestic violence (English)</a>
+    <a href="https://www.justice.fr/themes/ordonnance-protection" target="_blank" rel="noopener noreferrer">justice.fr — protection order (French)</a>
+    <a href="https://annuaire.arretonslesviolences.gouv.fr/" target="_blank" rel="noopener noreferrer">Arrêtons les violences — find a support organisation near you (French)</a>
+  </div>
+</section>
+
 <section class="section" id="contacts">
-  <h2>10. Getting help</h2>
+  <h2>11. Getting help</h2>
   <ul class="numeros">
     <li><strong>France services</strong> — offices all over France where staff help you with administrative procedures, in person and free of charge.
       <span class="horaires"><a href="https://www.france-services.gouv.fr/" target="_blank" rel="noopener noreferrer">france-services.gouv.fr</a> (French)</span></li>
@@ -169,11 +195,39 @@
 
 </main>
 
+<button type="button" class="quitter-vite" id="quitter-vite">Leave this page quickly</button>
+
 <footer>
   <strong>Français du monde – ADFE — Section France</strong><br>
   This page complements the French guide <a href="index.html">Revenir vivre en France</a>, which is the reference version.<br>
   Updated October 2026 · This page provides general guidance and does not replace individual advice.
 </footer>
 
+<script>
+// Partie « danger » : bouton « Quitter rapidement » visible quand la partie est à l'écran ;
+// il remplace la page dans l'historique par un site neutre (le bouton Retour ne ramène pas ici)
+(() => {
+  const partie = document.getElementById('danger');
+  const btn = document.getElementById('quitter-vite');
+  const quitterVite = () => {
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+    location.replace('https://www.google.com/');
+  };
+  document.querySelectorAll('.quitter-vite, .quitter-vite-texte').forEach(b => b.addEventListener('click', quitterVite));
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => document.body.classList.toggle('vue-danger', es[0].isIntersecting)).observe(partie);
+  } else {
+    document.body.classList.add('vue-danger');
+  }
+  // Deux appuis rapides sur Échap font la même chose, quand la partie est à l'écran
+  let dernierEchap = 0;
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !document.body.classList.contains('vue-danger')) return;
+    const maintenant = Date.now();
+    if (maintenant - dernierEchap < 800) quitterVite();
+    dernierEchap = maintenant;
+  });
+})();
+</script>
 </body>
 </html>

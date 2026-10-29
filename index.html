@@ -813,9 +813,9 @@ footer strong { color: var(--blanc); }
 @media (max-width: 700px) { .retour-haut { right: 14px; bottom: 14px; width: 42px; height: 42px; } }
 @media print { .retour-haut { display: none !important; } }
 
-/* Liens vers les pages conjoint (anglais, espagnol) dans le bandeau */
+/* Liens vers les pages conjoint (anglais, espagnol) dans le bandeau — ce ne sont pas des traductions du guide */
 .langues { margin-left: auto; display: flex; align-items: center; gap: 6px; }
-.langues-label { font-size: 12px; text-transform: none; letter-spacing: 0; opacity: .9; margin-right: 2px; }
+.bandeau-inner .langues-label { font-size: 13px; text-transform: none; letter-spacing: 0; opacity: .95; margin-right: 2px; }
 .langues a {
   color: var(--blanc); text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 1px;
   border: 1.5px solid rgba(255,255,255,.8); border-radius: 4px; padding: 3px 9px;
@@ -834,7 +834,7 @@ footer strong { color: var(--blanc); }
 @media print { .langues { display: none; } }
 
 /* ── FICHE PERSONNALISÉE À L'IMPRESSION ── */
-.fiche-entete { display: none; }
+.fiche-entete, .fiche-section { display: none; }
 .note-impression { font-size: .82rem; color: var(--texte-doux); font-style: italic; margin-top: 8px; }
 @media print {
   .fiche-entete { display: block; border: 1.5pt solid #333; padding: 10pt 14pt; margin: 0 0 16pt; font-size: 10pt; page-break-inside: avoid; }
@@ -842,10 +842,18 @@ footer strong { color: var(--blanc); }
   .fiche-entete ul { list-style: none; padding: 0; margin: 6pt 0; }
   .fiche-entete li { margin: 2pt 0; }
   .fiche-entete .fiche-lien { font-size: 8.5pt; color: #333; word-break: break-all; }
+  /* Logo et nom de la Section en haut à gauche de la page imprimée, au-dessus de « Guide pratique » */
+  .titre-page .fiche-section { display: flex; align-items: center; gap: 6pt; margin: 0 0 10pt; font-size: 8.5pt; font-weight: 600; line-height: 1.3; color: #333; text-align: left; }
+  .fiche-section img { width: 34pt; height: 34pt; border-radius: 50%; }
+  /* Avertissement en rouge en tête de fiche */
+  .fiche-avertissement { color: var(--rouge); font-size: 9.5pt; margin: 6pt 0; }
+  .fiche-avertissement strong { color: var(--rouge); }
   .synthese-lien, .synthese-partage, .note-impression { display: none !important; }
   .synthese-profil.actif { border: 1pt solid #999; padding: 8pt; margin-bottom: 16pt; }
-  /* Fiche personnalisée : le glossaire complet n'est pas imprimé */
-  body.fiche-profil #glossaire { display: none !important; }
+  /* Fiche personnalisée : le glossaire, les barèmes, les ressources et le retour en urgence ne sont pas imprimés
+     (rubriques générales, retrouvables avec le lien en ligne de l'en-tête) */
+  body.fiche-profil #glossaire, body.fiche-profil #bareme, body.fiche-profil #ressources, body.fiche-profil #urgence { display: none !important; }
+  body.fiche-profil .hors-fiche { display: none !important; }
   a[href^="#"]:after { content: none; }
   /* Liens internes au guide : l'adresse relative n'a pas de sens sur papier */
   a[href$=".html"]:after { content: none; }
@@ -1555,6 +1563,13 @@ main { padding-top: 40px; }
   body.vue-rubrique .nav-rubriques { margin-bottom: 0; }
   body.vue-rubrique .zone-impression { margin-top: 20px; padding-top: 20px; border-top: 1px solid #EAEAEA; }
 }
+/* Impression : une rubrique peut se couper entre deux pages (sinon une rubrique longue part entière à la page suivante
+   et laisse une demi-page blanche) ; on évite seulement de couper un encadré ou de laisser un titre seul en bas de page */
+@media print {
+  .section { page-break-inside: auto; break-inside: auto; }
+  details, .etapes li, .numeros li { break-inside: avoid; }
+  .section h2, details > summary { break-after: avoid; }
+}
 </style>
 </head>
 <body>
@@ -1567,13 +1582,13 @@ main { padding-top: 40px; }
   <div class="bandeau-inner">
     <img class="logo-section" src="assets/logo-section-france.png" alt="Logo de la Section France" width="72" height="72">
     <span>Français du monde – ADFE · Section France</span>
-    <nav class="langues" aria-label="Langue">
-      <strong aria-current="page" lang="fr">FR</strong>
-      <a href="conjoint-en.html" hreflang="en" lang="en" title="Page in English for a foreign spouse">EN</a>
-      <a href="conjoint-es.html" hreflang="es" lang="es" title="Página en español para el cónyuge extranjero">ES</a>
+    <nav class="langues" aria-label="Page pour votre conjoint étranger">
+      <a href="conjoint-en.html" hreflang="en" lang="en" title="Page in English for a foreign spouse">For foreign spouses</a>
+      <a href="conjoint-es.html" hreflang="es" lang="es" title="Página en español para el cónyuge extranjero">Para cónyuges extranjeros</a>
     </nav>
   </div>
   <div class="titre-page">
+    <div class="fiche-section"><img src="assets/logo-section-france.png" alt="" width="40" height="40"><span>Français du monde – ADFE<br>Section France</span></div>
     <span class="titre-surtitre">Guide pratique</span>
     <h1>Revenir vivre en France<svg class="drapeau" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#000091"/><rect x="1" width="1" height="2" fill="#FFFFFF"/><rect x="2" width="1" height="2" fill="#E1000F"/></svg></h1>
     <p>Démarches, droits et ressources officielles après une expatriation.</p>
@@ -2875,6 +2890,8 @@ function appliquerFiltres() {
   // Emploi, fiscalité, douanes
   afficher('chomage-u1', !estHorsUE, estUE || estUK);
   afficher('fiscal-us',  true, estUS || conjoint === 'etats-unis');
+  // Fiche imprimée : l'encadré américain reste à l'écran pour tous, mais n'est imprimé que s'il concerne le profil
+  document.getElementById('fiscal-us')?.classList.toggle('hors-fiche', !!provenance && !estUS && conjoint !== 'etats-unis');
   afficher('permis',     true, estUS || conjoint === 'etats-unis');
   afficher('animal',     animal !== 'non', animal === 'oui');
 
@@ -3095,12 +3112,23 @@ function preparerFiche() {
   const aujourdhui = new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
   bloc.innerHTML =
     '<h2>' + (profil ? 'Ma fiche personnalisée' : 'Guide complet') + ' — Revenir vivre en France</h2>' +
-    '<div>Imprimée le ' + aujourdhui + ' · Français du monde – ADFE, Section France</div>' +
+    '<div>Imprimée le ' + aujourdhui + '</div>' +
+    '<p class="fiche-avertissement"><strong>Avertissement :</strong> cette fiche donne des informations générales. Elle ne remplace pas l\'accompagnement par un professionnel (administration concernée, avocat, notaire, conseiller fiscal, travailleur social).</p>' +
     (lignes.length ? '<ul>' + lignes.join('') + '</ul>'
                    : '<p>Aucun profil choisi : tout le guide est imprimé. Choisissez votre situation en haut du guide pour obtenir une fiche personnalisée.</p>') +
     '<div class="fiche-lien">Retrouvez cette fiche en ligne : ' + echapper(lienProfil()) + '</div>';
 }
 window.addEventListener('beforeprint', preparerFiche);
+// Chrome n'imprime pas le contenu d'un encadré fermé : on ouvre ceux qui sont fermés le temps de l'impression, puis on les referme
+let encadresOuvertsPourImpression = [];
+window.addEventListener('beforeprint', () => {
+  encadresOuvertsPourImpression = [...document.querySelectorAll('details:not([open])')];
+  encadresOuvertsPourImpression.forEach(d => d.setAttribute('open', ''));
+});
+window.addEventListener('afterprint', () => {
+  encadresOuvertsPourImpression.forEach(d => d.removeAttribute('open'));
+  encadresOuvertsPourImpression = [];
+});
 // « Imprimer cette rubrique » (Violences) : n'imprime que cette rubrique, tous les encadrés ouverts
 document.getElementById('imprimer-violences')?.addEventListener('click', () => {
   document.body.classList.add('impression-violences');
