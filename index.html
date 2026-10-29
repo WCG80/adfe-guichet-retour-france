@@ -1554,8 +1554,17 @@ main { padding-top: 40px; }
 .filtre-profil .filtre-inner .me-ligne, .filtre-profil .filtre-inner .mode-emploi { grid-column: 1 / -1; }
 .me-ligne { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .me-ouvrir { font: inherit; font-size: .85rem; font-weight: 700; color: var(--bordeaux); background: var(--blanc); border: 1.5px solid var(--bordeaux); border-radius: 4px; padding: 6px 12px; cursor: pointer; }
-.me-ouvrir:hover, .me-ouvrir[aria-expanded="true"] { background: var(--bordeaux); color: var(--blanc); }
+.me-ouvrir:hover { background: var(--bordeaux); color: var(--blanc); }
+/* Ouvert : partie violet → vert du dégradé ADFE, assombrie pour garder un texte blanc lisible
+   (la partie rose → rouge reste propre à l'action principale « Voir mon guide personnalisé ») */
+.me-ouvrir[aria-expanded="true"] { background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), linear-gradient(130deg, var(--violet) 0%, var(--teal) 100%); color: var(--blanc); border-color: transparent; }
+.me-ouvrir[aria-expanded="true"]:hover { background: linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.28)), linear-gradient(130deg, var(--violet) 0%, var(--teal) 100%); color: var(--blanc); }
 .me-ouvrir:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+/* Flèche dans un cercle : vers le bas pour ouvrir, vers le haut pour masquer */
+.me-ouvrir { display: inline-flex; align-items: center; gap: 8px; }
+.me-ouvrir svg { width: 20px; height: 20px; flex: 0 0 auto; transition: transform .2s; }
+.me-ouvrir[aria-expanded="true"] svg { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .me-ouvrir svg { transition: none; } }
 .mode-emploi-etapes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .mode-emploi-etapes li { display: flex; gap: 10px; align-items: flex-start; background: var(--blanc); border-top: 3px solid var(--bordeaux); padding: 12px 14px; font-size: .9rem; line-height: 1.5; }
 .mode-emploi-etapes strong { color: var(--ardoise); }
@@ -1676,7 +1685,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   <div class="filtre-inner">
     <div class="me-ligne">
       <span class="filtre-label">Votre situation</span>
-      <button type="button" class="me-ouvrir" id="mode-emploi-bascule" aria-expanded="false" aria-controls="mode-emploi">Comment utiliser ce guide ?</button>
+      <button type="button" class="me-ouvrir" id="mode-emploi-bascule" aria-expanded="false" aria-controls="mode-emploi"><span class="me-texte">Comment utiliser ce guide ?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 10.5l4 4 4-4"/></svg></button>
     </div>
     <!-- Mode d'emploi en trois étapes : ouvert à la première visite, puis fermé ; le bouton l'ouvre ou le referme -->
     <div class="mode-emploi" id="mode-emploi" hidden>
@@ -3529,7 +3538,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const modeEmploi = document.getElementById('mode-emploi');
   const basculeMode = document.getElementById('mode-emploi-bascule');
   if (modeEmploi && basculeMode) {
-    const afficherMode = ouvert => { modeEmploi.hidden = !ouvert; basculeMode.setAttribute('aria-expanded', String(ouvert)); };
+    const texteMode = basculeMode.querySelector('.me-texte');
+    const afficherMode = ouvert => {
+      modeEmploi.hidden = !ouvert;
+      basculeMode.setAttribute('aria-expanded', String(ouvert));
+      if (texteMode) texteMode.textContent = ouvert ? 'Masquer le mode d\'emploi' : 'Comment utiliser ce guide ?';
+    };
     let memo = null;
     try { memo = localStorage.getItem('adfe-mode-emploi'); } catch(e) {}
     let dejaVenu = false;
