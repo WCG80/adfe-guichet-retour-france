@@ -1626,11 +1626,14 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 .pied-centre p { margin: 6px auto 0; max-width: 640px; font-size: .88rem; line-height: 1.6; }
 .pied-centre a { color: var(--blanc); text-decoration: underline; text-underline-offset: 2px; }
 .pied-centre .pied-mention { margin-top: 14px; font-size: .8rem; opacity: .9; }
-.pied-barre { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 24px; margin-top: 26px; padding: 14px 64px 0 0; border-top: 1px solid rgba(255,255,255,.6); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.pied-barre { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 0; max-width: 760px; margin: 26px auto 0; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.6); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+/* Liens centrés, séparés par un point médian, alignés sur le texte au-dessus */
+.pied-barre > * + *::before { content: '·'; margin: 0 14px; opacity: .8; }
 .pied-barre a { color: var(--blanc); text-decoration: none; }
 .pied-barre a:hover { text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 700px) {
-  .pied-barre { flex-direction: column; gap: 10px; padding-right: 0; }
+  .pied-barre { flex-direction: column; gap: 10px; }
+  .pied-barre > * + *::before { content: none; }
   /* Place pour le bouton rond « revenir en haut » */
   .pied-site { padding-bottom: 76px; }
 }
