@@ -9,6 +9,7 @@
   --rose:        #D18899;
   --bordeaux:    #6D0D22;
   --ardoise:     #273844;
+  --noir:        #1B1B1B;
   --texte:       #331F23;
   --texte-doux:  #6A5559;
   --fond:        #F2E8E4;
@@ -114,4 +115,19 @@ footer a { color: var(--blanc); }
   .liens a::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
   /* Comme dans le guide : la partie sur les violences ne figure pas sur la page imprimée */
   #danger, .lien-danger, .quitter-vite { display: none !important; }
+}
+
+/* « Quitter rapidement » : même style que dans le guide (noir souligné de rouge, majuscules) */
+@media screen {
+  .quitter-vite-texte {
+    min-height: 44px; background: var(--noir); color: var(--blanc); border: 0; border-radius: 0;
+    box-shadow: inset 0 -4px 0 var(--rouge); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; padding: 8px 16px;
+  }
+  .quitter-vite-texte:hover { background: var(--ardoise); color: var(--blanc); }
+  body.vue-danger .quitter-vite {
+    background: var(--noir); color: var(--blanc); border-radius: 0; box-shadow: inset 0 -5px 0 var(--rouge), 0 3px 12px rgba(0,0,0,.25);
+    font-size: 15px; text-transform: uppercase; letter-spacing: .04em; padding: 16px 22px 18px;
+  }
+  body.vue-danger .quitter-vite:hover { background: var(--ardoise); }
+  .quitter-vite:focus-visible, .quitter-vite-texte:focus-visible { outline: 3px solid var(--rouge); outline-offset: 2px; }
 }
