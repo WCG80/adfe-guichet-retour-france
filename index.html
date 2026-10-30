@@ -1812,6 +1812,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .ress-carte:hover::before, .ress-carte:focus-visible::before { opacity: 1; }
   .ress-logo img.logo-info-retraite { max-height: 56px; max-width: 150px; }
 }
+/* Glossaire : lettre survolée ou cliquée au dégradé des boutons principaux (au lieu du violet) */
+@media screen {
+  .gl-index a:hover, .gl-index a:focus-visible, .gl-index a:active { background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade); color: var(--blanc); }
+}
 </style>
 </head>
 <body>
