@@ -41,6 +41,7 @@
   --rose-fonce:  #A84D63;
   --noir:        #1B1B1B;
   --jaune:       #FFE27A;
+  --jaune-texte: #FFF1B3;
   --ardoise:     #273844;
   --texte:       #331F23;
   --texte-doux:  #6A5559;
@@ -1827,6 +1828,23 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 .gl-site { display: inline-block; margin-left: 2px; color: var(--bordeaux); font-weight: 700; white-space: nowrap; }
 .gl-site:hover { color: var(--rouge); }
 @media print { .gl-site { display: none; } }
+/* Ordre : Violences (13) et Urgence (14) avant les annexes Ressources (15) et Glossaire (16).
+   Barre et numéro de Ressources et Glossaire de la couleur du liseré de leur carte d'accueil (vert, rose foncé) */
+@media screen {
+  #ressources h2::after { background: var(--teal); }
+  #ressources .section-num { color: var(--teal); }
+  #glossaire h2::after { background: var(--rose-fonce); }
+  #glossaire .section-num { color: var(--rose-fonce); }
+  /* Cartes Violences et Urgence à la taille des autres, côte à côte : leurs couleurs suffisent à les distinguer */
+  .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n), .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n) { grid-column: auto; }
+}
+/* Urgence : texte jaune plus clair sur le rouge (contraste 6,1 au lieu de 5,4) ; le jaune vif reste pour les traits */
+@media screen {
+  .accueil-tuiles .tuile.tuile-urgence .tuile-titre, .accueil-tuiles .tuile.tuile-urgence:hover .tuile-titre,
+  .accueil-tuiles .tuile.tuile-urgence .tuile-desc,
+  .accueil-tuiles .tuile.tuile-urgence::after, .accueil-tuiles .tuile.tuile-urgence:hover::after { color: var(--jaune-texte); }
+  .nav-inner .sommaire a.chip-urgence:nth-child(n):not(.actif) { color: var(--jaune-texte); }
+}
 </style>
 </head>
 <body>
@@ -1872,10 +1890,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
       <a href="#douanes">Douanes</a>
       <a href="#retraite">Retraite</a>
       <a href="#bareme">Barèmes</a>
-      <a href="#glossaire">Glossaire</a>
-      <a href="#ressources">Ressources</a>
       <a href="#violences" class="chip-violences">Violences</a>
       <a href="#urgence" class="chip-urgence">Urgence</a>
+      <a href="#ressources">Ressources</a>
+      <a href="#glossaire">Glossaire</a>
     </div>
     <button type="button" class="btn-loupe" id="btn-loupe" aria-label="Ouvrir la recherche" aria-expanded="false" aria-controls="recherche-guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
     <div class="recherche" role="search">
@@ -2011,10 +2029,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
     <a class="tuile" href="#douanes"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="15" width="34" height="25" rx="4" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 15v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M15 15v25M33 15v25" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="27.5" r="4.5" fill="#FFFFFF" stroke="#AE1F27" stroke-width="2"/></svg></span><span class="tuile-titre">Douanes</span><span class="tuile-desc">Déménagement, permis, animaux</span></a>
     <a class="tuile" href="#retraite"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20M14 42h20" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6c0 9 8 12 8 18s-8 9-8 18h16c0-9-8-12-8-18s8-9 8-18z" fill="#F2E8E4" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.5 38.5c1.5-3.5 4.5-5.5 4.5-5.5s3 2 4.5 5.5zM20.5 13h7l-3.5 4.5z" fill="#AE1F27"/></svg></span><span class="tuile-titre">Retraite</span><span class="tuile-desc">Pensions, santé du retraité, carrière</span></a>
     <a class="tuile" href="#bareme"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="5" width="26" height="38" rx="4" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="16" y="10" width="16" height="8" rx="1.5" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><g fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"><rect x="16" y="23" width="4" height="4" rx="1"/><rect x="22" y="23" width="4" height="4" rx="1"/><rect x="16" y="30" width="4" height="4" rx="1"/><rect x="22" y="30" width="4" height="4" rx="1"/><rect x="16" y="37" width="4" height="2" rx="1"/><rect x="22" y="37" width="4" height="2" rx="1"/></g><rect x="28" y="23" width="4" height="16" rx="1" fill="#AE1F27"/></svg></span><span class="tuile-titre">Barèmes 2026</span><span class="tuile-desc">Montants et délais clés</span></a>
-    <a class="tuile" href="#glossaire"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 13c-4-3-10-4-17-3v27c7-1 13 0 17 3 4-3 10-4 17-3V10c-7-1-13 0-17 3z" fill="#F6D9DF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 13v27M29 20h7M29 25h7M29 30h5" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 31l3.7-11 3.7 11M12.8 27h4.8" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-width="2"/></svg></span><span class="tuile-titre">Glossaire</span><span class="tuile-desc">Tous les sigles expliqués</span></a>
-    <a class="tuile" href="#ressources"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="22" cy="22" r="14" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 22h28M22 8c-5 5-5 23 0 28M22 8c5 5 5 23 0 28" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 29l11 4.6-4.7 1.6-1.6 4.7z" fill="#AE1F27" stroke="#AE1F27" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="tuile-titre">Ressources</span><span class="tuile-desc">Sites officiels et numéros utiles</span></a>
     <a class="tuile tuile-violences" href="#violences"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5l15 6v11c0 10-6 17-15 21C15 39 9 32 9 22V11z" fill="#DCD8EE" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.5 24.5L24 18l7.5 6.5" fill="none" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.5 23v8.5h11V23" fill="#FFFFFF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M22.2 31.5v-4.5h3.6v4.5" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tuile-titre">Violences : vous protéger</span><span class="tuile-desc">Numéros d'aide, mise à l'abri, droits du conjoint étranger</span></a>
     <a class="tuile tuile-urgence" href="#urgence"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l19 34H5z" fill="#FFE27A" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 18v11" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="34" r="1.8" fill="#273844"/></svg></span><span class="tuile-titre">Retour en urgence</span><span class="tuile-desc">Crise, guerre, catastrophe : consignes et contacts</span></a>
+    <a class="tuile" href="#ressources"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="22" cy="22" r="14" fill="#D3EBDD" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 22h28M22 8c-5 5-5 23 0 28M22 8c5 5 5 23 0 28" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 29l11 4.6-4.7 1.6-1.6 4.7z" fill="#AE1F27" stroke="#AE1F27" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="tuile-titre">Ressources</span><span class="tuile-desc">Sites officiels et numéros utiles</span></a>
+    <a class="tuile" href="#glossaire"><span class="tuile-icone"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 13c-4-3-10-4-17-3v27c7-1 13 0 17 3 4-3 10-4 17-3V10c-7-1-13 0-17 3z" fill="#F6D9DF" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 13v27M29 20h7M29 25h7M29 30h5" fill="none" stroke="#273844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 31l3.7-11 3.7 11M12.8 27h4.8" stroke="#AE1F27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-width="2"/></svg></span><span class="tuile-titre">Glossaire</span><span class="tuile-desc">Tous les sigles expliqués</span></a>
   </div>
 </div>
 
@@ -2697,9 +2715,252 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 </section>
 
 <!-- 13 -->
-<section class="section" id="glossaire">
+<section class="section" id="violences">
   <div class="section-header">
     <span class="section-num">13</span>
+    <div><span class="section-label">Couple, famille</span><h2>Violences : vous protéger</h2></div>
+  </div>
+  <p>Si vous subissez des violences dans votre couple ou votre famille — physiques, psychologiques, sexuelles, économiques, ou la confiscation de vos papiers —, vous pouvez être aidé·e <strong>depuis l'étranger</strong>, préparer votre <strong>retour en France</strong> et y être protégé·e <strong>une fois rentré·e</strong>.<span class="ecran-seul"> Le bouton <strong>« Quitter rapidement »</strong>, en bas de l'écran, remplace cette page par la page d'accueil de Google d'un seul clic.</span></p>
+  <p class="prudence">Pour plus de discrétion, consultez cette page en navigation privée. Si quelqu'un arrive, le bouton « Quitter rapidement » (ou deux appuis sur la touche Échap) ouvre aussitôt la page d'accueil de Google, et le bouton Retour du navigateur ne ramène pas ici.</p>
+  <p class="violences-impression"><button type="button" class="btn-imprimer-violences" id="imprimer-violences"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer cette rubrique</button> <button type="button" class="btn-imprimer-violences" id="imprimer-fiche-violences"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer ma fiche avec cette rubrique</button> <span>Elle ne figure jamais d'office dans la fiche générale. Vous pouvez l'imprimer seule ou à la suite de votre fiche : ce choix n'est pas mémorisé, ni dans votre profil ni dans le lien de partage.</span></p>
+
+  <h3 class="violences-titre">Vous vivez encore à l'étranger</h3>
+  <div class="urgence-numero">En danger immédiat : appelez les <strong>numéros d'urgence du pays</strong> (police, secours), puis votre <strong>consulat</strong>, joignable par une permanence en dehors des heures d'ouverture.</div>
+  <ul class="numeros violences-numeros">
+    <li><strong>Tchat avec des policiers ou gendarmes français</strong> (plateforme PNAV) : <a href="https://www.service-public.fr/cmi" target="_blank" rel="noopener noreferrer">service-public.fr/cmi</a>
+      <span class="horaires">Gratuit, 24h/24, 7j/7, depuis n'importe quel pays · l'historique de discussion est effacé</span></li>
+    <li><strong>SAVE YOU</strong>, plateforme dédiée aux familles françaises établies à l'étranger, partenaire du ministère des Affaires étrangères : <a href="mailto:saveyou@jointhesorority.com">saveyou@jointhesorority.com</a>
+      <span class="horaires">Gratuit et confidentiel, partout dans le monde</span></li>
+    <li><strong>France Victimes</strong> depuis l'étranger : <a href="tel:+33180523376">+33 1 80 52 33 76</a>
+      <span class="horaires">7j/7, 9h–20h (heure de Paris) · <a href="mailto:victimes@116006.fr">victimes@116006.fr</a></span></li>
+  </ul>
+  <details data-type="important" id="violences-etranger">
+    <summary><span class="sum-title">Ce que vous pouvez faire sur place</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Faites <strong>constater vos blessures</strong> dans un centre médical (blessures physiques et conséquences psychologiques) et prenez-les en photo.</li>
+        <li>Le <strong>consulat</strong> vous oriente vers des structures locales spécialisées (aide juridique, sociale, médicale) ; des référents y sont formés aux violences sexistes et sexuelles. Il peut vous accompagner dans certaines démarches administratives. Il n'a en revanche aucun pouvoir de police ni de justice.</li>
+        <li><strong>Porter plainte</strong> auprès de la police locale permet de mettre en place une protection sur place : gardez une copie de la plainte. Le consulat vous indique comment faire et quels documents fournir.</li>
+        <li>Vous pouvez aussi porter plainte <strong>en France</strong>, par courrier : auprès du procureur de la République de Paris si vous et l'auteur des violences vivez à l'étranger, ou auprès du procureur du lieu de résidence de l'auteur s'il vit en France.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/files/files/conseils-aux-voyageurs/fiche-ndeg6-2-guide-vfe-2026.pdf" target="_blank" rel="noopener noreferrer">France Diplomatie — fiche « Victime de violences au sein du couple à l'étranger » (PDF)</a><a href="https://arretonslesviolences.gouv.fr/besoin-d-aide/violences-au-sein-du-couple" target="_blank" rel="noopener noreferrer">arretonslesviolences.gouv.fr — violences au sein du couple</a></div>
+    </div>
+  </details>
+  <details data-type="important" id="violences-retour">
+    <summary><span class="sum-title">Rentrer en France pour vous mettre à l'abri</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Le <strong>consulat</strong> peut faciliter votre retour en France, en lien avec les services compétents. Si vos papiers ont été confisqués, dites-le : il peut délivrer un laissez-passer pour rentrer.</li>
+        <li><strong>Avant de partir</strong>, contactez une association spécialisée ou agréée par le ministère de la Justice : elle peut organiser votre prise en charge en France, dont un hébergement sécurisé (réseau Solidarité Femmes). SAVE YOU et France Victimes travaillent ensemble pour que l'aide continue au moment du départ et une fois en France.</li>
+        <li>Copiez ou scannez vos papiers d'identité, carte Vitale, bulletins de salaire et vos preuves (certificats médicaux, plaintes). Gardez-les dans une boîte mail que vous seul·e connaissez, ou confiez-les à un proche, un avocat ou une association. L'application gratuite <strong>Mémo de vie</strong> permet de les conserver en sécurité.</li>
+        <li>Ouvrez si possible un compte bancaire à votre nom, avec une adresse différente de celle de l'auteur des violences.</li>
+      </ul>
+      <p><strong>Si vous voulez rentrer avec vos enfants</strong> sans l'accord de l'autre parent, ce départ peut être considéré comme un déplacement illicite d'enfants (convention de La Haye de 1980) et conduire à une demande de retour des enfants dans le pays quitté. Parlez-en au consulat et à un avocat avant de partir.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.memo-de-vie.org/" target="_blank" rel="noopener noreferrer">Mémo de vie</a><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/famille-scolarite/que-faire-en-cas-de-deplacement-illicite" target="_blank" rel="noopener noreferrer">France Diplomatie — déplacement illicite d'enfants</a><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/vol-ou-perte-de-documents-a-l-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — papiers perdus ou confisqués</a></div>
+    </div>
+  </details>
+
+  <h3 class="violences-titre">Une fois rentré·e en France</h3>
+  <div class="urgence-numero">En danger immédiat : <a href="tel:17">17</a> ou <a href="tel:112">112</a> · par SMS, si vous ne pouvez pas parler : <a href="sms:114">114</a></div>
+  <ul class="numeros violences-numeros">
+    <li><strong>3919 — Violences Femmes Info</strong> : <a href="tel:3919">3919</a>, gratuit et anonyme
+      <span class="horaires">24h/24, 7j/7 · joignable uniquement depuis la France · écoute et orientation, ce n'est pas un numéro d'urgence</span></li>
+    <li><strong>116 006 — France Victimes</strong> : <a href="tel:116006">116 006</a>
+      <span class="horaires">7j/7, 9h–20h, gratuit</span></li>
+    <li><strong>119 — Allô Enfance en danger</strong> : <a href="tel:119">119</a>
+      <span class="horaires">24h/24, 7j/7, gratuit et confidentiel</span></li>
+  </ul>
+  <details data-type="info" id="violences-france">
+    <summary><span class="sum-title">Être protégé·e en France</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Vous pouvez porter plainte dans n'importe quel commissariat ou brigade de gendarmerie.</li>
+        <li>Le <strong>juge aux affaires familiales</strong> peut délivrer une <strong>ordonnance de protection</strong> dans un délai maximal de 6 jours à partir de la fixation de l'audience (éloignement de l'auteur, logement, enfants). En cas de danger grave et immédiat, une ordonnance provisoire peut être rendue sans audience, sous 24 heures. Les mesures durent au maximum 12 mois.</li>
+        <li><strong>Hébergement</strong> : des places d'hébergement d'urgence sont réservées en priorité aux victimes ; appelez le <a href="tel:115">115</a>.</li>
+        <li>Un <strong>avocat</strong> peut vous conseiller et rédiger la demande d'ordonnance de protection ; selon vos ressources, ses frais peuvent être pris en charge par l'aide juridictionnelle.</li>
+        <li>Pour être accompagné·e : France Victimes (116 006) ou l'annuaire des associations d'Arrêtons les violences.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.justice.fr/themes/ordonnance-protection" target="_blank" rel="noopener noreferrer">justice.fr — l'ordonnance de protection</a><a href="https://annuaire.arretonslesviolences.gouv.fr/" target="_blank" rel="noopener noreferrer">Arrêtons les violences — trouver une association</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F12544" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — violences conjugales</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="violences-conjoint">
+    <summary><span class="sum-title">En France : conjoint étranger victime de violences</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Si la vie commune s'arrête à cause de violences conjugales, le <strong>droit au séjour est maintenu</strong> : la préfecture ne peut pas refuser le titre pour ce motif. Les violences se prouvent par tous moyens : plainte, certificats médicaux, témoignages, attestations. Si vous portez plainte, la carte de séjour temporaire est renouvelée pendant toute la procédure pénale. Une personne qui bénéficie d'une ordonnance de protection peut obtenir une carte de séjour « vie privée et familiale », délivrée gratuitement.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2209" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — carte de séjour « vie privée et familiale »</a></div>
+    </div>
+  </details>
+</section>
+
+<!-- 14 -->
+<section class="section" id="urgence">
+  <div class="section-header">
+    <span class="section-num">14</span>
+    <div><span class="section-label">Crise, guerre, catastrophe</span><h2>Retour en urgence</h2></div>
+  </div>
+  <p>Si vous devez quitter votre pays de résidence en urgence — conflit, troubles graves, catastrophe naturelle —, <strong>suivez d'abord les consignes de l'ambassade ou du consulat</strong>. Cette rubrique rassemble ce qu'il faut savoir avant de partir et à l'arrivée ; le reste du guide s'applique ensuite comme pour tout retour.</p>
+  <p class="urgence-numero">Ligne d'urgence du Centre de crise et de soutien du ministère des Affaires étrangères, 24h/24 et 7j/7 : <a href="tel:+33153591100">+33 1 53 59 11 00</a></p>
+  <details data-type="important" id="urgence-sur-place">
+    <summary><span class="sum-title">Sur place : rester informé et joignable</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Inscrivez-vous au <strong>registre des Français établis hors de France</strong> auprès de votre consulat ou, pour un séjour de moins de six mois, sur <strong>Ariane</strong> : vous recevrez les messages de sécurité si la situation l'exige.</li>
+        <li>Suivez la fiche <strong>Conseils aux voyageurs</strong> de votre pays et les comptes de l'ambassade ou du consulat.</li>
+        <li>Seuls l'ambassadeur et l'officier de sécurité peuvent ordonner un regroupement ou une évacuation. Suivez strictement leurs consignes et celles des forces de sécurité.</li>
+        <li>Si vos enfants sont à l'école, ne vous précipitez pas vers l'établissement en cas de crise, sauf instruction contraire.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/conseils-aux-voyageurs/" target="_blank" rel="noopener noreferrer">France Diplomatie — Conseils aux voyageurs</a><a href="https://pastel.diplomatie.gouv.fr/fildariane/" target="_blank" rel="noopener noreferrer">Ariane — inscription</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="urgence-sac">
+    <summary><span class="sum-title">Préparer un sac d'évacuation</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Le ministère recommande un kit pour <strong>trois jours</strong>, dans des contenants étanches, facile à attraper :</p>
+      <ul>
+        <li>eau (au moins 3 litres par jour et par personne), nourriture non périssable, trousse de secours, médicaments, produits d'hygiène ;</li>
+        <li>documents : passeport, carte d'identité, permis de conduire, livret de famille, carnet de santé ;</li>
+        <li>argent en petites coupures, téléphone et chargeur, batterie externe, lampe torche, radio portable.</li>
+      </ul>
+      <p>Lors d'une évacuation, le poids des bagages est annoncé au dernier moment et souvent <strong>limité à 10 kg</strong>. Pour un animal, prévoyez eau, nourriture et un carnet de vaccination à jour.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/conseils-aux-voyageurs/fiches-pratiques/risques/que-faire-en-cas-d-evacuation" target="_blank" rel="noopener noreferrer">France Diplomatie — que faire en cas d'évacuation</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="urgence-papiers">
+    <summary><span class="sum-title">Papiers perdus ou volés</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>En cas de vol, portez plainte auprès de la police locale ; en cas de perte, adressez-vous directement à l'ambassade ou au consulat. Selon la situation, il peut délivrer un <strong>laissez-passer</strong>, valable uniquement pour rentrer en France, ou un passeport temporaire. Ces documents sont payants et ne sont pas délivrés automatiquement.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/vol-ou-perte-de-documents-a-l-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — vol ou perte de documents</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="urgence-frais">
+    <summary><span class="sum-title">Qui paie le retour ?</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <p>Les consulats ne prennent pas en charge les frais médicaux ni le rapatriement, qui peut coûter très cher en cas de maladie ou d'accident grave : <strong>vérifiez votre assurance rapatriement</strong>. Dans les situations d'une gravité exceptionnelle, le consulat peut organiser un retour aux frais de l'État, sous réserve de remboursement : ce n'est pas un droit.</p>
+      <p>Les évacuations collectives de ressortissants sont décidées par les autorités françaises en cas de danger imminent ; les consignes sont alors données par l'ambassade.</p>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/urgence-ou-difficulte" target="_blank" rel="noopener noreferrer">France Diplomatie — urgence ou difficulté</a></div>
+    </div>
+  </details>
+  <details data-type="info" id="urgence-arrivee">
+    <summary><span class="sum-title">À l'arrivée en France</span><span class="sum-icon">▾</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>Sans hébergement</strong> : appelez le <a href="tel:115">115</a>, gratuit, 24h/24, et adressez-vous au centre communal d'action sociale (CCAS) de la mairie. Lors des rapatriements organisés par l'État, l'association <strong>France Horizon</strong> peut être chargée d'accueillir et d'accompagner les personnes.</li>
+        <li><strong>Santé</strong> : les règles de la <a href="#sante">rubrique Santé</a> s'appliquent. Si vous étiez adhérent de la CFE, vos droits maladie sont maintenus jusqu'à 3 mois après votre retour définitif : prévenez-la rapidement.</li>
+        <li><strong>Soutien psychologique</strong> : une fois vos droits ouverts, le dispositif <strong>Mon soutien psy</strong> rembourse jusqu'à 12 séances par an chez un psychologue conventionné, sans passer par un médecin.</li>
+        <li><strong>Enfants</strong> : l'inscription se fait à la mairie pour l'école primaire, et auprès des services de l'académie pour le collège et le lycée ; voir la <a href="#scolarite">rubrique Scolarité</a>.</li>
+      </ul>
+      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2003" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — hébergement d'urgence</a><a href="https://www.ameli.fr/assure/remboursements/rembourse/remboursement-seance-psychologue-mon-soutien-psy" target="_blank" rel="noopener noreferrer">ameli.fr — Mon soutien psy</a><a href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer">France Horizon</a></div>
+    </div>
+  </details>
+</section>
+
+<!-- 15 -->
+<section class="section" id="ressources">
+  <div class="section-header">
+    <span class="section-num">15</span>
+    <div><span class="section-label">Pour aller plus loin</span><h2>Ressources officielles</h2></div>
+  </div>
+  <p class="ress-raccourci">Les sites officiels, classés par thème, puis les <a href="#numeros-utiles">numéros utiles ↓</a></p>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Portails généraux</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>service-public.gouv.fr</strong><span>Revenir vivre en France : la fiche officielle</span></span></a>
+      <a class="ress-carte" href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/meae.svg" alt=""></span><span class="ress-texte"><strong>France Diplomatie</strong><span>Préparer son retour</span></span></a>
+      <a class="ress-carte" href="https://www.mesdroitssociaux.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/mesdroitssociaux.svg" alt=""></span><span class="ress-texte"><strong>mesdroitssociaux.gouv.fr</strong><span>Simulateur de vos droits sociaux</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Se faire aider · Se connecter</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.france-services.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-services.png" alt=""></span><span class="ress-texte"><strong>France services</strong><span>Un agent vous accompagne dans vos démarches, près de chez vous</span></span></a>
+      <a class="ress-carte" href="https://franceconnect.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/franceconnect.svg" alt=""></span><span class="ress-texte"><strong>FranceConnect</strong><span>Un seul identifiant pour les sites publics</span></span></a>
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>Questionnaire « Revenir vivre en France »</strong><span>Le parcours officiel personnalisé de service-public.gouv.fr</span></span></a>
+      <a class="ress-carte" href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-horizon.png" alt=""></span><span class="ress-texte"><strong>France Horizon</strong><span>Accueil des Français rapatriés en difficulté</span></span></a>
+      <a class="ress-carte" href="https://www.defenseurdesdroits.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/defenseur-des-droits.svg" alt=""></span><span class="ress-texte"><strong>Défenseur des droits</strong><span>Recours gratuit en cas de difficulté avec une administration (CAF, CPAM…)</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Santé</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.ameli.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/ameli.svg" alt=""></span><span class="ress-texte"><strong>ameli.fr</strong><span>Assurance maladie, compte en ligne</span></span></a>
+      <a class="ress-carte" href="https://www.cfe.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cfe.png" alt=""></span><span class="ress-texte"><strong>CFE</strong><span>Caisse des Français de l'étranger</span></span></a>
+      <a class="ress-carte" href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cleiss.svg" alt=""></span><span class="ress-texte"><strong>Cleiss</strong><span>Protection sociale au retour</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Emploi · Fiscalité</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.francetravail.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-travail.svg" alt=""></span><span class="ress-texte"><strong>France Travail</strong><span>Inscription et indemnisation</span></span></a>
+      <a class="ress-carte" href="https://www.impots.gouv.fr/international-particulier/questions/je-reviens-en-france-apres-un-sejour-letranger" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/dgfip.svg" alt=""></span><span class="ress-texte"><strong>impots.gouv.fr</strong><span>Revenir en France après un séjour à l'étranger</span></span></a>
+      <a class="ress-carte" href="https://www.urssaf.fr/accueil.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/urssaf.svg" alt=""></span><span class="ress-texte"><strong>Urssaf</strong><span>Cotisations des indépendants et des micro-entrepreneurs</span></span></a>
+      <a class="ress-carte" href="https://www.apec.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/apec.svg" alt=""></span><span class="ress-texte"><strong>Apec</strong><span>Emploi et accompagnement des cadres</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Logement · Famille · Banque</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.actionlogement.fr/la-garantie-visale" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/action-logement.png" alt=""></span><span class="ress-texte"><strong>Action Logement</strong><span>La garantie Visale</span></span></a>
+      <a class="ress-carte" href="https://www.caf.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/caf.svg" alt=""></span><span class="ress-texte"><strong>caf.fr</strong><span>Aides au logement et prestations familiales</span></span></a>
+      <a class="ress-carte" href="https://www.demande-logement-social.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/logement-social.jpg" alt=""></span><span class="ress-texte"><strong>Logement social</strong><span>Déposer sa demande en ligne</span></span></a>
+      <a class="ress-carte" href="https://www.banque-france.fr/fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/banque-de-france.svg" alt=""></span><span class="ress-texte"><strong>Banque de France</strong><span>Droit au compte si une banque refuse de vous ouvrir un compte</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">État civil · Séjour</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/R1405" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>Acte de naissance</strong><span>D'un Français né à l'étranger (gratuit), sur service-public.gouv.fr</span></span></a>
+      <a class="ress-carte" href="https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/anef.png" alt=""></span><span class="ress-texte"><strong>ANEF</strong><span>Démarches de séjour du conjoint étranger</span></span></a>
+      <a class="ress-carte" href="https://www.ofii.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/ofii.jpg" alt=""></span><span class="ress-texte"><strong>OFII</strong><span>Accueil et contrat d'intégration du conjoint étranger</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Scolarité · Études</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.france-education-international.fr/expertises/enic-naric" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/enic-naric.png" alt=""></span><span class="ress-texte"><strong>ENIC-NARIC</strong><span>Reconnaissance des diplômes étrangers (France Éducation international)</span></span></a>
+      <a class="ress-carte" href="https://www.parcoursup.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/parcoursup.png" alt=""></span><span class="ress-texte"><strong>Parcoursup</strong><span>Admission dans l'enseignement supérieur</span></span></a>
+      <a class="ress-carte" href="https://www.cned.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cned.svg" alt=""></span><span class="ress-texte"><strong>CNED</strong><span>Enseignement à distance</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Douanes · Véhicule · Animal</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.douane.gouv.fr/particuliers/vous-demenagez/en-france-metropolitaine" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/douane.png" alt=""></span><span class="ress-texte"><strong>Douane</strong><span>Déménager en France</span></span></a>
+      <a class="ress-carte" href="https://ants.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-titres.png" alt=""></span><span class="ress-texte"><strong>France Titres (ANTS)</strong><span>Permis de conduire, carte grise</span></span></a>
+      <a class="ress-carte" href="https://www.i-cad.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/icad.png" alt=""></span><span class="ress-texte"><strong>I-CAD</strong><span>Identification des chiens, chats et furets</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe">
+    <h3 class="ress-titre">Retraite</h3>
+    <div class="ress-grille">
+      <a class="ress-carte" href="https://www.info-retraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-info-retraite" src="assets/logos/info-retraite.jpg" alt=""></span><span class="ress-texte"><strong>Info Retraite</strong><span>Relevé de carrière tous régimes</span></span></a>
+      <a class="ress-carte" href="https://www.lassuranceretraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/assurance-retraite.png" alt=""></span><span class="ress-texte"><strong>L'Assurance retraite</strong><span>Retraite de base</span></span></a>
+      <a class="ress-carte" href="https://www.agirc-arrco.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/agirc-arrco.png" alt=""></span><span class="ress-texte"><strong>Agirc-Arrco</strong><span>Retraite complémentaire</span></span></a>
+    </div>
+  </div>
+  <div class="ress-groupe ress-numeros" id="numeros-utiles">
+    <h3 class="ress-titre">Numéros utiles <span>(heure de Paris)</span></h3>
+    <p class="ress-num-intro">Pour appeler ou contacter un organisme par téléphone, depuis la France ou depuis l'étranger.</p>
+    <table class="table-numeros">
+      <thead><tr><th scope="col">Organisme</th><th scope="col">Numéro</th><th scope="col">Horaires</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><strong>Allô Service public</strong><span>Renseignements administratifs généraux</span></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3939">3939</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33173603939">+33 1 73 60 39 39</a> <small>(depuis un poste fixe)</small></span></td><td class="num-horaires">Lun. et jeu. 8h30–18h15, mar. et mer. 8h30–13h, ven. 13h–17h</td></tr>
+        <tr><th scope="row"><strong>Assurance maladie</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3646">3646</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33184903646">+33 1 84 90 36 46</a></span></td><td class="num-horaires">Lun.–ven. 8h30–17h</td></tr>
+        <tr><th scope="row"><strong>CFE</strong><span>Caisse des Français de l'étranger</span></th><td class="num-tel"><span class="num-ligne"><a href="tel:+33164146262">+33 1 64 14 62 62</a></span></td><td class="num-horaires">Lun.–ven. 8h30–17h30</td></tr>
+        <tr><th scope="row"><strong>CAF</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3230">3230</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> messagerie de votre compte sur caf.fr</span></td><td class="num-horaires">Horaires variables selon votre Caf</td></tr>
+        <tr><th scope="row"><strong>France Travail</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3949">3949</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33177863949">+33 1 77 86 39 49</a></span></td><td class="num-horaires">Aide à l'inscription : lun.–ven. 8h–19h, sam. 8h–17h ; service automatisé 24h/24</td></tr>
+        <tr><th scope="row"><strong>Impôts — information générale</strong></th><td class="num-tel"><span class="num-ligne"><a href="tel:0809401401">0809 401 401</a></span></td><td class="num-horaires">Lun.–ven. 8h30–19h</td></tr>
+        <tr><th scope="row"><strong>Impôts — non-résidents (SIP NR)</strong><span>Si vous perceviez des revenus de source française</span></th><td class="num-tel"><span class="num-ligne"><a href="tel:+33172952042">+33 1 72 95 20 42</a></span></td><td class="num-horaires">Lun.–ven. 9h–16h</td></tr>
+      </tbody>
+    </table>
+    <p class="ress-num-urgence"><strong>Urgence grave à l'étranger</strong> (crise, guerre, catastrophe) : le Centre de crise et de soutien répond 24h/24, voir la rubrique <a href="#urgence">Retour en urgence</a>.</p>
+    <p class="prudence">Numéros vérifiés en octobre 2026 sur les sites officiels. Le coût dépend de votre opérateur, surtout depuis l'étranger.</p>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="section" id="glossaire">
+  <div class="section-header">
+    <span class="section-num">16</span>
     <div><span class="section-label">Références</span><h2>Glossaire</h2></div>
   </div>
   <p>Les sigles de l'administration française changent régulièrement. Si vous êtes parti depuis longtemps, certains organismes ont pu changer de nom : les anciennes appellations sont indiquées entre parenthèses.</p>
@@ -2830,249 +3091,6 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
       <div class="gl-terme"><dt>VLS-TS</dt><dd>Visa long séjour valant titre de séjour — à valider sur le portail ANEF dans les 3 mois suivant l'arrivée.</dd></div>
     </dl>
   </div>
-</section>
-
-<!-- 14 -->
-<section class="section" id="ressources">
-  <div class="section-header">
-    <span class="section-num">14</span>
-    <div><span class="section-label">Pour aller plus loin</span><h2>Ressources officielles</h2></div>
-  </div>
-  <p class="ress-raccourci">Les sites officiels, classés par thème, puis les <a href="#numeros-utiles">numéros utiles ↓</a></p>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">Portails généraux</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>service-public.gouv.fr</strong><span>Revenir vivre en France : la fiche officielle</span></span></a>
-      <a class="ress-carte" href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/meae.svg" alt=""></span><span class="ress-texte"><strong>France Diplomatie</strong><span>Préparer son retour</span></span></a>
-      <a class="ress-carte" href="https://www.mesdroitssociaux.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/mesdroitssociaux.svg" alt=""></span><span class="ress-texte"><strong>mesdroitssociaux.gouv.fr</strong><span>Simulateur de vos droits sociaux</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">Se faire aider · Se connecter</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.france-services.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-services.png" alt=""></span><span class="ress-texte"><strong>France services</strong><span>Un agent vous accompagne dans vos démarches, près de chez vous</span></span></a>
-      <a class="ress-carte" href="https://franceconnect.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/franceconnect.svg" alt=""></span><span class="ress-texte"><strong>FranceConnect</strong><span>Un seul identifiant pour les sites publics</span></span></a>
-      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>Questionnaire « Revenir vivre en France »</strong><span>Le parcours officiel personnalisé de service-public.gouv.fr</span></span></a>
-      <a class="ress-carte" href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-horizon.png" alt=""></span><span class="ress-texte"><strong>France Horizon</strong><span>Accueil des Français rapatriés en difficulté</span></span></a>
-      <a class="ress-carte" href="https://www.defenseurdesdroits.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/defenseur-des-droits.svg" alt=""></span><span class="ress-texte"><strong>Défenseur des droits</strong><span>Recours gratuit en cas de difficulté avec une administration (CAF, CPAM…)</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">Santé</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.ameli.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/ameli.svg" alt=""></span><span class="ress-texte"><strong>ameli.fr</strong><span>Assurance maladie, compte en ligne</span></span></a>
-      <a class="ress-carte" href="https://www.cfe.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cfe.png" alt=""></span><span class="ress-texte"><strong>CFE</strong><span>Caisse des Français de l'étranger</span></span></a>
-      <a class="ress-carte" href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cleiss.svg" alt=""></span><span class="ress-texte"><strong>Cleiss</strong><span>Protection sociale au retour</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">Emploi · Fiscalité</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.francetravail.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-travail.svg" alt=""></span><span class="ress-texte"><strong>France Travail</strong><span>Inscription et indemnisation</span></span></a>
-      <a class="ress-carte" href="https://www.impots.gouv.fr/international-particulier/questions/je-reviens-en-france-apres-un-sejour-letranger" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/dgfip.svg" alt=""></span><span class="ress-texte"><strong>impots.gouv.fr</strong><span>Revenir en France après un séjour à l'étranger</span></span></a>
-      <a class="ress-carte" href="https://www.urssaf.fr/accueil.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/urssaf.svg" alt=""></span><span class="ress-texte"><strong>Urssaf</strong><span>Cotisations des indépendants et des micro-entrepreneurs</span></span></a>
-      <a class="ress-carte" href="https://www.apec.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/apec.svg" alt=""></span><span class="ress-texte"><strong>Apec</strong><span>Emploi et accompagnement des cadres</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">Logement · Famille · Banque</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.actionlogement.fr/la-garantie-visale" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/action-logement.png" alt=""></span><span class="ress-texte"><strong>Action Logement</strong><span>La garantie Visale</span></span></a>
-      <a class="ress-carte" href="https://www.caf.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/caf.svg" alt=""></span><span class="ress-texte"><strong>caf.fr</strong><span>Aides au logement et prestations familiales</span></span></a>
-      <a class="ress-carte" href="https://www.demande-logement-social.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/logement-social.jpg" alt=""></span><span class="ress-texte"><strong>Logement social</strong><span>Déposer sa demande en ligne</span></span></a>
-      <a class="ress-carte" href="https://www.banque-france.fr/fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/banque-de-france.svg" alt=""></span><span class="ress-texte"><strong>Banque de France</strong><span>Droit au compte si une banque refuse de vous ouvrir un compte</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">État civil · Séjour</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/R1405" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>Acte de naissance</strong><span>D'un Français né à l'étranger (gratuit), sur service-public.gouv.fr</span></span></a>
-      <a class="ress-carte" href="https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/anef.png" alt=""></span><span class="ress-texte"><strong>ANEF</strong><span>Démarches de séjour du conjoint étranger</span></span></a>
-      <a class="ress-carte" href="https://www.ofii.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/ofii.jpg" alt=""></span><span class="ress-texte"><strong>OFII</strong><span>Accueil et contrat d'intégration du conjoint étranger</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">Scolarité · Études</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.france-education-international.fr/expertises/enic-naric" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/enic-naric.png" alt=""></span><span class="ress-texte"><strong>ENIC-NARIC</strong><span>Reconnaissance des diplômes étrangers (France Éducation international)</span></span></a>
-      <a class="ress-carte" href="https://www.parcoursup.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/parcoursup.png" alt=""></span><span class="ress-texte"><strong>Parcoursup</strong><span>Admission dans l'enseignement supérieur</span></span></a>
-      <a class="ress-carte" href="https://www.cned.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cned.svg" alt=""></span><span class="ress-texte"><strong>CNED</strong><span>Enseignement à distance</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">Douanes · Véhicule · Animal</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.douane.gouv.fr/particuliers/vous-demenagez/en-france-metropolitaine" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/douane.png" alt=""></span><span class="ress-texte"><strong>Douane</strong><span>Déménager en France</span></span></a>
-      <a class="ress-carte" href="https://ants.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-titres.png" alt=""></span><span class="ress-texte"><strong>France Titres (ANTS)</strong><span>Permis de conduire, carte grise</span></span></a>
-      <a class="ress-carte" href="https://www.i-cad.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/icad.png" alt=""></span><span class="ress-texte"><strong>I-CAD</strong><span>Identification des chiens, chats et furets</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe">
-    <h3 class="ress-titre">Retraite</h3>
-    <div class="ress-grille">
-      <a class="ress-carte" href="https://www.info-retraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-info-retraite" src="assets/logos/info-retraite.jpg" alt=""></span><span class="ress-texte"><strong>Info Retraite</strong><span>Relevé de carrière tous régimes</span></span></a>
-      <a class="ress-carte" href="https://www.lassuranceretraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/assurance-retraite.png" alt=""></span><span class="ress-texte"><strong>L'Assurance retraite</strong><span>Retraite de base</span></span></a>
-      <a class="ress-carte" href="https://www.agirc-arrco.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/agirc-arrco.png" alt=""></span><span class="ress-texte"><strong>Agirc-Arrco</strong><span>Retraite complémentaire</span></span></a>
-    </div>
-  </div>
-  <div class="ress-groupe ress-numeros" id="numeros-utiles">
-    <h3 class="ress-titre">Numéros utiles <span>(heure de Paris)</span></h3>
-    <p class="ress-num-intro">Pour appeler ou contacter un organisme par téléphone, depuis la France ou depuis l'étranger.</p>
-    <table class="table-numeros">
-      <thead><tr><th scope="col">Organisme</th><th scope="col">Numéro</th><th scope="col">Horaires</th></tr></thead>
-      <tbody>
-        <tr><th scope="row"><strong>Allô Service public</strong><span>Renseignements administratifs généraux</span></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3939">3939</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33173603939">+33 1 73 60 39 39</a> <small>(depuis un poste fixe)</small></span></td><td class="num-horaires">Lun. et jeu. 8h30–18h15, mar. et mer. 8h30–13h, ven. 13h–17h</td></tr>
-        <tr><th scope="row"><strong>Assurance maladie</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3646">3646</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33184903646">+33 1 84 90 36 46</a></span></td><td class="num-horaires">Lun.–ven. 8h30–17h</td></tr>
-        <tr><th scope="row"><strong>CFE</strong><span>Caisse des Français de l'étranger</span></th><td class="num-tel"><span class="num-ligne"><a href="tel:+33164146262">+33 1 64 14 62 62</a></span></td><td class="num-horaires">Lun.–ven. 8h30–17h30</td></tr>
-        <tr><th scope="row"><strong>CAF</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3230">3230</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> messagerie de votre compte sur caf.fr</span></td><td class="num-horaires">Horaires variables selon votre Caf</td></tr>
-        <tr><th scope="row"><strong>France Travail</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3949">3949</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33177863949">+33 1 77 86 39 49</a></span></td><td class="num-horaires">Aide à l'inscription : lun.–ven. 8h–19h, sam. 8h–17h ; service automatisé 24h/24</td></tr>
-        <tr><th scope="row"><strong>Impôts — information générale</strong></th><td class="num-tel"><span class="num-ligne"><a href="tel:0809401401">0809 401 401</a></span></td><td class="num-horaires">Lun.–ven. 8h30–19h</td></tr>
-        <tr><th scope="row"><strong>Impôts — non-résidents (SIP NR)</strong><span>Si vous perceviez des revenus de source française</span></th><td class="num-tel"><span class="num-ligne"><a href="tel:+33172952042">+33 1 72 95 20 42</a></span></td><td class="num-horaires">Lun.–ven. 9h–16h</td></tr>
-      </tbody>
-    </table>
-    <p class="ress-num-urgence"><strong>Urgence grave à l'étranger</strong> (crise, guerre, catastrophe) : le Centre de crise et de soutien répond 24h/24, voir la rubrique <a href="#urgence">Retour en urgence</a>.</p>
-    <p class="prudence">Numéros vérifiés en octobre 2026 sur les sites officiels. Le coût dépend de votre opérateur, surtout depuis l'étranger.</p>
-  </div>
-</section>
-
-<!-- 15 -->
-<section class="section" id="violences">
-  <div class="section-header">
-    <span class="section-num">15</span>
-    <div><span class="section-label">Couple, famille</span><h2>Violences : vous protéger</h2></div>
-  </div>
-  <p>Si vous subissez des violences dans votre couple ou votre famille — physiques, psychologiques, sexuelles, économiques, ou la confiscation de vos papiers —, vous pouvez être aidé·e <strong>depuis l'étranger</strong>, préparer votre <strong>retour en France</strong> et y être protégé·e <strong>une fois rentré·e</strong>.<span class="ecran-seul"> Le bouton <strong>« Quitter rapidement »</strong>, en bas de l'écran, remplace cette page par la page d'accueil de Google d'un seul clic.</span></p>
-  <p class="prudence">Pour plus de discrétion, consultez cette page en navigation privée. Si quelqu'un arrive, le bouton « Quitter rapidement » (ou deux appuis sur la touche Échap) ouvre aussitôt la page d'accueil de Google, et le bouton Retour du navigateur ne ramène pas ici.</p>
-  <p class="violences-impression"><button type="button" class="btn-imprimer-violences" id="imprimer-violences"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer cette rubrique</button> <button type="button" class="btn-imprimer-violences" id="imprimer-fiche-violences"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer ma fiche avec cette rubrique</button> <span>Elle ne figure jamais d'office dans la fiche générale. Vous pouvez l'imprimer seule ou à la suite de votre fiche : ce choix n'est pas mémorisé, ni dans votre profil ni dans le lien de partage.</span></p>
-
-  <h3 class="violences-titre">Vous vivez encore à l'étranger</h3>
-  <div class="urgence-numero">En danger immédiat : appelez les <strong>numéros d'urgence du pays</strong> (police, secours), puis votre <strong>consulat</strong>, joignable par une permanence en dehors des heures d'ouverture.</div>
-  <ul class="numeros violences-numeros">
-    <li><strong>Tchat avec des policiers ou gendarmes français</strong> (plateforme PNAV) : <a href="https://www.service-public.fr/cmi" target="_blank" rel="noopener noreferrer">service-public.fr/cmi</a>
-      <span class="horaires">Gratuit, 24h/24, 7j/7, depuis n'importe quel pays · l'historique de discussion est effacé</span></li>
-    <li><strong>SAVE YOU</strong>, plateforme dédiée aux familles françaises établies à l'étranger, partenaire du ministère des Affaires étrangères : <a href="mailto:saveyou@jointhesorority.com">saveyou@jointhesorority.com</a>
-      <span class="horaires">Gratuit et confidentiel, partout dans le monde</span></li>
-    <li><strong>France Victimes</strong> depuis l'étranger : <a href="tel:+33180523376">+33 1 80 52 33 76</a>
-      <span class="horaires">7j/7, 9h–20h (heure de Paris) · <a href="mailto:victimes@116006.fr">victimes@116006.fr</a></span></li>
-  </ul>
-  <details data-type="important" id="violences-etranger">
-    <summary><span class="sum-title">Ce que vous pouvez faire sur place</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <ul>
-        <li>Faites <strong>constater vos blessures</strong> dans un centre médical (blessures physiques et conséquences psychologiques) et prenez-les en photo.</li>
-        <li>Le <strong>consulat</strong> vous oriente vers des structures locales spécialisées (aide juridique, sociale, médicale) ; des référents y sont formés aux violences sexistes et sexuelles. Il peut vous accompagner dans certaines démarches administratives. Il n'a en revanche aucun pouvoir de police ni de justice.</li>
-        <li><strong>Porter plainte</strong> auprès de la police locale permet de mettre en place une protection sur place : gardez une copie de la plainte. Le consulat vous indique comment faire et quels documents fournir.</li>
-        <li>Vous pouvez aussi porter plainte <strong>en France</strong>, par courrier : auprès du procureur de la République de Paris si vous et l'auteur des violences vivez à l'étranger, ou auprès du procureur du lieu de résidence de l'auteur s'il vit en France.</li>
-      </ul>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/files/files/conseils-aux-voyageurs/fiche-ndeg6-2-guide-vfe-2026.pdf" target="_blank" rel="noopener noreferrer">France Diplomatie — fiche « Victime de violences au sein du couple à l'étranger » (PDF)</a><a href="https://arretonslesviolences.gouv.fr/besoin-d-aide/violences-au-sein-du-couple" target="_blank" rel="noopener noreferrer">arretonslesviolences.gouv.fr — violences au sein du couple</a></div>
-    </div>
-  </details>
-  <details data-type="important" id="violences-retour">
-    <summary><span class="sum-title">Rentrer en France pour vous mettre à l'abri</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <ul>
-        <li>Le <strong>consulat</strong> peut faciliter votre retour en France, en lien avec les services compétents. Si vos papiers ont été confisqués, dites-le : il peut délivrer un laissez-passer pour rentrer.</li>
-        <li><strong>Avant de partir</strong>, contactez une association spécialisée ou agréée par le ministère de la Justice : elle peut organiser votre prise en charge en France, dont un hébergement sécurisé (réseau Solidarité Femmes). SAVE YOU et France Victimes travaillent ensemble pour que l'aide continue au moment du départ et une fois en France.</li>
-        <li>Copiez ou scannez vos papiers d'identité, carte Vitale, bulletins de salaire et vos preuves (certificats médicaux, plaintes). Gardez-les dans une boîte mail que vous seul·e connaissez, ou confiez-les à un proche, un avocat ou une association. L'application gratuite <strong>Mémo de vie</strong> permet de les conserver en sécurité.</li>
-        <li>Ouvrez si possible un compte bancaire à votre nom, avec une adresse différente de celle de l'auteur des violences.</li>
-      </ul>
-      <p><strong>Si vous voulez rentrer avec vos enfants</strong> sans l'accord de l'autre parent, ce départ peut être considéré comme un déplacement illicite d'enfants (convention de La Haye de 1980) et conduire à une demande de retour des enfants dans le pays quitté. Parlez-en au consulat et à un avocat avant de partir.</p>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.memo-de-vie.org/" target="_blank" rel="noopener noreferrer">Mémo de vie</a><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/famille-scolarite/que-faire-en-cas-de-deplacement-illicite" target="_blank" rel="noopener noreferrer">France Diplomatie — déplacement illicite d'enfants</a><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/vol-ou-perte-de-documents-a-l-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — papiers perdus ou confisqués</a></div>
-    </div>
-  </details>
-
-  <h3 class="violences-titre">Une fois rentré·e en France</h3>
-  <div class="urgence-numero">En danger immédiat : <a href="tel:17">17</a> ou <a href="tel:112">112</a> · par SMS, si vous ne pouvez pas parler : <a href="sms:114">114</a></div>
-  <ul class="numeros violences-numeros">
-    <li><strong>3919 — Violences Femmes Info</strong> : <a href="tel:3919">3919</a>, gratuit et anonyme
-      <span class="horaires">24h/24, 7j/7 · joignable uniquement depuis la France · écoute et orientation, ce n'est pas un numéro d'urgence</span></li>
-    <li><strong>116 006 — France Victimes</strong> : <a href="tel:116006">116 006</a>
-      <span class="horaires">7j/7, 9h–20h, gratuit</span></li>
-    <li><strong>119 — Allô Enfance en danger</strong> : <a href="tel:119">119</a>
-      <span class="horaires">24h/24, 7j/7, gratuit et confidentiel</span></li>
-  </ul>
-  <details data-type="info" id="violences-france">
-    <summary><span class="sum-title">Être protégé·e en France</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <ul>
-        <li>Vous pouvez porter plainte dans n'importe quel commissariat ou brigade de gendarmerie.</li>
-        <li>Le <strong>juge aux affaires familiales</strong> peut délivrer une <strong>ordonnance de protection</strong> dans un délai maximal de 6 jours à partir de la fixation de l'audience (éloignement de l'auteur, logement, enfants). En cas de danger grave et immédiat, une ordonnance provisoire peut être rendue sans audience, sous 24 heures. Les mesures durent au maximum 12 mois.</li>
-        <li><strong>Hébergement</strong> : des places d'hébergement d'urgence sont réservées en priorité aux victimes ; appelez le <a href="tel:115">115</a>.</li>
-        <li>Un <strong>avocat</strong> peut vous conseiller et rédiger la demande d'ordonnance de protection ; selon vos ressources, ses frais peuvent être pris en charge par l'aide juridictionnelle.</li>
-        <li>Pour être accompagné·e : France Victimes (116 006) ou l'annuaire des associations d'Arrêtons les violences.</li>
-      </ul>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.justice.fr/themes/ordonnance-protection" target="_blank" rel="noopener noreferrer">justice.fr — l'ordonnance de protection</a><a href="https://annuaire.arretonslesviolences.gouv.fr/" target="_blank" rel="noopener noreferrer">Arrêtons les violences — trouver une association</a><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F12544" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — violences conjugales</a></div>
-    </div>
-  </details>
-  <details data-type="info" id="violences-conjoint">
-    <summary><span class="sum-title">En France : conjoint étranger victime de violences</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <p>Si la vie commune s'arrête à cause de violences conjugales, le <strong>droit au séjour est maintenu</strong> : la préfecture ne peut pas refuser le titre pour ce motif. Les violences se prouvent par tous moyens : plainte, certificats médicaux, témoignages, attestations. Si vous portez plainte, la carte de séjour temporaire est renouvelée pendant toute la procédure pénale. Une personne qui bénéficie d'une ordonnance de protection peut obtenir une carte de séjour « vie privée et familiale », délivrée gratuitement.</p>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2209" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — carte de séjour « vie privée et familiale »</a></div>
-    </div>
-  </details>
-</section>
-
-<!-- 16 -->
-<section class="section" id="urgence">
-  <div class="section-header">
-    <span class="section-num">16</span>
-    <div><span class="section-label">Crise, guerre, catastrophe</span><h2>Retour en urgence</h2></div>
-  </div>
-  <p>Si vous devez quitter votre pays de résidence en urgence — conflit, troubles graves, catastrophe naturelle —, <strong>suivez d'abord les consignes de l'ambassade ou du consulat</strong>. Cette rubrique rassemble ce qu'il faut savoir avant de partir et à l'arrivée ; le reste du guide s'applique ensuite comme pour tout retour.</p>
-  <p class="urgence-numero">Ligne d'urgence du Centre de crise et de soutien du ministère des Affaires étrangères, 24h/24 et 7j/7 : <a href="tel:+33153591100">+33 1 53 59 11 00</a></p>
-  <details data-type="important" id="urgence-sur-place">
-    <summary><span class="sum-title">Sur place : rester informé et joignable</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <ul>
-        <li>Inscrivez-vous au <strong>registre des Français établis hors de France</strong> auprès de votre consulat ou, pour un séjour de moins de six mois, sur <strong>Ariane</strong> : vous recevrez les messages de sécurité si la situation l'exige.</li>
-        <li>Suivez la fiche <strong>Conseils aux voyageurs</strong> de votre pays et les comptes de l'ambassade ou du consulat.</li>
-        <li>Seuls l'ambassadeur et l'officier de sécurité peuvent ordonner un regroupement ou une évacuation. Suivez strictement leurs consignes et celles des forces de sécurité.</li>
-        <li>Si vos enfants sont à l'école, ne vous précipitez pas vers l'établissement en cas de crise, sauf instruction contraire.</li>
-      </ul>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/conseils-aux-voyageurs/" target="_blank" rel="noopener noreferrer">France Diplomatie — Conseils aux voyageurs</a><a href="https://pastel.diplomatie.gouv.fr/fildariane/" target="_blank" rel="noopener noreferrer">Ariane — inscription</a></div>
-    </div>
-  </details>
-  <details data-type="info" id="urgence-sac">
-    <summary><span class="sum-title">Préparer un sac d'évacuation</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <p>Le ministère recommande un kit pour <strong>trois jours</strong>, dans des contenants étanches, facile à attraper :</p>
-      <ul>
-        <li>eau (au moins 3 litres par jour et par personne), nourriture non périssable, trousse de secours, médicaments, produits d'hygiène ;</li>
-        <li>documents : passeport, carte d'identité, permis de conduire, livret de famille, carnet de santé ;</li>
-        <li>argent en petites coupures, téléphone et chargeur, batterie externe, lampe torche, radio portable.</li>
-      </ul>
-      <p>Lors d'une évacuation, le poids des bagages est annoncé au dernier moment et souvent <strong>limité à 10 kg</strong>. Pour un animal, prévoyez eau, nourriture et un carnet de vaccination à jour.</p>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/conseils-aux-voyageurs/fiches-pratiques/risques/que-faire-en-cas-d-evacuation" target="_blank" rel="noopener noreferrer">France Diplomatie — que faire en cas d'évacuation</a></div>
-    </div>
-  </details>
-  <details data-type="info" id="urgence-papiers">
-    <summary><span class="sum-title">Papiers perdus ou volés</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <p>En cas de vol, portez plainte auprès de la police locale ; en cas de perte, adressez-vous directement à l'ambassade ou au consulat. Selon la situation, il peut délivrer un <strong>laissez-passer</strong>, valable uniquement pour rentrer en France, ou un passeport temporaire. Ces documents sont payants et ne sont pas délivrés automatiquement.</p>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/vol-ou-perte-de-documents-a-l-etranger" target="_blank" rel="noopener noreferrer">France Diplomatie — vol ou perte de documents</a></div>
-    </div>
-  </details>
-  <details data-type="info" id="urgence-frais">
-    <summary><span class="sum-title">Qui paie le retour ?</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <p>Les consulats ne prennent pas en charge les frais médicaux ni le rapatriement, qui peut coûter très cher en cas de maladie ou d'accident grave : <strong>vérifiez votre assurance rapatriement</strong>. Dans les situations d'une gravité exceptionnelle, le consulat peut organiser un retour aux frais de l'État, sous réserve de remboursement : ce n'est pas un droit.</p>
-      <p>Les évacuations collectives de ressortissants sont décidées par les autorités françaises en cas de danger imminent ; les consignes sont alors données par l'ambassade.</p>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/assistance-et-securite/urgence-ou-difficulte" target="_blank" rel="noopener noreferrer">France Diplomatie — urgence ou difficulté</a></div>
-    </div>
-  </details>
-  <details data-type="info" id="urgence-arrivee">
-    <summary><span class="sum-title">À l'arrivée en France</span><span class="sum-icon">▾</span></summary>
-    <div class="detail-body">
-      <ul>
-        <li><strong>Sans hébergement</strong> : appelez le <a href="tel:115">115</a>, gratuit, 24h/24, et adressez-vous au centre communal d'action sociale (CCAS) de la mairie. Lors des rapatriements organisés par l'État, l'association <strong>France Horizon</strong> peut être chargée d'accueillir et d'accompagner les personnes.</li>
-        <li><strong>Santé</strong> : les règles de la <a href="#sante">rubrique Santé</a> s'appliquent. Si vous étiez adhérent de la CFE, vos droits maladie sont maintenus jusqu'à 3 mois après votre retour définitif : prévenez-la rapidement.</li>
-        <li><strong>Soutien psychologique</strong> : une fois vos droits ouverts, le dispositif <strong>Mon soutien psy</strong> rembourse jusqu'à 12 séances par an chez un psychologue conventionné, sans passer par un médecin.</li>
-        <li><strong>Enfants</strong> : l'inscription se fait à la mairie pour l'école primaire, et auprès des services de l'académie pour le collège et le lycée ; voir la <a href="#scolarite">rubrique Scolarité</a>.</li>
-      </ul>
-      <div class="liens"><div class="liens-titre">À consulter</div><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F2003" target="_blank" rel="noopener noreferrer">service-public.gouv.fr — hébergement d'urgence</a><a href="https://www.ameli.fr/assure/remboursements/rembourse/remboursement-seance-psychologue-mon-soutien-psy" target="_blank" rel="noopener noreferrer">ameli.fr — Mon soutien psy</a><a href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer">France Horizon</a></div>
-    </div>
-  </details>
 </section>
 
 
