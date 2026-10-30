@@ -220,3 +220,8 @@ main { max-width: 1080px; margin: 0 auto; padding: 32px 32px 80px; }
 .illus-visa { float: right; width: 128px; height: auto; margin: 0 0 12px 24px; }
 @media (max-width: 700px) { .illus-visa { float: none; display: block; width: 112px; margin: 0 auto 12px; } }
 @media print { .illus-visa { display: none; } }
+
+/* Dessin de la carte de séjour, à droite du conseil sur la carte pluriannuelle (au-dessus sur téléphone) */
+.illus-carte-sejour { float: right; clear: right; width: 128px; height: auto; margin: 0 0 12px 24px; }
+@media (max-width: 700px) { .illus-carte-sejour { float: none; display: block; width: 112px; margin: 0 auto 12px; } }
+@media print { .illus-carte-sejour { display: none; } }
