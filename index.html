@@ -1756,6 +1756,48 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   body.impression-fiche-violences #violences details { display: block !important; }
   body.impression-fiche-violences #violences details .detail-body { display: block !important; }
 }
+/* Ressources : raccourci vers les numéros, et tableau des numéros dans le style des cartes de sites (fond blanc, filet gris) */
+.ress-raccourci { margin: 0 0 4px; font-size: .9rem; color: var(--texte-doux); }
+.ress-raccourci a { color: var(--bordeaux); font-weight: 700; }
+.ress-numeros { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--filet); scroll-margin-top: 140px; }
+.ress-num-intro { margin: -4px 0 14px; font-size: .9rem; color: var(--texte-doux); }
+.table-numeros { width: 100%; border-collapse: collapse; background: var(--blanc); border: 1px solid var(--filet); font-size: .9rem; }
+.table-numeros thead th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--texte-doux); padding: 10px 16px; border-bottom: 2px solid var(--ardoise); }
+.table-numeros tbody th, .table-numeros td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--filet); font-weight: 400; }
+.table-numeros tbody tr:last-child > * { border-bottom: 0; }
+.table-numeros tbody th { width: 28%; }
+.table-numeros tbody th strong { display: block; color: var(--ardoise); font-weight: 600; }
+.table-numeros tbody th span { display: block; color: var(--texte-doux); font-size: .82rem; line-height: 1.4; margin-top: 2px; }
+.table-numeros .num-ligne { display: block; white-space: nowrap; }
+.table-numeros .num-ligne + .num-ligne { margin-top: 4px; }
+.table-numeros .num-ou { display: inline-block; min-width: 118px; color: var(--texte-doux); font-size: .82rem; }
+.table-numeros a { color: var(--bordeaux); font-weight: 700; text-decoration: none; border-bottom: 1.5px solid currentColor; }
+.table-numeros a:hover { color: var(--rouge); }
+.table-numeros small { color: var(--texte-doux); font-size: .78rem; }
+.table-numeros .num-horaires { color: var(--texte-doux); font-size: .84rem; line-height: 1.45; width: 32%; }
+.ress-num-urgence { margin: 14px 0 0; padding: 12px 16px; background: var(--blanc); border: 1px solid var(--filet); font-size: .9rem; }
+.ress-num-urgence a { color: var(--bordeaux); font-weight: 700; }
+/* Téléphone : chaque organisme devient une petite fiche */
+@media (max-width: 700px) {
+  .table-numeros, .table-numeros tbody, .table-numeros tr, .table-numeros th, .table-numeros td { display: block; width: auto; }
+  .table-numeros thead { display: none; }
+  .table-numeros tbody tr { padding: 12px 14px; border-bottom: 1px solid var(--filet); }
+  .table-numeros tbody tr:last-child { border-bottom: 0; }
+  .table-numeros tbody th, .table-numeros td { padding: 0; border: 0; }
+  .table-numeros td.num-tel { margin-top: 8px; }
+  .table-numeros td.num-horaires { margin-top: 6px; }
+  .table-numeros .num-ligne { white-space: normal; }
+  .table-numeros .num-ou { min-width: 0; display: inline; margin-right: 6px; }
+  .table-numeros tbody th, .table-numeros .num-horaires { width: auto; }
+  .table-numeros a { display: inline-block; padding: 4px 0; }
+}
+@media print {
+  .ress-raccourci { display: none; }
+  .table-numeros { border: 0; font-size: 9.5pt; }
+  .table-numeros tr { break-inside: avoid; }
+  .table-numeros tbody th, .table-numeros td { padding: 5pt 6pt 5pt 0; }
+  .table-numeros a { border: 0; color: #000; }
+}
 </style>
 </head>
 <body>
@@ -2767,6 +2809,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
     <span class="section-num">14</span>
     <div><span class="section-label">Pour aller plus loin</span><h2>Ressources officielles</h2></div>
   </div>
+  <p class="ress-raccourci">Les sites officiels, classés par thème, puis les <a href="#numeros-utiles">numéros utiles ↓</a></p>
   <div class="ress-groupe">
     <h3 class="ress-titre">Portails généraux</h3>
     <div class="ress-grille">
@@ -2785,29 +2828,6 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
       <a class="ress-carte" href="https://www.defenseurdesdroits.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/defenseur-des-droits.svg" alt=""></span><span class="ress-texte"><strong>Défenseur des droits</strong><span>Recours gratuit en cas de difficulté avec une administration (CAF, CPAM…)</span></span></a>
     </div>
   </div>
-  <div class="ress-groupe ress-numeros">
-    <h3 class="ress-titre">Numéros utiles <span>(heure de Paris)</span></h3>
-    <ul class="numeros">
-      <li><strong>Allô Service public</strong> — renseignements administratifs généraux : <a href="tel:3939">3939</a> · depuis l'étranger : <a href="tel:+33173603939">+33 1 73 60 39 39</a> (depuis un poste fixe)
-        <span class="horaires">Lun. et jeu. 8h30–18h15, mar. et mer. 8h30–13h, ven. 13h–17h</span></li>
-      <li><strong>Centre de crise et de soutien</strong> (ministère des Affaires étrangères), urgence grave à l'étranger : <a href="tel:+33153591100">+33 1 53 59 11 00</a>
-        <span class="horaires">24h/24, 7j/7</span></li>
-      <li><strong>Assurance maladie</strong> : <a href="tel:3646">3646</a> · depuis l'étranger : <a href="tel:+33184903646">+33 1 84 90 36 46</a>
-        <span class="horaires">Lun.–ven. 8h30–17h</span></li>
-      <li><strong>CFE</strong> (Caisse des Français de l'étranger) : <a href="tel:+33164146262">+33 1 64 14 62 62</a>
-        <span class="horaires">Lun.–ven. 8h30–17h30</span></li>
-      <li><strong>CAF</strong> : <a href="tel:3230">3230</a> (depuis la France) · depuis l'étranger : messagerie de votre compte sur caf.fr
-        <span class="horaires">Horaires variables selon votre Caf</span></li>
-      <li><strong>France Travail</strong> : <a href="tel:3949">3949</a> · depuis l'étranger : <a href="tel:+33177863949">+33 1 77 86 39 49</a>
-        <span class="horaires">Aide à l'inscription : lun.–ven. 8h–19h, sam. 8h–17h ; service automatisé 24h/24</span></li>
-      <li><strong>Impôts — information générale</strong> : <a href="tel:0809401401">0809 401 401</a>
-        <span class="horaires">Lun.–ven. 8h30–19h</span></li>
-      <li><strong>Impôts — non-résidents (SIP NR)</strong>, si vous perceviez des revenus de source française : <a href="tel:+33172952042">+33 1 72 95 20 42</a>
-        <span class="horaires">Lun.–ven. 9h–16h</span></li>
-    </ul>
-    <p class="prudence">Numéros vérifiés en octobre 2026 sur les sites officiels. Le coût dépend de votre opérateur, surtout depuis l'étranger.</p>
-  </div>
-
   <div class="ress-groupe">
     <h3 class="ress-titre">Santé</h3>
     <div class="ress-grille">
@@ -2865,6 +2885,24 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
       <a class="ress-carte" href="https://www.lassuranceretraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/assurance-retraite.png" alt=""></span><span class="ress-texte"><strong>L'Assurance retraite</strong><span>Retraite de base</span></span></a>
       <a class="ress-carte" href="https://www.agirc-arrco.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/agirc-arrco.png" alt=""></span><span class="ress-texte"><strong>Agirc-Arrco</strong><span>Retraite complémentaire</span></span></a>
     </div>
+  </div>
+  <div class="ress-groupe ress-numeros" id="numeros-utiles">
+    <h3 class="ress-titre">Numéros utiles <span>(heure de Paris)</span></h3>
+    <p class="ress-num-intro">Pour appeler ou contacter un organisme par téléphone, depuis la France ou depuis l'étranger.</p>
+    <table class="table-numeros">
+      <thead><tr><th scope="col">Organisme</th><th scope="col">Numéro</th><th scope="col">Horaires</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><strong>Allô Service public</strong><span>Renseignements administratifs généraux</span></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3939">3939</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33173603939">+33 1 73 60 39 39</a> <small>(depuis un poste fixe)</small></span></td><td class="num-horaires">Lun. et jeu. 8h30–18h15, mar. et mer. 8h30–13h, ven. 13h–17h</td></tr>
+        <tr><th scope="row"><strong>Assurance maladie</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3646">3646</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33184903646">+33 1 84 90 36 46</a></span></td><td class="num-horaires">Lun.–ven. 8h30–17h</td></tr>
+        <tr><th scope="row"><strong>CFE</strong><span>Caisse des Français de l'étranger</span></th><td class="num-tel"><span class="num-ligne"><a href="tel:+33164146262">+33 1 64 14 62 62</a></span></td><td class="num-horaires">Lun.–ven. 8h30–17h30</td></tr>
+        <tr><th scope="row"><strong>CAF</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3230">3230</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> messagerie de votre compte sur caf.fr</span></td><td class="num-horaires">Horaires variables selon votre Caf</td></tr>
+        <tr><th scope="row"><strong>France Travail</strong></th><td class="num-tel"><span class="num-ligne"><span class="num-ou">En France</span> <a href="tel:3949">3949</a></span><span class="num-ligne"><span class="num-ou">Depuis l'étranger</span> <a href="tel:+33177863949">+33 1 77 86 39 49</a></span></td><td class="num-horaires">Aide à l'inscription : lun.–ven. 8h–19h, sam. 8h–17h ; service automatisé 24h/24</td></tr>
+        <tr><th scope="row"><strong>Impôts — information générale</strong></th><td class="num-tel"><span class="num-ligne"><a href="tel:0809401401">0809 401 401</a></span></td><td class="num-horaires">Lun.–ven. 8h30–19h</td></tr>
+        <tr><th scope="row"><strong>Impôts — non-résidents (SIP NR)</strong><span>Si vous perceviez des revenus de source française</span></th><td class="num-tel"><span class="num-ligne"><a href="tel:+33172952042">+33 1 72 95 20 42</a></span></td><td class="num-horaires">Lun.–ven. 9h–16h</td></tr>
+      </tbody>
+    </table>
+    <p class="ress-num-urgence"><strong>Urgence grave à l'étranger</strong> (crise, guerre, catastrophe) : le Centre de crise et de soutien répond 24h/24, voir la rubrique <a href="#urgence">Retour en urgence</a>.</p>
+    <p class="prudence">Numéros vérifiés en octobre 2026 sur les sites officiels. Le coût dépend de votre opérateur, surtout depuis l'étranger.</p>
   </div>
 </section>
 
@@ -3829,6 +3867,10 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('#glossaire dt').forEach(dt => ajouter(dt, dt.textContent, dt.nextElementSibling?.textContent, 1));
       document.querySelectorAll('main .bareme li').forEach(li => ajouter(li, li.textContent, ''));
       document.querySelectorAll('main .numeros li').forEach(li => ajouter(li, li.querySelector('strong')?.textContent, li.textContent));
+      // Liste des numéros : trouvée avec « numéro », « téléphone », « appeler », « contacter »… puis une entrée par organisme
+      const blocNumeros = document.getElementById('numeros-utiles');
+      if (blocNumeros) ajouter(blocNumeros, 'Numéros utiles', blocNumeros.querySelector('.ress-num-intro')?.textContent, 4);
+      document.querySelectorAll('#numeros-utiles tbody tr').forEach(tr => ajouter(tr, tr.querySelector('th strong')?.textContent, tr.textContent));
       document.querySelectorAll('main > .section > p').forEach(p => ajouter(p, p.closest('.section').querySelector('h2').textContent, p.textContent));
       return entrees;
     };
