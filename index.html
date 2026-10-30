@@ -1701,6 +1701,17 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   #etapes .section-num, #fiscalite .section-num, #douanes .section-num, #ressources .section-num { color: var(--violet); }
   #docs .section-num, #logement .section-num, #retraite .section-num { color: var(--teal); }
 }
+/* Pictogramme de la carte d'accueil rappelé à droite du titre de la rubrique (décoratif) */
+.section-picto { display: none; }
+@media screen {
+  body.vue-rubrique .section-header { grid-template-columns: 52px 1fr auto; }
+  body.vue-rubrique .section-picto { display: block; grid-column: 3; grid-row: 1; align-self: center; width: 64px; height: 64px; }
+  body.vue-rubrique .section-picto svg { display: block; width: 100%; height: 100%; }
+}
+@media screen and (max-width: 700px) {
+  body.vue-rubrique .section-header { grid-template-columns: 40px 1fr auto; }
+  body.vue-rubrique .section-picto { width: 40px; height: 40px; }
+}
 </style>
 </head>
 <body>
@@ -3465,6 +3476,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Rappel du pictogramme de la carte d'accueil à droite du titre de chaque rubrique (copie, une seule source)
+  document.querySelectorAll('.tuiles .tuile[href^="#"]').forEach(tuile => {
+    const icone  = tuile.querySelector('.tuile-icone svg');
+    const entete = document.querySelector(tuile.getAttribute('href') + ' .section-header');
+    if (!icone || !entete) return;
+    const picto = document.createElement('span');
+    picto.className = 'section-picto';
+    picto.setAttribute('aria-hidden', 'true');
+    picto.appendChild(icone.cloneNode(true));
+    entete.appendChild(picto);
+  });
 
   // Checklist avec persistance localStorage
   document.querySelectorAll('#etapes-list > li').forEach((li, i) => {
