@@ -1,133 +1,181 @@
 /* Pages « Pour votre conjoint étranger » (anglais, espagnol)
-   Mêmes couleurs et même typographie que le guide principal (index.html). */
+   Même présentation que le guide principal (index.html) : bandeau à la carte du monde, onglets,
+   parties numérotées de couleur, encadrés blancs aux coins arrondis, pied de page en dégradé. */
 :root {
   --violet:      #5F5693;
   --violet-clair:#ECEAF4;
   --rouge:       #AE1F27;
   --rouge-clair: #FBF1F2;
-  --teal-fonce:  #2F7553;
-  --rose:        #D18899;
+  --rouge-filet: #F0D5D8;
+  --teal:        #469970;
+  --rose-fonce:  #A84D63;
   --bordeaux:    #6D0D22;
   --ardoise:     #273844;
   --noir:        #1B1B1B;
   --texte:       #331F23;
   --texte-doux:  #6A5559;
-  --fond:        #F2E8E4;
+  --fond:        #FFFFFF;
+  --fond-doux:   #F2E8E4;
   --blanc:       #FFFFFF;
-  --filet:       #DCCAC4;
+  --filet:       #E2E2E2;
   --degrade:     linear-gradient(130deg, #D18899 0%, #AE1F27 22%, #5F5693 66%, #469970 100%);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body { font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 17px; line-height: 1.65; color: var(--texte); background: var(--fond); }
 
-/* Bandeau et titre */
-.bandeau-site { background: url('carte-monde.png') center top / cover no-repeat, var(--degrade); padding-bottom: 1px; }
-.bandeau-inner {
-  max-width: 1080px; margin: 0 auto 22px; padding: 24px 32px 10px;
-  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-  color: var(--blanc); border-bottom: 1.5px solid rgba(255,255,255,.9);
-}
-.bandeau-inner span { text-transform: uppercase; letter-spacing: 1px; font-size: 17px; }
-.bandeau-inner > span { flex: 1 1 0; min-width: 0; }
+/* Bandeau : logo, nom sur deux lignes, langues, puis titre de la page en blanc */
+.bandeau-site { background: url('carte-monde.png') center top / cover no-repeat, var(--degrade); color: var(--blanc); }
+.bandeau-inner { max-width: 1080px; margin: 0 auto; padding: 22px 32px 12px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .logo-section { display: block; width: 72px; height: 72px; border-radius: 50%; border: 3px solid rgba(255,255,255,.85); box-shadow: 0 2px 12px rgba(0,0,0,.25); flex-shrink: 0; }
-.langues { margin-left: auto; display: flex; gap: 6px; }
+.bandeau-nom { flex: 1 1 0; min-width: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 18px; line-height: 1.4; white-space: nowrap; }
+.nom-section { display: block; }
+.langues { margin-left: auto; display: flex; flex-wrap: wrap; gap: 6px; }
 .langues a, .langues strong {
-  color: var(--blanc); text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 1px;
-  border: 1.5px solid rgba(255,255,255,.8); border-radius: 4px; padding: 3px 9px;
+  color: var(--blanc); text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: .5px;
+  border: 1.5px solid rgba(255,255,255,.85); border-radius: 4px; padding: 6px 10px; white-space: nowrap;
 }
+.langues a:hover { background: var(--blanc); color: var(--bordeaux); }
 .langues strong { background: var(--blanc); color: var(--bordeaux); }
-.titre-page { max-width: 940px; margin: 0 auto; padding: 40px 40px 8px; text-align: center; }
-.titre-surtitre { display: block; text-transform: uppercase; letter-spacing: .15em; font-size: .75rem; font-weight: 600; color: var(--rouge); }
-.titre-page h1 {
-  font-size: 2.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--ardoise); line-height: 1.2;
-  margin: 6px 0 16px; padding-bottom: 18px; border-bottom: 1px solid #C9BCB7;
+.titre-page { max-width: 1080px; margin: 0 auto; padding: 18px 32px 34px; }
+.titre-surtitre { display: block; text-transform: uppercase; letter-spacing: .15em; font-size: 13px; font-weight: 600; }
+.titre-page h1 { font-size: 2.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; line-height: 1.2; margin-top: 6px; }
+.titre-page h1::after { content: ''; display: block; width: 106px; height: 12px; background: var(--blanc); margin-top: 16px; }
+
+/* Onglets des parties, collés en haut de l'écran */
+.sommaire-wrap { position: sticky; top: 0; z-index: 200; background: var(--fond-doux); border-bottom: 1px solid var(--filet); }
+.sommaire { max-width: 1080px; margin: 0 auto; padding: 10px 32px; display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.sommaire::-webkit-scrollbar { display: none; }
+.sommaire a { flex: 0 0 auto; }
+/* Fondu sur le bord quand la rangée d'onglets continue hors de l'écran */
+.sommaire.suite-droite { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent); }
+.sommaire.suite-gauche { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 56px), transparent); }
+.sommaire.suite-droite.suite-gauche { -webkit-mask-image: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent); }
+.sommaire a {
+  --c: var(--rouge);
+  display: inline-flex; align-items: center; min-height: 36px; padding: 6px 12px; border-radius: 4px;
+  background: var(--blanc); color: var(--ardoise); text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+  box-shadow: inset 0 -4px 0 var(--c), 0 1px 2px rgba(0,0,0,.08);
 }
+.sommaire a:nth-child(4n+2) { --c: var(--violet); }
+.sommaire a:nth-child(4n+3) { --c: var(--teal); }
+.sommaire a:nth-child(4n+4) { --c: var(--rose-fonce); }
+.sommaire a:hover { background: var(--c); color: var(--blanc); box-shadow: none; }
+.sommaire a.onglet-danger { background: var(--noir); color: var(--blanc); box-shadow: inset 0 -4px 0 var(--rouge); }
+.sommaire a.onglet-danger:hover { background: var(--ardoise); }
 
 /* Contenu */
-main { max-width: 940px; margin: 0 auto; padding: 24px 40px 80px; }
-.intro { background: var(--blanc); border-left: 3px solid var(--violet); padding: 14px 18px; margin-bottom: 32px; }
+main { max-width: 1080px; margin: 0 auto; padding: 32px 32px 80px; }
+.intro { background: var(--blanc); border: 1px solid var(--filet); border-left: 4px solid var(--violet); border-radius: 8px; padding: 16px 20px; margin-bottom: 40px; }
 .intro p + p { margin-top: 8px; }
-.section { margin-bottom: 40px; scroll-margin-top: 20px; }
-.section h2 { font-size: 1.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: var(--ardoise); margin-bottom: 14px; }
-.section h2::after { content: ''; display: block; width: 64px; height: 6px; background: var(--rose); margin-top: 10px; }
-.section p { margin-bottom: 10px; }
-.section ul { padding-left: 22px; margin-bottom: 10px; }
-.section li { margin-bottom: 6px; }
+.section { margin-bottom: 48px; scroll-margin-top: 80px; }
+.section-header { display: grid; grid-template-columns: 52px 1fr; gap: 16px; align-items: start; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--filet); }
+.section-num { font-size: 2.2rem; font-weight: 700; line-height: 1.1; color: var(--rouge); }
+.section h2 { font-size: 1.6rem; font-weight: 700; line-height: 1.25; color: var(--ardoise); }
+.section h2::after { content: ''; display: block; width: 110px; height: 10px; background: var(--rouge); margin-top: 12px; }
+.section:nth-of-type(4n+2) .section-num { color: var(--violet); }
+.section:nth-of-type(4n+2) h2::after { background: var(--violet); }
+.section:nth-of-type(4n+3) .section-num { color: var(--teal); }
+.section:nth-of-type(4n+3) h2::after { background: var(--teal); }
+.section:nth-of-type(4n+4) .section-num { color: var(--rose-fonce); }
+.section:nth-of-type(4n+4) h2::after { background: var(--rose-fonce); }
+.section p { margin-bottom: 12px; }
+.section ul { padding-left: 22px; margin-bottom: 12px; }
+.section li { margin-bottom: 8px; }
 .section strong { color: var(--violet); }
-.alerte { background: var(--rouge-clair); border-left: 3px solid var(--rouge); padding: 12px 16px; margin: 12px 0; }
+.section a, .intro a { color: var(--bordeaux); font-weight: 600; }
+.section a:hover, .intro a:hover { color: var(--rouge); }
+.alerte { background: var(--rouge-clair); border: 1px solid var(--rouge-filet); border-left: 4px solid var(--rouge); border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
 .alerte strong { color: var(--bordeaux); }
 .prudence { font-size: .85rem; color: var(--texte-doux); font-style: italic; }
-.liens { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--filet); }
-.liens-titre { font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: var(--texte-doux); font-weight: 600; margin-bottom: 6px; }
-.liens a { display: block; color: var(--teal-fonce); font-size: .9rem; margin-bottom: 4px; text-decoration-color: var(--teal-fonce); }
-.liens a:hover { color: var(--rouge); }
-.glossaire dt { font-weight: 700; color: var(--violet); text-transform: uppercase; letter-spacing: .04em; margin-top: 12px; font-size: .95rem; }
-.glossaire dd { margin-left: 0; padding-left: 14px; border-left: 2px solid var(--violet-clair); color: var(--texte-doux); font-size: .92rem; }
-.numeros { list-style: none; padding: 0 !important; }
-.numeros li { padding: 8px 0; border-bottom: 1px dotted var(--filet); }
-.numeros a { color: var(--teal-fonce); white-space: nowrap; }
-.numeros .horaires { display: block; color: var(--texte-doux); font-size: .82rem; }
+.liens { margin-top: 16px; padding: 14px 18px; background: var(--blanc); border: 1px solid var(--filet); border-radius: 8px; }
+.liens-titre { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--texte-doux); font-weight: 700; margin-bottom: 8px; }
+.liens a { display: block; font-size: .92rem; margin-bottom: 6px; }
+.liens a:last-child { margin-bottom: 0; }
 
-/* Partie « Si vous êtes en danger » : lien discret en haut, bouton « Quitter rapidement » (fixe quand la partie est à l'écran) */
-.lien-danger { font-size: .85rem; }
+/* Lexique : chaque mot et sa définition dans une carte, sur deux colonnes */
+.glossaire { columns: 2; column-gap: 12px; }
+.glossaire dt, .glossaire dd { background: var(--blanc); border: 1px solid var(--filet); }
+.glossaire dt { margin-top: 12px; padding: 12px 16px 2px; border-bottom: 0; border-radius: 8px 8px 0 0; font-weight: 700; color: var(--ardoise); break-after: avoid; }
+.glossaire dt:first-child { margin-top: 0; }
+.glossaire dd { margin: 0; padding: 0 16px 12px; border-top: 0; border-radius: 0 0 8px 8px; color: var(--texte-doux); font-size: .92rem; break-before: avoid; }
+
+/* Numéros et contacts : liste dans un encadré blanc */
+.numeros { list-style: none; padding: 0 !important; background: var(--blanc); border: 1px solid var(--filet); border-radius: 8px; overflow: hidden; }
+.numeros li { padding: 14px 18px; margin: 0; border-bottom: 1px solid var(--filet); }
+.numeros li:last-child { border-bottom: 0; }
+.section .numeros strong { color: var(--ardoise); }
+.numeros a { white-space: nowrap; }
+.numeros .horaires { display: block; color: var(--texte-doux); font-size: .84rem; margin-top: 2px; }
+
+/* Partie « Si vous êtes en danger » : numéro noir et barre rouge comme dans le guide ;
+   bouton « Quitter rapidement » en tête de partie, puis fixe en bas d'écran tant que la partie est affichée */
+#danger .section-num { color: var(--noir); }
+#danger h2::after { background: var(--rouge); }
+.lien-danger { font-size: .9rem; }
 .lien-danger a { color: var(--ardoise); }
-.quitter-vite-texte {
-  font: inherit; font-style: normal; font-size: .8rem; font-weight: 700; cursor: pointer; margin-right: 6px;
-  padding: 6px 12px; border-radius: 4px; border: 1.5px solid var(--ardoise); background: var(--blanc); color: var(--ardoise);
+.sortie-rapide { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 0 0 18px; padding: 14px 18px; background: var(--rouge-clair); border: 1px solid var(--rouge-filet); border-radius: 8px; }
+.sortie-rapide p { flex: 1 1 260px; margin: 0; font-size: .88rem; color: var(--texte-doux); }
+.quitter-vite-texte, .quitter-vite {
+  font: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+  background: var(--noir); color: var(--blanc); border: 4px solid var(--rouge); border-radius: 4px;
+  font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
 }
-.quitter-vite-texte:hover { background: var(--ardoise); color: var(--blanc); }
+.quitter-vite-texte { min-height: 48px; padding: 8px 18px; font-size: 14px; }
+.quitter-vite-texte:hover, .quitter-vite:hover { background: var(--ardoise); }
+.quitter-vite-texte svg { width: 20px; height: 20px; flex: 0 0 auto; }
 .quitter-vite { display: none; }
 @media screen {
-  body.vue-danger .quitter-vite {
-    display: block; position: fixed; left: 16px; bottom: 16px; z-index: 400; cursor: pointer;
-    background: var(--ardoise); color: var(--blanc); border: 0; border-radius: 4px; padding: 12px 18px;
-    font: inherit; font-size: .85rem; font-weight: 700; letter-spacing: .02em; box-shadow: 0 3px 12px rgba(0,0,0,.25);
-  }
-  body.vue-danger .quitter-vite:hover { background: #1B2730; }
-  /* Bouton agrandi, avec un pictogramme au trait (porte de sortie) */
-  body.vue-danger .quitter-vite { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; padding: 16px 24px; border-radius: 6px; }
+  body.vue-danger .quitter-vite { display: inline-flex; position: fixed; left: 16px; bottom: 16px; z-index: 400; padding: 14px 20px; font-size: 15px; box-shadow: 0 3px 12px rgba(0,0,0,.25); }
 }
 .quitter-vite svg { width: 24px; height: 24px; flex: 0 0 auto; }
-.quitter-vite-texte { display: inline-flex; align-items: center; gap: 8px; font-size: .95rem; padding: 10px 16px; }
-.quitter-vite-texte svg { width: 20px; height: 20px; flex: 0 0 auto; }
+.quitter-vite:focus-visible, .quitter-vite-texte:focus-visible, .sommaire a:focus-visible { outline: 3px solid var(--rouge); outline-offset: 2px; }
 
-/* Pied de page */
-footer { background: var(--degrade); color: rgba(255,255,255,.92); text-align: center; padding: 36px 20px; font-size: .85rem; line-height: 1.8; }
-footer a { color: var(--blanc); }
+/* Pied de page, comme celui du guide */
+.pied-site { background: var(--degrade); color: var(--blanc); text-align: center; padding: 40px 20px 32px; }
+.pied-marque { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 18px; text-align: left; }
+.pied-marque img { width: 56px; height: 56px; border-radius: 50%; border: 2px solid rgba(255,255,255,.85); }
+.pied-nom { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; line-height: 1.4; }
+.pied-site p { max-width: 760px; margin: 8px auto 0; font-size: .88rem; line-height: 1.6; text-wrap: balance; }
+.pied-site a { color: var(--blanc); }
+.pied-site .pied-mention { opacity: .9; font-size: .8rem; }
+.pied-barre { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; max-width: 760px; margin: 26px auto 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.6); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.pied-barre > * + *::before { content: '·'; margin: 0 10px; opacity: .8; }
+.pied-barre a { text-decoration: none; }
+.pied-barre a:hover { text-decoration: underline; }
 
+/* Téléphone */
 @media (max-width: 700px) {
-  .bandeau-inner { padding: 18px 16px 8px; margin-bottom: 16px; gap: 12px; }
-  .bandeau-inner span { font-size: 14px; }
-  .logo-section { width: 54px; height: 54px; }
-  .bandeau-inner > span { flex: 1 1 0; min-width: 0; }
+  .bandeau-inner { padding: 14px 16px 8px; gap: 10px; }
+  .logo-section { width: 48px; height: 48px; border-width: 2px; }
+  .bandeau-nom { font-size: 13px; letter-spacing: .5px; }
   .langues { margin-left: 0; flex-basis: 100%; }
-  .titre-page { padding: 28px 16px 4px; }
+  .langues a, .langues strong { font-size: 12px; min-height: 40px; display: inline-flex; align-items: center; }
+  .titre-page { padding: 10px 16px 22px; }
   .titre-page h1 { font-size: 1.5rem; }
-  main { padding: 16px 16px 60px; }
-  .section h2 { font-size: 1.1rem; }
+  .titre-page h1::after { width: 80px; height: 10px; margin-top: 10px; }
+  .sommaire { padding: 8px 16px; }
+  .sommaire a { min-height: 40px; }
+  main { padding: 20px 16px 90px; }
+  .section { scroll-margin-top: 70px; }
+  .section-header { grid-template-columns: 40px 1fr; gap: 10px; }
+  .section-num { font-size: 1.6rem; }
+  .section h2 { font-size: 1.3rem; }
+  .section h2::after { width: 80px; height: 8px; }
+  .glossaire { columns: 1; }
+  .pied-barre { flex-direction: column; gap: 4px; }
+  .pied-barre > * + *::before { content: none; }
+  .pied-barre a { display: inline-flex; align-items: center; min-height: 44px; }
 }
+
+/* Impression */
 @media print {
-  .bandeau-site, footer { background: none; color: #000; }
-  .bandeau-inner, footer a { color: #000; }
-  .langues { display: none; }
-  .section h2::after { display: none; }
+  body { font-size: 11pt; }
+  .bandeau-site, .pied-site { background: none; color: #000; }
+  .pied-site a { color: #000; }
+  .langues, .sommaire-wrap, .pied-barre, .titre-page h1::after, .section h2::after { display: none; }
   .liens a::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
   /* Comme dans le guide : la partie sur les violences ne figure pas sur la page imprimée */
-  #danger, .lien-danger, .quitter-vite { display: none !important; }
-}
-
-/* « Quitter rapidement » : même style que dans le guide (noir souligné de rouge, majuscules) */
-@media screen {
-  .quitter-vite-texte {
-    min-height: 44px; background: var(--noir); color: var(--blanc); border-radius: 4px;
-    border: 3px solid var(--rouge); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; padding: 8px 16px;
-  }
-  .quitter-vite-texte:hover { background: var(--ardoise); color: var(--blanc); }
-  body.vue-danger .quitter-vite {
-    background: var(--noir); color: var(--blanc); border-radius: 4px; border: 4px solid var(--rouge); box-shadow: 0 3px 12px rgba(0,0,0,.25);
-    font-size: 15px; text-transform: uppercase; letter-spacing: .04em; padding: 14px 20px;
-  }
-  body.vue-danger .quitter-vite:hover { background: var(--ardoise); }
-  .quitter-vite:focus-visible, .quitter-vite-texte:focus-visible { outline: 3px solid var(--rouge); outline-offset: 2px; }
+  #danger, .lien-danger, .quitter-vite, .sortie-rapide, .onglet-danger { display: none !important; }
 }
