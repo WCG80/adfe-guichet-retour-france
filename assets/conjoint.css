@@ -199,3 +199,8 @@ main { max-width: 1080px; margin: 0 auto; padding: 32px 32px 80px; }
   .lien-logo-img img { max-width: 76px; max-height: 32px; }
 }
 @media print { .section-picto, .lien-logo-img { display: none; } }
+
+/* Lexique : logo de l'organisme devant son nom quand il existe */
+.glossaire dt { display: flex; align-items: center; gap: 10px; }
+.gl-logo { flex: 0 0 auto; height: 24px; max-width: 64px; width: auto; object-fit: contain; }
+@media print { .gl-logo { display: none; } }
