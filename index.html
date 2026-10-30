@@ -1974,6 +1974,38 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .accueil-tuiles .tuiles .tuile:nth-child(n) { padding-right: 12px; }
   .accueil-tuiles .tuile::after { content: none; }
 }
+/* Fiche courte (2 pages) : bouton secondaire à côté de la fiche complète, contenu construit au moment d'imprimer */
+.fiche-courte { display: none; }
+@media screen {
+  .btn-fiche-courte {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; cursor: pointer;
+    font: inherit; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+    background: var(--blanc); color: var(--bordeaux); border: 1.5px solid var(--bordeaux); border-radius: 4px;
+  }
+  .btn-fiche-courte svg { width: 16px; height: 16px; flex: none; }
+  .btn-fiche-courte:hover { background: var(--bordeaux); color: var(--blanc); }
+  .btn-fiche-courte:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+}
+@media screen and (max-width: 700px) { .btn-fiche-courte { min-height: 44px; } }
+@media print {
+  body.impression-courte > *:not(#fiche-courte) { display: none !important; }
+  body.impression-courte #fiche-courte { display: block; }
+  .fiche-courte { font-size: 10pt; line-height: 1.4; color: #000; }
+  .fiche-courte .fc-marque { display: flex; align-items: center; gap: 6pt; margin: 0 0 8pt; font-size: 8.5pt; font-weight: 600; line-height: 1.3; color: #333; }
+  .fiche-courte .fc-marque img { width: 30pt; height: 30pt; border-radius: 50%; }
+  .fiche-courte .fiche-entete { display: block; margin-bottom: 10pt; }
+  .fiche-courte h3 { margin: 12pt 0 5pt; padding-bottom: 2pt; border-bottom: 1pt solid #999; font-size: 11pt; text-transform: uppercase; letter-spacing: .4pt; break-after: avoid; }
+  .fiche-courte .fc-points { margin: 0; padding-left: 14pt; }
+  .fiche-courte .fc-points li { margin: 0 0 4pt; break-inside: avoid; }
+  .fiche-courte .fc-etapes { list-style: none; margin: 0; padding: 0; }
+  .fiche-courte .fc-etapes li { display: grid; grid-template-columns: 14pt 1fr; gap: 4pt; margin: 0 0 5pt; break-inside: avoid; }
+  .fiche-courte .fc-case { width: 9pt; height: 9pt; margin-top: 2pt; border: 1pt solid #333; }
+  .fiche-courte .fc-vide { font-style: italic; color: #333; }
+  .fiche-courte .table-numeros { font-size: 8.5pt; }
+  .fiche-courte .table-numeros thead th { padding: 3pt 6pt 3pt 0; font-size: 7.5pt; border-bottom: 1pt solid #333; }
+  .fiche-courte .table-numeros tbody th, .fiche-courte .table-numeros td { padding: 3pt 6pt 3pt 0; }
+  .fiche-courte .fiche-lien { font-size: 8.5pt; word-break: break-all; }
+}
 </style>
 </head>
 <body>
@@ -3247,8 +3279,9 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 </main>
 
 <div class="zone-impression">
-  <button class="btn-print" onclick="preparerFiche(); window.print()" aria-label="Imprimer ou exporter en PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer ma fiche / PDF</button>
-  <p class="note-impression">La fiche imprimée reprend votre profil, vos dates et uniquement les rubriques qui vous concernent.</p>
+  <button class="btn-print" onclick="preparerFiche(); window.print()" aria-label="Imprimer la fiche complète ou l'exporter en PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Fiche complète / PDF</button>
+  <button type="button" class="btn-fiche-courte" id="btn-fiche-courte" aria-label="Imprimer la fiche courte ou l'exporter en PDF (2 pages)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Fiche courte (2 pages)</button>
+  <p class="note-impression">La fiche complète reprend votre profil, vos dates et les rubriques qui vous concernent. La fiche courte tient en 2 pages : points clés, calendrier et numéros utiles.</p>
 </div>
 
 <button type="button" class="quitter-vite" id="quitter-vite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M9 8l-4 4 4 4"/><path d="M5 12h11"/></svg>Quitter rapidement</button>
@@ -3599,6 +3632,65 @@ window.addEventListener('afterprint', () => {
   encadresOuvertsPourImpression.forEach(d => d.removeAttribute('open'));
   encadresOuvertsPourImpression = [];
 });
+// Fiche courte (2 pages) : en-tête et profil de la fiche, points clés, calendrier en une phrase par étape,
+// numéros utiles et lien vers la fiche en ligne. Construite au moment d'imprimer ; jamais la rubrique Violences.
+function construireFicheCourte() {
+  preparerFiche();
+  let bloc = document.getElementById('fiche-courte');
+  if (!bloc) { bloc = document.createElement('div'); bloc.id = 'fiche-courte'; bloc.className = 'fiche-courte'; document.body.appendChild(bloc); }
+  bloc.replaceChildren();
+  const ajouter = (tag, classe, texte) => { const el = document.createElement(tag); if (classe) el.className = classe; if (texte) el.textContent = texte; return el; };
+  // Logo et nom de la Section
+  const marque = document.querySelector('.titre-page .fiche-section');
+  if (marque) bloc.appendChild(marque.cloneNode(true)).className = 'fiche-section fc-marque';
+  // En-tête de la fiche (titre, date, avertissement, profil) ; le lien en ligne passe à la fin
+  const entete = document.getElementById('fiche-entete').cloneNode(true);
+  entete.removeAttribute('id');
+  const titre = entete.querySelector('h2'); if (titre) titre.textContent = 'Ma fiche courte — Revenir vivre en France';
+  const lien = entete.querySelector('.fiche-lien'); if (lien) lien.remove();
+  bloc.appendChild(entete);
+  // Points clés
+  bloc.appendChild(ajouter('h3', '', 'Points clés pour votre profil'));
+  const points = [...document.querySelectorAll('#synthese-profil .synthese-tag')];
+  if (FILTRES.some(nom => valeurFiltre(nom)) && points.length) {
+    const ul = ajouter('ul', 'fc-points');
+    points.forEach(p => { const li = p.cloneNode(true); li.querySelectorAll('.synthese-voir').forEach(v => v.remove()); const item = ajouter('li'); item.innerHTML = li.innerHTML; ul.appendChild(item); });
+    bloc.appendChild(ul);
+  } else {
+    bloc.appendChild(ajouter('p', 'fc-vide', 'Aucun profil choisi : indiquez votre situation en haut du guide pour obtenir vos points clés.'));
+  }
+  // Calendrier : une phrase par étape, date si elle est connue, case à cocher au stylo
+  bloc.appendChild(ajouter('h3', '', 'Mon calendrier'));
+  const ol = ajouter('ul', 'fc-etapes');
+  document.querySelectorAll('#etapes-list > li').forEach(li => {
+    const label = li.querySelector('.label'); if (!label) return;
+    const nom = label.firstChild.textContent.trim();
+    const date = (label.querySelector('.date-tag')?.textContent || '').replace(/^\s*→\s*/, '').trim();
+    const texte = label.parentElement.textContent.slice(label.textContent.length).trim();
+    const phrase = (texte.match(/^.*?[.!?](\s|$)/) || [texte])[0].trim();
+    const item = ajouter('li');
+    item.appendChild(ajouter('span', 'fc-case'));
+    const corps = ajouter('span');
+    corps.appendChild(ajouter('strong', '', nom + (date ? ' — ' + date : '')));
+    corps.appendChild(document.createTextNode(' ' + phrase));
+    item.appendChild(corps); ol.appendChild(item);
+  });
+  bloc.appendChild(ol);
+  // Numéros utiles
+  const table = document.querySelector('#numeros-utiles .table-numeros');
+  if (table) { bloc.appendChild(ajouter('h3', '', 'Numéros utiles (heure de Paris)')); bloc.appendChild(table.cloneNode(true)); }
+  // Pour aller plus loin
+  bloc.appendChild(ajouter('h3', '', 'Pour aller plus loin'));
+  bloc.appendChild(ajouter('p', '', 'Le détail de chaque démarche, avec les liens officiels, est dans le guide en ligne et dans la fiche complète.'));
+  if (lien) bloc.appendChild(lien);
+}
+document.getElementById('btn-fiche-courte')?.addEventListener('click', () => {
+  construireFicheCourte();
+  document.body.classList.add('impression-courte');
+  window.print();
+});
+window.addEventListener('afterprint', () => document.body.classList.remove('impression-courte'));
+
 // « Imprimer cette rubrique » (Violences) : n'imprime que cette rubrique, tous les encadrés ouverts
 document.getElementById('imprimer-violences')?.addEventListener('click', () => {
   document.body.classList.add('impression-violences');
