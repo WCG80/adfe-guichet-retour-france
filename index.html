@@ -1724,6 +1724,17 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   #urgence .section-num { color: var(--rouge); }
   #urgence h2::after { background: var(--rouge); box-shadow: inset 0 -5px 0 var(--jaune); }
 }
+/* Violences : bouton d'impression bien visible, noir souligné de rouge comme l'onglet de la rubrique */
+@media screen {
+  .btn-imprimer-violences {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px;
+    font-size: 13px; text-transform: uppercase; letter-spacing: .04em;
+    background: var(--noir); color: var(--blanc); border: 0; border-radius: 0; box-shadow: inset 0 -4px 0 var(--rouge);
+  }
+  .btn-imprimer-violences svg { width: 18px; height: 18px; flex: none; }
+  .btn-imprimer-violences:hover { background: var(--ardoise); color: var(--blanc); }
+  .btn-imprimer-violences:focus-visible { outline: 3px solid var(--rouge); outline-offset: 2px; }
+}
 </style>
 </head>
 <body>
@@ -2844,7 +2855,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   </div>
   <p>Si vous subissez des violences dans votre couple ou votre famille — physiques, psychologiques, sexuelles, économiques, ou la confiscation de vos papiers —, vous pouvez être aidé·e <strong>depuis l'étranger</strong>, préparer votre <strong>retour en France</strong> et y être protégé·e <strong>une fois rentré·e</strong>.<span class="ecran-seul"> Le bouton <strong>« Quitter rapidement »</strong>, en bas de l'écran, remplace cette page par la page d'accueil de Google d'un seul clic.</span></p>
   <p class="prudence">Pour plus de discrétion, consultez cette page en navigation privée. Si quelqu'un arrive, le bouton « Quitter rapidement » (ou deux appuis sur la touche Échap) ouvre aussitôt la page d'accueil de Google, et le bouton Retour du navigateur ne ramène pas ici.</p>
-  <p class="violences-impression"><button type="button" class="btn-imprimer-violences" id="imprimer-violences">Imprimer cette rubrique</button> <span>Elle ne figure pas dans la fiche générale : à vous de choisir si vous voulez l'imprimer, et où la garder.</span></p>
+  <p class="violences-impression"><button type="button" class="btn-imprimer-violences" id="imprimer-violences"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer cette rubrique</button> <span>Elle ne figure pas dans la fiche générale : à vous de choisir si vous voulez l'imprimer, et où la garder.</span></p>
 
   <h3 class="violences-titre">Vous vivez encore à l'étranger</h3>
   <div class="urgence-numero">En danger immédiat : appelez les <strong>numéros d'urgence du pays</strong> (police, secours), puis votre <strong>consulat</strong>, joignable par une permanence en dehors des heures d'ouverture.</div>
