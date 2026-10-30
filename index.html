@@ -1907,6 +1907,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 .illus-livret { float: right; width: 120px; height: auto; margin: 0 0 12px 24px; }
 @media (max-width: 700px) { .illus-livret { float: none; display: block; width: 96px; margin: 0 auto 12px; } }
 @media print { .illus-livret { display: none; } }
+/* Dessin de la carte Vitale, à droite du texte (au-dessus sur téléphone) */
+.illus-vitale { float: right; width: 120px; height: auto; margin: 0 0 12px 24px; }
+@media (max-width: 700px) { .illus-vitale { float: none; display: block; width: 104px; margin: 0 auto 12px; } }
+@media print { .illus-vitale { display: none; } }
 </style>
 </head>
 <body>
@@ -2301,6 +2305,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   <details data-type="info" id="sante-apres">
     <summary><span class="sum-title">Une fois vos droits ouverts</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
+      <img class="illus-vitale" src="assets/carte-vitale.svg" alt="Dessin d'une carte Vitale" width="120" height="75" loading="lazy">
       <ul>
         <li>Créez votre compte Ameli et commandez votre <strong>carte Vitale</strong>.</li>
         <li>Déclarez un <strong>médecin traitant</strong> : sans lui, vos soins sont moins bien remboursés.</li>
