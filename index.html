@@ -38,6 +38,7 @@
   --cramoisi:    #AE1F27;
   --rose:        #D18899;
   --bordeaux:    #6D0D22;
+  --rose-fonce:  #A84D63;
   --ardoise:     #273844;
   --texte:       #331F23;
   --texte-doux:  #6A5559;
@@ -1690,6 +1691,15 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .bandeau-site .titre-page { padding-bottom: 20px; }
   .bandeau-site .titre-page h1::after { margin-top: 10px; height: 10px; width: 80px; }
   .bandeau-site .titre-page p { margin-top: 10px; font-size: 15px; line-height: 1.5; }
+}
+/* Numéro de rubrique de la même couleur que la barre sous son titre.
+   Le rose clair n'est pas assez lisible pour un chiffre : ces rubriques passent au rose foncé (barre et numéro) */
+@media screen {
+  .section-num { color: var(--rose-fonce); }
+  .section h2::after, #sante h2::after, #famille h2::after, #bareme h2::after { background: var(--rose-fonce); }
+  #priorites .section-num, #emploi .section-num, #scolarite .section-num, #glossaire .section-num { color: var(--rouge); }
+  #etapes .section-num, #fiscalite .section-num, #douanes .section-num, #ressources .section-num { color: var(--violet); }
+  #docs .section-num, #logement .section-num, #retraite .section-num { color: var(--teal); }
 }
 </style>
 </head>
