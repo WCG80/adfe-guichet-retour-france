@@ -39,6 +39,8 @@
   --rose:        #D18899;
   --bordeaux:    #6D0D22;
   --rose-fonce:  #A84D63;
+  --noir:        #1B1B1B;
+  --jaune:       #FFE27A;
   --ardoise:     #273844;
   --texte:       #331F23;
   --texte-doux:  #6A5559;
@@ -1405,22 +1407,22 @@ main { padding-top: 40px; }
 .urgence-numero a { color: var(--rouge); font-weight: 700; white-space: nowrap; }
 @media screen {
   /* Tuile « Retour en urgence » : dernière, sur toute la largeur, fond rouge, texte et liseré jaunes */
-  .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n) { border: 0; border-top: 4px solid #FFE27A; background: var(--rouge); grid-column: 1 / -1; min-height: 0; }
+  .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n) { border: 0; border-top: 4px solid var(--jaune); background: var(--rouge); grid-column: 1 / -1; min-height: 0; }
   .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n):hover { background: #8E1A21; }
-  .accueil-tuiles .tuile.tuile-urgence .tuile-titre, .accueil-tuiles .tuile.tuile-urgence:hover .tuile-titre { color: #FFE27A; }
-  .accueil-tuiles .tuile.tuile-urgence .tuile-desc { color: #FFE27A; }
-  .accueil-tuiles .tuile.tuile-urgence::after, .accueil-tuiles .tuile.tuile-urgence:hover::after { color: #FFE27A; }
+  .accueil-tuiles .tuile.tuile-urgence .tuile-titre, .accueil-tuiles .tuile.tuile-urgence:hover .tuile-titre { color: var(--jaune); }
+  .accueil-tuiles .tuile.tuile-urgence .tuile-desc { color: var(--jaune); }
+  .accueil-tuiles .tuile.tuile-urgence::after, .accueil-tuiles .tuile.tuile-urgence:hover::after { color: var(--jaune); }
   .sommaire { grid-template-columns: repeat(8, minmax(0, 1fr)); }
   /* Bouton « Urgence » en rouge pour qu'on le repère tout de suite */
   /* Bouton « Violences » : fond noir, texte blanc, liseré rouge du dégradé */
-  .nav-inner .sommaire a.chip-violences:nth-child(n) { --c: #1B1B1B; color: var(--blanc); background: #1B1B1B; box-shadow: inset 0 -4px 0 var(--rouge), 0 1px 2px rgba(0,0,0,.08); }
+  .nav-inner .sommaire a.chip-violences:nth-child(n) { --c: var(--noir); color: var(--blanc); background: var(--noir); box-shadow: inset 0 -4px 0 var(--rouge), 0 1px 2px rgba(0,0,0,.08); }
   .nav-inner .sommaire a.chip-violences:nth-child(n):hover { background: #000; box-shadow: inset 0 -4px 0 var(--rouge); }
   /* Rubrique ouverte : gris foncé, encadré de rouge */
   .nav-inner .sommaire a.chip-violences.actif:nth-child(n) { background: #4A4F55; color: var(--blanc); box-shadow: inset 0 0 0 3px var(--rouge), inset 0 -5px 0 var(--rouge); }
   /* Liseré jaune, comme la tuile « Retour en urgence » : il ressort bien sur le rouge */
-  .nav-inner .sommaire a.chip-urgence:nth-child(n) { --c: var(--rouge); color: #FFE27A; background: var(--rouge); box-shadow: inset 0 -4px 0 #FFE27A, 0 1px 2px rgba(0,0,0,.08); }
-  .nav-inner .sommaire a.chip-urgence:nth-child(n):hover { background: #8E1A21; box-shadow: inset 0 -4px 0 #FFE27A; }
-  .nav-inner .sommaire a.chip-urgence.actif:nth-child(n) { background: #FFE27A; color: var(--rouge); box-shadow: inset 0 0 0 2px var(--rouge), inset 0 -4px 0 var(--rouge); }
+  .nav-inner .sommaire a.chip-urgence:nth-child(n) { --c: var(--rouge); color: var(--jaune); background: var(--rouge); box-shadow: inset 0 -4px 0 var(--jaune), 0 1px 2px rgba(0,0,0,.08); }
+  .nav-inner .sommaire a.chip-urgence:nth-child(n):hover { background: #8E1A21; box-shadow: inset 0 -4px 0 var(--jaune); }
+  .nav-inner .sommaire a.chip-urgence.actif:nth-child(n) { background: var(--jaune); color: var(--rouge); box-shadow: inset 0 0 0 2px var(--rouge), inset 0 -4px 0 var(--rouge); }
   .nav-inner .sommaire a:nth-child(8n+1) { --c: #9A2230; }
   .nav-inner .sommaire a:nth-child(8n+2) { --c: #8A2340; }
   .nav-inner .sommaire a:nth-child(8n+3) { --c: #7A2E52; }
@@ -1711,6 +1713,16 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 @media screen and (max-width: 700px) {
   body.vue-rubrique .section-header { grid-template-columns: 40px 1fr auto; }
   body.vue-rubrique .section-picto { width: 40px; height: 40px; }
+}
+/* Violences : numéro noir et barre rouge, comme son onglet dans la barre du haut */
+@media screen {
+  #violences .section-num { color: var(--noir); }
+  #violences h2::after { background: var(--rouge); }
+}
+/* Urgence : numéro rouge, barre rouge soulignée de jaune, comme son onglet (le jaune seul ne se verrait pas sur fond blanc) */
+@media screen {
+  #urgence .section-num { color: var(--rouge); }
+  #urgence h2::after { background: var(--rouge); box-shadow: inset 0 -5px 0 var(--jaune); }
 }
 </style>
 </head>
