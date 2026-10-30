@@ -1903,6 +1903,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   /* Le cadre en dégradé du survol suit l'arrondi */
   .accueil-tuiles .tuile::before, .ress-carte::before { border-radius: 9px; }
 }
+/* Dessin du livret de famille, à droite du texte (au-dessus sur téléphone) */
+.illus-livret { float: right; width: 120px; height: auto; margin: 0 0 12px 24px; }
+@media (max-width: 700px) { .illus-livret { float: none; display: block; width: 96px; margin: 0 auto 12px; } }
+@media print { .illus-livret { display: none; } }
 </style>
 </head>
 <body>
@@ -2464,6 +2468,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   <details data-type="info" id="mariage-etranger">
     <summary><span class="sum-title">Vous vous êtes mariés à l'étranger</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
+      <img class="illus-livret" src="assets/livret-de-famille.svg" alt="Dessin d'un livret de famille français" width="120" height="180" loading="lazy">
       <p>Faites <strong>transcrire votre mariage</strong> sur les registres de l'état civil français. Ce n'est pas obligatoire, mais sans transcription le mariage n'a pas d'effet vis-à-vis des administrations :</p>
       <ul>
         <li>un conjoint étranger <strong>ne peut pas obtenir son visa ni son titre de séjour</strong> de conjoint de Français ;</li>
