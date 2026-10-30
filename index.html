@@ -6,6 +6,21 @@
 <link rel="alternate" hreflang="en" href="conjoint-en.html">
 <link rel="alternate" hreflang="es" href="conjoint-es.html">
 <title>Revenir vivre en France — Guide pratique | ADFE</title>
+<meta name="description" content="Guide gratuit de la Section France de Français du monde – ADFE : démarches, droits et ressources officielles pour revenir vivre en France après une expatriation.">
+<!-- Icône d'onglet et aperçu du lien quand on le partage (messagerie, e-mail, réseaux) -->
+<link rel="icon" type="image/png" href="assets/logo-section-france.png">
+<link rel="apple-touch-icon" href="assets/logo-section-france.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Français du monde – ADFE · Section France">
+<meta property="og:title" content="Revenir vivre en France — Guide pratique">
+<meta property="og:description" content="Guide gratuit de la Section France de Français du monde – ADFE : démarches, droits et ressources officielles pour revenir vivre en France après une expatriation.">
+<meta property="og:url" content="https://wcg80.github.io/adfe-guichet-retour-france/">
+<meta property="og:image" content="https://wcg80.github.io/adfe-guichet-retour-france/assets/logo-section-france.png">
+<meta property="og:image:width" content="315">
+<meta property="og:image:height" content="314">
+<meta property="og:image:alt" content="Logo de la Section France de Français du monde – ADFE">
+<meta name="twitter:card" content="summary">
 <!-- Police : même déclaration que francais-du-monde.org (Montserrat, sans-serif) et, comme le site,
      sans chargement de webfont — le guide s'affiche donc avec la même police que le site sur chaque appareil -->
 <style>
@@ -1639,6 +1654,43 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   /* Place pour le bouton rond « revenir en haut » */
   .pied-site { padding-bottom: 76px; }
 }
+/* Audit UX — lisibilité et confort tactile
+   Bouton « rubrique suivante » au dégradé des boutons principaux (le gris ne contrastait pas assez) */
+@media screen {
+  body .nav-rubriques .nav-suiv { background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade); color: var(--blanc); border-color: transparent; }
+  body .nav-rubriques .nav-suiv:hover { filter: brightness(1.1); }
+  /* « Accueil » du bas : même dégradé que le bouton Accueil de la barre du haut (même destination) */
+  body .nav-rubriques a.nav-accueil { background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade); color: var(--blanc); border-color: transparent; }
+  body .nav-rubriques a.nav-accueil:hover { filter: brightness(1.1); }
+  /* Textes plus grands pour un public qui lit souvent sur téléphone */
+  .nav-inner .sommaire a { font-size: 13px; }
+  .liens-titre { font-size: 13px; }
+  .filtre-reset, .btn-print { font-size: 13px; }
+  .pied-barre { font-size: 13px; letter-spacing: .03em; max-width: 860px; }
+  .pied-barre > * + *::before { margin: 0 10px; }
+}
+/* Fenêtres moyennes : place sous le pied de page pour le bouton rond « revenir en haut » */
+@media screen and (max-width: 1100px) { .pied-site { padding-bottom: 76px; } }
+/* Les morceaux du nom gardent la taille du nom */
+.bandeau-inner span span { font-size: inherit; letter-spacing: inherit; }
+/* Mobile : zones de clic d'au moins 44 px et en-tête resserré pour voir plus vite « Votre situation » */
+@media screen and (max-width: 700px) {
+  .filtre-reset, body .btn-print { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .nav-inner .sommaire a { min-height: 40px; display: inline-flex; align-items: center; }
+  .pied-barre a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; }
+  .pied-barre { gap: 0; }
+  .bandeau-site .bandeau-inner { padding-top: 12px; margin-bottom: 6px; gap: 10px; }
+  .bandeau-site .logo-section { width: 48px; height: 48px; border-width: 2px; }
+  .bandeau-site .bandeau-inner > span { font-size: 13px; letter-spacing: .5px; }
+  /* « Section France » sur sa propre ligne plutôt que coupé au milieu */
+  .nom-sep { display: none; }
+  .nom-section { display: block; }
+  .langues { flex-wrap: wrap; }
+  .langues a { font-size: 12px; letter-spacing: .3px; white-space: nowrap; padding: 6px 9px; }
+  .bandeau-site .titre-page { padding-bottom: 20px; }
+  .bandeau-site .titre-page h1::after { margin-top: 10px; height: 10px; width: 80px; }
+  .bandeau-site .titre-page p { margin-top: 10px; font-size: 15px; line-height: 1.5; }
+}
 </style>
 </head>
 <body>
@@ -1650,7 +1702,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 <div class="bandeau-site chrome-site">
   <div class="bandeau-inner">
     <img class="logo-section" src="assets/logo-section-france.png" alt="Logo de la Section France" width="72" height="72">
-    <span>Français du monde – ADFE · Section France</span>
+    <span>Français du monde – ADFE<span class="nom-sep"> · </span><span class="nom-section">Section France</span></span>
     <nav class="langues" aria-label="Page pour votre conjoint étranger">
       <a href="conjoint-en.html" hreflang="en" lang="en" title="Page in English for a foreign spouse">Foreign spouse or partner</a>
       <a href="conjoint-es.html" hreflang="es" lang="es" title="Página en español para el cónyuge extranjero">Cónyuge o pareja extranjera</a>
@@ -3411,6 +3463,9 @@ document.addEventListener('DOMContentLoaded', () => {
     cb.type  = 'checkbox';
     cb.id    = key;
     cb.title = 'Marquer comme fait';
+    // Nom de l'étape lu par les lecteurs d'écran (« Six mois avant », etc.)
+    const etape = li.querySelector('.label');
+    cb.setAttribute('aria-label', 'Étape faite : ' + (etape ? etape.firstChild.textContent.trim() : (i + 1)));
     try {
       if (localStorage.getItem(key) === '1') {
         cb.checked = true;
