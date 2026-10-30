@@ -1683,9 +1683,6 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .bandeau-site .bandeau-inner { padding-top: 12px; margin-bottom: 6px; gap: 10px; }
   .bandeau-site .logo-section { width: 48px; height: 48px; border-width: 2px; }
   .bandeau-site .bandeau-inner > span { font-size: 13px; letter-spacing: .5px; }
-  /* « Section France » sur sa propre ligne plutôt que coupé au milieu */
-  .nom-sep { display: none; }
-  .nom-section { display: block; }
   .langues { flex-wrap: wrap; }
   .langues a { font-size: 12px; letter-spacing: .3px; white-space: nowrap; padding: 6px 9px; }
   .bandeau-site .titre-page { padding-bottom: 20px; }
@@ -1847,6 +1844,50 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 }
 /* Pictogramme Urgence (gyrophare) : rayons jaune clair sur la carte rouge, foncés ailleurs (fond blanc) */
 @media screen { .tuile-urgence .tuile-icone .rayons { stroke: var(--jaune-texte); } }
+/* ── Audit UI/UX n°2 ── */
+/* Nom de l'association sur deux lignes à toutes les tailles : « Français du monde – ADFE » puis « Section France » */
+.nom-sep { display: none; }
+.nom-section { display: block; }
+.bandeau-inner > span, .nom-section { white-space: nowrap; }
+@media screen {
+  /* Petites étiquettes au-dessus des titres de rubrique */
+  .section-label { font-size: 12px; }
+  /* Tous les boutons, onglets et étiquettes : coins légèrement arrondis, comme « Réinitialiser » */
+  .btn-print, .filtre-valider, .btn-imprimer-violences, .nav-rubriques a, .quitter-vite, .etapes .num, .gl-index a,
+  .skip-link, .me-num, .retour-rubriques, .rappel-modifier, .langues a, .sommaire a, .lien-accueil, .filtre-reset, .me-ouvrir, .btn-loupe { border-radius: 4px !important; }
+  /* Rangée d'onglets : fondu sur le bord quand elle continue hors de l'écran */
+  .sommaire.suite-droite { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent); }
+  .sommaire.suite-gauche { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 56px), transparent); }
+  .sommaire.suite-droite.suite-gauche { -webkit-mask-image: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent); }
+  /* Cartes de l'accueil : la carte garde sa couleur au survol, un cadre en dégradé apparaît (comme les cartes de Ressources) */
+  .accueil-tuiles .tuiles .tuile:nth-child(n):hover, .accueil-tuiles .tuiles .tuile:nth-child(n):focus-visible { background: var(--blanc); }
+  .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n):hover, .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n):focus-visible { background: var(--noir); }
+  .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n):hover, .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n):focus-visible { background: var(--rouge); }
+  .accueil-tuiles .tuile::before {
+    content: ''; position: absolute; inset: -1px; padding: 3px; background: var(--degrade); pointer-events: none;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0; transition: opacity .15s ease;
+  }
+  .accueil-tuiles .tuile:hover::before, .accueil-tuiles .tuile:focus-visible::before { opacity: 1; }
+  .accueil-tuiles .tuile.tuile-violences::before, .accueil-tuiles .tuile.tuile-urgence::before { inset: -4px -1px -1px; }
+}
+/* « Votre situation » sur écran moyen (tablette, petit ordinateur) : grille régulière,
+   3 menus par ligne, ou 3 + 2 de même largeur quand le menu « Partenaire » est masqué */
+@media screen and (min-width: 701px) and (max-width: 1000px) {
+  :root body .filtre-profil .filtre-inner.filtre-inner { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  :root body .filtre-profil .filtre-inner.filtre-inner > .filtre-champ.filtre-champ:nth-of-type(n) { grid-column: span 2; }
+  :root body .filtre-profil .filtre-inner.sans-partenaire > .filtre-champ.filtre-champ:has(#filtre-enfants),
+  :root body .filtre-profil .filtre-inner.sans-partenaire > .filtre-champ.filtre-champ:has(#filtre-animal) { grid-column: span 3; }
+  :root body .filtre-profil .filtre-inner > .me-ligne, :root body .filtre-profil .filtre-inner > .mode-emploi,
+  :root body .filtre-profil .filtre-inner > .filtre-date, :root body .filtre-profil .filtre-inner > .filtre-actions { grid-column: 1 / -1; grid-row: auto; }
+}
+/* Téléphone : menus, date, loupe et mode d'emploi à 44 px de haut pour le doigt */
+@media screen and (max-width: 700px) {
+  .filtre-profil select, .champ-date-retour { min-height: 44px; }
+  .me-ouvrir, .lien-accueil, .btn-loupe, body.barre-compacte .btn-loupe, body.barre-compacte .lien-accueil { min-height: 44px; }
+  body.barre-compacte .btn-loupe { width: 44px; height: 44px; }
+}
 </style>
 </head>
 <body>
@@ -2866,77 +2907,77 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   <div class="ress-groupe">
     <h3 class="ress-titre">Portails généraux</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>service-public.gouv.fr</strong><span>Revenir vivre en France : la fiche officielle</span></span></a>
-      <a class="ress-carte" href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/meae.svg" alt=""></span><span class="ress-texte"><strong>France Diplomatie</strong><span>Préparer son retour</span></span></a>
-      <a class="ress-carte" href="https://www.mesdroitssociaux.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/mesdroitssociaux.svg" alt=""></span><span class="ress-texte"><strong>mesdroitssociaux.gouv.fr</strong><span>Simulateur de vos droits sociaux</span></span></a>
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>service-public.gouv.fr</strong><span>Revenir vivre en France : la fiche officielle</span></span></a>
+      <a class="ress-carte" href="https://www.diplomatie.gouv.fr/fr/services-aux-francaises-et-aux-francais/preparation-d-un-retour-en-france" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" data-src="assets/logos/meae.svg" alt=""></span><span class="ress-texte"><strong>France Diplomatie</strong><span>Préparer son retour</span></span></a>
+      <a class="ress-carte" href="https://www.mesdroitssociaux.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/mesdroitssociaux.svg" alt=""></span><span class="ress-texte"><strong>mesdroitssociaux.gouv.fr</strong><span>Simulateur de vos droits sociaux</span></span></a>
     </div>
   </div>
   <div class="ress-groupe">
     <h3 class="ress-titre">Se faire aider · Se connecter</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.france-services.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-services.png" alt=""></span><span class="ress-texte"><strong>France services</strong><span>Un agent vous accompagne dans vos démarches, près de chez vous</span></span></a>
-      <a class="ress-carte" href="https://franceconnect.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/franceconnect.svg" alt=""></span><span class="ress-texte"><strong>FranceConnect</strong><span>Un seul identifiant pour les sites publics</span></span></a>
-      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>Questionnaire « Revenir vivre en France »</strong><span>Le parcours officiel personnalisé de service-public.gouv.fr</span></span></a>
-      <a class="ress-carte" href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-horizon.png" alt=""></span><span class="ress-texte"><strong>France Horizon</strong><span>Accueil des Français rapatriés en difficulté</span></span></a>
-      <a class="ress-carte" href="https://www.defenseurdesdroits.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/defenseur-des-droits.svg" alt=""></span><span class="ress-texte"><strong>Défenseur des droits</strong><span>Recours gratuit en cas de difficulté avec une administration (CAF, CPAM…)</span></span></a>
+      <a class="ress-carte" href="https://www.france-services.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/france-services.png" alt=""></span><span class="ress-texte"><strong>France services</strong><span>Un agent vous accompagne dans vos démarches, près de chez vous</span></span></a>
+      <a class="ress-carte" href="https://franceconnect.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/franceconnect.svg" alt=""></span><span class="ress-texte"><strong>FranceConnect</strong><span>Un seul identifiant pour les sites publics</span></span></a>
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/F32823" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>Questionnaire « Revenir vivre en France »</strong><span>Le parcours officiel personnalisé de service-public.gouv.fr</span></span></a>
+      <a class="ress-carte" href="https://www.france-horizon.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/france-horizon.png" alt=""></span><span class="ress-texte"><strong>France Horizon</strong><span>Accueil des Français rapatriés en difficulté</span></span></a>
+      <a class="ress-carte" href="https://www.defenseurdesdroits.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/defenseur-des-droits.svg" alt=""></span><span class="ress-texte"><strong>Défenseur des droits</strong><span>Recours gratuit en cas de difficulté avec une administration (CAF, CPAM…)</span></span></a>
     </div>
   </div>
   <div class="ress-groupe">
     <h3 class="ress-titre">Santé</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.ameli.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/ameli.svg" alt=""></span><span class="ress-texte"><strong>ameli.fr</strong><span>Assurance maladie, compte en ligne</span></span></a>
-      <a class="ress-carte" href="https://www.cfe.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cfe.png" alt=""></span><span class="ress-texte"><strong>CFE</strong><span>Caisse des Français de l'étranger</span></span></a>
-      <a class="ress-carte" href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cleiss.svg" alt=""></span><span class="ress-texte"><strong>Cleiss</strong><span>Protection sociale au retour</span></span></a>
+      <a class="ress-carte" href="https://www.ameli.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/ameli.svg" alt=""></span><span class="ress-texte"><strong>ameli.fr</strong><span>Assurance maladie, compte en ligne</span></span></a>
+      <a class="ress-carte" href="https://www.cfe.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/cfe.png" alt=""></span><span class="ress-texte"><strong>CFE</strong><span>Caisse des Français de l'étranger</span></span></a>
+      <a class="ress-carte" href="https://www.cleiss.fr/particuliers/retour_en_france.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/cleiss.svg" alt=""></span><span class="ress-texte"><strong>Cleiss</strong><span>Protection sociale au retour</span></span></a>
     </div>
   </div>
   <div class="ress-groupe">
     <h3 class="ress-titre">Emploi · Fiscalité</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.francetravail.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-travail.svg" alt=""></span><span class="ress-texte"><strong>France Travail</strong><span>Inscription et indemnisation</span></span></a>
-      <a class="ress-carte" href="https://www.impots.gouv.fr/international-particulier/questions/je-reviens-en-france-apres-un-sejour-letranger" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/dgfip.svg" alt=""></span><span class="ress-texte"><strong>impots.gouv.fr</strong><span>Revenir en France après un séjour à l'étranger</span></span></a>
-      <a class="ress-carte" href="https://www.urssaf.fr/accueil.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/urssaf.svg" alt=""></span><span class="ress-texte"><strong>Urssaf</strong><span>Cotisations des indépendants et des micro-entrepreneurs</span></span></a>
-      <a class="ress-carte" href="https://www.apec.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/apec.svg" alt=""></span><span class="ress-texte"><strong>Apec</strong><span>Emploi et accompagnement des cadres</span></span></a>
+      <a class="ress-carte" href="https://www.francetravail.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/france-travail.svg" alt=""></span><span class="ress-texte"><strong>France Travail</strong><span>Inscription et indemnisation</span></span></a>
+      <a class="ress-carte" href="https://www.impots.gouv.fr/international-particulier/questions/je-reviens-en-france-apres-un-sejour-letranger" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/dgfip.svg" alt=""></span><span class="ress-texte"><strong>impots.gouv.fr</strong><span>Revenir en France après un séjour à l'étranger</span></span></a>
+      <a class="ress-carte" href="https://www.urssaf.fr/accueil.html" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/urssaf.svg" alt=""></span><span class="ress-texte"><strong>Urssaf</strong><span>Cotisations des indépendants et des micro-entrepreneurs</span></span></a>
+      <a class="ress-carte" href="https://www.apec.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/apec.svg" alt=""></span><span class="ress-texte"><strong>Apec</strong><span>Emploi et accompagnement des cadres</span></span></a>
     </div>
   </div>
   <div class="ress-groupe">
     <h3 class="ress-titre">Logement · Famille · Banque</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.actionlogement.fr/la-garantie-visale" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/action-logement.png" alt=""></span><span class="ress-texte"><strong>Action Logement</strong><span>La garantie Visale</span></span></a>
-      <a class="ress-carte" href="https://www.caf.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/caf.svg" alt=""></span><span class="ress-texte"><strong>caf.fr</strong><span>Aides au logement et prestations familiales</span></span></a>
-      <a class="ress-carte" href="https://www.demande-logement-social.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/logement-social.jpg" alt=""></span><span class="ress-texte"><strong>Logement social</strong><span>Déposer sa demande en ligne</span></span></a>
-      <a class="ress-carte" href="https://www.banque-france.fr/fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/banque-de-france.svg" alt=""></span><span class="ress-texte"><strong>Banque de France</strong><span>Droit au compte si une banque refuse de vous ouvrir un compte</span></span></a>
+      <a class="ress-carte" href="https://www.actionlogement.fr/la-garantie-visale" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/action-logement.png" alt=""></span><span class="ress-texte"><strong>Action Logement</strong><span>La garantie Visale</span></span></a>
+      <a class="ress-carte" href="https://www.caf.fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/caf.svg" alt=""></span><span class="ress-texte"><strong>caf.fr</strong><span>Aides au logement et prestations familiales</span></span></a>
+      <a class="ress-carte" href="https://www.demande-logement-social.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/logement-social.jpg" alt=""></span><span class="ress-texte"><strong>Logement social</strong><span>Déposer sa demande en ligne</span></span></a>
+      <a class="ress-carte" href="https://www.banque-france.fr/fr" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/banque-de-france.svg" alt=""></span><span class="ress-texte"><strong>Banque de France</strong><span>Droit au compte si une banque refuse de vous ouvrir un compte</span></span></a>
     </div>
   </div>
   <div class="ress-groupe">
     <h3 class="ress-titre">État civil · Séjour</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/R1405" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>Acte de naissance</strong><span>D'un Français né à l'étranger (gratuit), sur service-public.gouv.fr</span></span></a>
-      <a class="ress-carte" href="https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/anef.png" alt=""></span><span class="ress-texte"><strong>ANEF</strong><span>Démarches de séjour du conjoint étranger</span></span></a>
-      <a class="ress-carte" href="https://www.ofii.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/ofii.jpg" alt=""></span><span class="ress-texte"><strong>OFII</strong><span>Accueil et contrat d'intégration du conjoint étranger</span></span></a>
+      <a class="ress-carte" href="https://www.service-public.gouv.fr/particuliers/vosdroits/R1405" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/service-public.svg" alt=""></span><span class="ress-texte"><strong>Acte de naissance</strong><span>D'un Français né à l'étranger (gratuit), sur service-public.gouv.fr</span></span></a>
+      <a class="ress-carte" href="https://administration-etrangers-en-france.interieur.gouv.fr/particuliers/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/anef.png" alt=""></span><span class="ress-texte"><strong>ANEF</strong><span>Démarches de séjour du conjoint étranger</span></span></a>
+      <a class="ress-carte" href="https://www.ofii.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" data-src="assets/logos/ofii.jpg" alt=""></span><span class="ress-texte"><strong>OFII</strong><span>Accueil et contrat d'intégration du conjoint étranger</span></span></a>
     </div>
   </div>
   <div class="ress-groupe">
     <h3 class="ress-titre">Scolarité · Études</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.france-education-international.fr/expertises/enic-naric" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" src="assets/logos/enic-naric.png" alt=""></span><span class="ress-texte"><strong>ENIC-NARIC</strong><span>Reconnaissance des diplômes étrangers (France Éducation international)</span></span></a>
-      <a class="ress-carte" href="https://www.parcoursup.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/parcoursup.png" alt=""></span><span class="ress-texte"><strong>Parcoursup</strong><span>Admission dans l'enseignement supérieur</span></span></a>
-      <a class="ress-carte" href="https://www.cned.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/cned.svg" alt=""></span><span class="ress-texte"><strong>CNED</strong><span>Enseignement à distance</span></span></a>
+      <a class="ress-carte" href="https://www.france-education-international.fr/expertises/enic-naric" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-haut" data-src="assets/logos/enic-naric.png" alt=""></span><span class="ress-texte"><strong>ENIC-NARIC</strong><span>Reconnaissance des diplômes étrangers (France Éducation international)</span></span></a>
+      <a class="ress-carte" href="https://www.parcoursup.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/parcoursup.png" alt=""></span><span class="ress-texte"><strong>Parcoursup</strong><span>Admission dans l'enseignement supérieur</span></span></a>
+      <a class="ress-carte" href="https://www.cned.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/cned.svg" alt=""></span><span class="ress-texte"><strong>CNED</strong><span>Enseignement à distance</span></span></a>
     </div>
   </div>
   <div class="ress-groupe">
     <h3 class="ress-titre">Douanes · Véhicule · Animal</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.douane.gouv.fr/particuliers/vous-demenagez/en-france-metropolitaine" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/douane.png" alt=""></span><span class="ress-texte"><strong>Douane</strong><span>Déménager en France</span></span></a>
-      <a class="ress-carte" href="https://ants.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/france-titres.png" alt=""></span><span class="ress-texte"><strong>France Titres (ANTS)</strong><span>Permis de conduire, carte grise</span></span></a>
-      <a class="ress-carte" href="https://www.i-cad.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/icad.png" alt=""></span><span class="ress-texte"><strong>I-CAD</strong><span>Identification des chiens, chats et furets</span></span></a>
+      <a class="ress-carte" href="https://www.douane.gouv.fr/particuliers/vous-demenagez/en-france-metropolitaine" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/douane.png" alt=""></span><span class="ress-texte"><strong>Douane</strong><span>Déménager en France</span></span></a>
+      <a class="ress-carte" href="https://ants.gouv.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/france-titres.png" alt=""></span><span class="ress-texte"><strong>France Titres (ANTS)</strong><span>Permis de conduire, carte grise</span></span></a>
+      <a class="ress-carte" href="https://www.i-cad.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/icad.png" alt=""></span><span class="ress-texte"><strong>I-CAD</strong><span>Identification des chiens, chats et furets</span></span></a>
     </div>
   </div>
   <div class="ress-groupe">
     <h3 class="ress-titre">Retraite</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.info-retraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-info-retraite" src="assets/logos/info-retraite.jpg" alt=""></span><span class="ress-texte"><strong>Info Retraite</strong><span>Relevé de carrière tous régimes</span></span></a>
-      <a class="ress-carte" href="https://www.lassuranceretraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/assurance-retraite.png" alt=""></span><span class="ress-texte"><strong>L'Assurance retraite</strong><span>Retraite de base</span></span></a>
-      <a class="ress-carte" href="https://www.agirc-arrco.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/agirc-arrco.png" alt=""></span><span class="ress-texte"><strong>Agirc-Arrco</strong><span>Retraite complémentaire</span></span></a>
+      <a class="ress-carte" href="https://www.info-retraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-info-retraite" data-src="assets/logos/info-retraite.jpg" alt=""></span><span class="ress-texte"><strong>Info Retraite</strong><span>Relevé de carrière tous régimes</span></span></a>
+      <a class="ress-carte" href="https://www.lassuranceretraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/assurance-retraite.png" alt=""></span><span class="ress-texte"><strong>L'Assurance retraite</strong><span>Retraite de base</span></span></a>
+      <a class="ress-carte" href="https://www.agirc-arrco.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img data-src="assets/logos/agirc-arrco.png" alt=""></span><span class="ress-texte"><strong>Agirc-Arrco</strong><span>Retraite complémentaire</span></span></a>
     </div>
   </div>
   <div class="ress-groupe ress-numeros" id="numeros-utiles">
@@ -3614,6 +3655,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Liens qui s'ouvrent dans un nouvel onglet : signalé aux lecteurs d'écran
+  document.querySelectorAll('a[target="_blank"]:not([aria-label])').forEach(a => {
+    a.setAttribute('aria-label', a.textContent.replace(/\s+/g, ' ').trim() + ' (nouvel onglet)');
+  });
+
+  // Rangée d'onglets : fondu sur le bord quand d'autres onglets sont cachés de ce côté
+  const rangeeOnglets = document.getElementById('sommaire-liens');
+  if (rangeeOnglets) {
+    const majFondu = () => {
+      const fin = rangeeOnglets.scrollWidth - rangeeOnglets.clientWidth;
+      rangeeOnglets.classList.toggle('suite-droite', fin > 2 && rangeeOnglets.scrollLeft < fin - 2);
+      rangeeOnglets.classList.toggle('suite-gauche', fin > 2 && rangeeOnglets.scrollLeft > 2);
+    };
+    rangeeOnglets.addEventListener('scroll', majFondu, { passive: true });
+    window.addEventListener('resize', majFondu);
+    new MutationObserver(majFondu).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    majFondu();
+  }
+
   // Rappel du pictogramme de la carte d'accueil à droite du titre de chaque rubrique (copie, une seule source)
   document.querySelectorAll('.tuiles .tuile[href^="#"]').forEach(tuile => {
     const icone  = tuile.querySelector('.tuile-icone svg');
@@ -3735,6 +3795,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     document.body.classList.remove('vue-accueil'); document.body.classList.add('vue-rubrique');
     sections.forEach(s => s.classList.toggle('courante', s === sec));
+    // Logos de Ressources chargés seulement à l'ouverture de la rubrique (allège l'arrivée sur le guide)
+    if (sec.id === 'ressources') document.querySelectorAll('#ressources img[data-src]').forEach(img => { img.src = img.dataset.src; img.removeAttribute('data-src'); });
     replier(sec, false, false);
     marquer(sec.id);
     // Rubriques précédente et suivante, parmi celles que le profil affiche
@@ -3963,7 +4025,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const visibles = trouves.filter(e => estVisible(e.el));
       const masques = trouves.length - visibles.length;
       // Classement : recherche présente dans le titre, puis encadrés et rubriques avant le glossaire ; un seul résultat par élément
-      const score = e => (mots.every(m => e.cleTitre.includes(m)) ? 10 : 0) + e.poids;
+      // Mot entier (« visa ») avant début de mot (« Visale ») ; Violences après les autres résultats,
+      // sauf si la recherche vise ses propres titres (discrétion pour qui consulte le guide sous surveillance)
+      const motsEntiers = mots.map(m => new RegExp('(^|[^a-z0-9])' + m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '($|[^a-z0-9])'));
+      const score = e => {
+        const titre = mots.every(m => e.cleTitre.includes(m));
+        return (titre ? 4 : 0) + e.poids
+          + (motsEntiers.every(r => r.test(e.cleTitre)) ? 12 : motsEntiers.every(r => r.test(e.cle)) ? 6 : 0)
+          - (e.sec.id === 'violences' && !titre ? 30 : 0);
+      };
       visibles.sort((a, b) => (score(b) - score(a)) || (a.texte.length - b.texte.length));
       const vus = new Set();
       resultatsCourants = visibles.filter(e => !vus.has(e.el) && vus.add(e.el)).slice(0, 8);

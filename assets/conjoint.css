@@ -120,12 +120,12 @@ footer a { color: var(--blanc); }
 /* « Quitter rapidement » : même style que dans le guide (noir souligné de rouge, majuscules) */
 @media screen {
   .quitter-vite-texte {
-    min-height: 44px; background: var(--noir); color: var(--blanc); border-radius: 0;
+    min-height: 44px; background: var(--noir); color: var(--blanc); border-radius: 4px;
     border: 3px solid var(--rouge); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; padding: 8px 16px;
   }
   .quitter-vite-texte:hover { background: var(--ardoise); color: var(--blanc); }
   body.vue-danger .quitter-vite {
-    background: var(--noir); color: var(--blanc); border-radius: 0; border: 4px solid var(--rouge); box-shadow: 0 3px 12px rgba(0,0,0,.25);
+    background: var(--noir); color: var(--blanc); border-radius: 4px; border: 4px solid var(--rouge); box-shadow: 0 3px 12px rgba(0,0,0,.25);
     font-size: 15px; text-transform: uppercase; letter-spacing: .04em; padding: 14px 20px;
   }
   body.vue-danger .quitter-vite:hover { background: var(--ardoise); }
