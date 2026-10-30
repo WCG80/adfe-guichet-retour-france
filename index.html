@@ -8,6 +8,7 @@
 <title>Revenir vivre en France — Guide pratique | ADFE</title>
 <meta name="description" content="Guide gratuit de la Section France de Français du monde – ADFE : démarches, droits et ressources officielles pour revenir vivre en France après une expatriation.">
 <!-- Icône d'onglet et aperçu du lien quand on le partage (messagerie, e-mail, réseaux) -->
+<link rel="canonical" href="https://wcg80.github.io/adfe-guichet-retour-france/">
 <link rel="icon" type="image/png" href="assets/logo-section-france.png">
 <link rel="apple-touch-icon" href="assets/logo-section-france.png">
 <meta property="og:type" content="website">
@@ -1966,6 +1967,12 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 }
 @media screen and (min-width: 1001px) {
   body:not(.barre-compacte) .nav-inner .sommaire a.chip-violences, body:not(.barre-compacte) .nav-inner .sommaire a.chip-urgence { min-height: 46px; margin-top: 4px; }
+}
+/* Téléphone : cartes de l'accueil sur deux colonnes, trop étroites pour une flèche sans toucher le titre ;
+   la carte entière (cadre, pictogramme) suffit à montrer qu'elle s'ouvre */
+@media screen and (max-width: 700px) {
+  .accueil-tuiles .tuiles .tuile:nth-child(n) { padding-right: 12px; }
+  .accueil-tuiles .tuile::after { content: none; }
 }
 </style>
 </head>
