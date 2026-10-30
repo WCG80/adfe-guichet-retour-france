@@ -215,3 +215,8 @@ main { max-width: 1080px; margin: 0 auto; padding: 32px 32px 80px; }
 .illus-vitale { float: right; width: 120px; height: auto; margin: 0 0 12px 24px; }
 @media (max-width: 700px) { .illus-vitale { float: none; display: block; width: 104px; margin: 0 auto 12px; } }
 @media print { .illus-vitale { display: none; } }
+
+/* Dessin de la vignette du visa, à droite du texte de la partie 2 (au-dessus sur téléphone) */
+.illus-visa { float: right; width: 128px; height: auto; margin: 0 0 12px 24px; }
+@media (max-width: 700px) { .illus-visa { float: none; display: block; width: 112px; margin: 0 auto 12px; } }
+@media print { .illus-visa { display: none; } }

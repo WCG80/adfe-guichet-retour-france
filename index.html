@@ -1911,6 +1911,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 .illus-vitale { float: right; width: 120px; height: auto; margin: 0 0 12px 24px; }
 @media (max-width: 700px) { .illus-vitale { float: none; display: block; width: 104px; margin: 0 auto 12px; } }
 @media print { .illus-vitale { display: none; } }
+/* Dessin de la vignette du visa long séjour, à droite du texte (au-dessus sur téléphone) */
+.illus-visa { float: right; width: 128px; height: auto; margin: 0 0 12px 24px; }
+@media (max-width: 700px) { .illus-visa { float: none; display: block; width: 112px; margin: 0 auto 12px; } }
+@media print { .illus-visa { display: none; } }
 </style>
 </head>
 <body>
@@ -2562,6 +2566,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   <details data-type="info" id="conjoint-etranger-famille">
     <summary><span class="sum-title">Conjoint étranger non européen</span><span class="sum-icon">▾</span></summary>
     <div class="detail-body">
+      <img class="illus-visa" src="assets/visa-vls-ts.svg" alt="Dessin d'une vignette de visa long séjour" width="128" height="85" loading="lazy">
       <p><strong>Avant le départ</strong> : le visa long séjour « conjoint de Français » (VLS-TS) se demande au consulat au moins 3 mois avant la date prévue ; il est gratuit pour le conjoint.</p>
       <p><strong>À l'arrivée</strong> : votre conjoint valide son VLS-TS en ligne dans les 3 mois. Ce visa vaut titre de séjour pendant un an.</p>
       <p><strong>Ensuite</strong> : il peut demander une carte de séjour pluriannuelle « vie privée et familiale », valable 2 ans au plus. La demande se fait en ligne, au plus tôt 4 mois et au plus tard 2 mois avant la fin du VLS-TS. Depuis le 1er janvier 2026, une première carte pluriannuelle demande le niveau A2 en français et la réussite à l'examen civique (sauf après 65 ans). Cette carte n'est donc pas automatique : préparez ces deux conditions dès l'arrivée. Si le contrat d'intégration républicaine n'a pas été respecté, la carte pluriannuelle est refusée et le titre d'un an ne peut être renouvelé que trois fois.</p>
