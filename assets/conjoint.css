@@ -225,3 +225,23 @@ main { max-width: 1080px; margin: 0 auto; padding: 32px 32px 80px; }
 .illus-carte-sejour { float: right; clear: right; width: 128px; height: auto; margin: 0 0 12px 24px; }
 @media (max-width: 700px) { .illus-carte-sejour { float: none; display: block; width: 112px; margin: 0 auto 12px; } }
 @media print { .illus-carte-sejour { display: none; } }
+
+/* Schéma du numéro de sécurité sociale, chiffre par chiffre */
+.nir { margin: 12px 0 4px; padding: 10px 12px; background: var(--blanc); border: 1px solid var(--filet); border-radius: 8px; }
+.nir-groupes { display: flex; justify-content: center; align-items: flex-start; gap: 8px; }
+.nir-g { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 140px; }
+.nir-chiffres { font-size: 1.3rem; font-weight: 700; line-height: 1.1; color: var(--violet); letter-spacing: .04em; padding-bottom: 4px; border-bottom: 2px solid currentColor; }
+.nir-etranger .nir-chiffres { color: var(--rouge); }
+.nir-legende { margin-top: 4px; font-size: 12px; line-height: 1.35; color: var(--texte-doux); }
+.nir figcaption { margin-top: 8px; text-align: center; font-size: 12px; font-style: italic; color: var(--texte-doux); }
+@media (max-width: 700px) {
+  .nir-groupes { flex-direction: column; align-items: stretch; gap: 8px; }
+  .nir-g { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 12px; text-align: left; max-width: none; }
+  .nir-chiffres { font-size: 1.15rem; text-align: center; }
+  .nir-legende { margin-top: 0; }
+}
+
+/* Lexique : nom complet en français entre parenthèses après le sigle */
+.gl-complet { font-weight: 500; font-size: .85em; color: var(--texte-doux); }
+.glossaire dt { align-items: flex-start; }
+.glossaire dt .gl-logo { margin-top: 1px; }
