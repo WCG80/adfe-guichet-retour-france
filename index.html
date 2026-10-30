@@ -1816,6 +1816,16 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 @media screen {
   .gl-index a:hover, .gl-index a:focus-visible, .gl-index a:active { background: linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.14)), var(--degrade); color: var(--blanc); }
 }
+/* Accueil : carte Violences aux couleurs de son onglet (fond noir, trait rouge), comme la carte Urgence reprend le rouge et le jaune */
+@media screen {
+  .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n) { border: 0; border-top: 4px solid var(--rouge); background: var(--noir); }
+  .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n):hover { background: var(--ardoise); }
+  .accueil-tuiles .tuile.tuile-violences .tuile-titre, .accueil-tuiles .tuile.tuile-violences:hover .tuile-titre { color: var(--blanc); }
+  .accueil-tuiles .tuile.tuile-violences .tuile-desc { color: var(--filet); }
+  .accueil-tuiles .tuile.tuile-violences::after, .accueil-tuiles .tuile.tuile-violences:hover::after { color: var(--blanc); }
+  /* Pictogramme (bouclier et maison) éclairci pour rester lisible sur le noir */
+  .tuile-violences .tuile-icone svg path:first-child { fill: var(--filet); stroke: var(--blanc); }
+}
 </style>
 </head>
 <body>
