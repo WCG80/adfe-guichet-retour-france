@@ -1798,6 +1798,20 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .table-numeros tbody th, .table-numeros td { padding: 5pt 6pt 5pt 0; }
   .table-numeros a { border: 0; color: #000; }
 }
+/* Cartes de sites : la carte reste blanche au survol (les logos à fond blanc ne forment plus de rectangle) ;
+   le survol se voit au cadre en dégradé et à la flèche */
+@media screen {
+  .ress-carte:hover { background: var(--blanc); border-color: var(--filet); }
+  /* Au survol : cadre en dégradé du guide tout autour de la carte (sans décaler son contenu) */
+  .ress-carte::before {
+    content: ''; position: absolute; inset: -1px; padding: 3px; background: var(--degrade); pointer-events: none;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0; transition: opacity .15s ease;
+  }
+  .ress-carte:hover::before, .ress-carte:focus-visible::before { opacity: 1; }
+  .ress-logo img.logo-info-retraite { max-height: 56px; max-width: 150px; }
+}
 </style>
 </head>
 <body>
@@ -2881,7 +2895,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   <div class="ress-groupe">
     <h3 class="ress-titre">Retraite</h3>
     <div class="ress-grille">
-      <a class="ress-carte" href="https://www.info-retraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/info-retraite.jpg" alt=""></span><span class="ress-texte"><strong>Info Retraite</strong><span>Relevé de carrière tous régimes</span></span></a>
+      <a class="ress-carte" href="https://www.info-retraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img class="logo-info-retraite" src="assets/logos/info-retraite.jpg" alt=""></span><span class="ress-texte"><strong>Info Retraite</strong><span>Relevé de carrière tous régimes</span></span></a>
       <a class="ress-carte" href="https://www.lassuranceretraite.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/assurance-retraite.png" alt=""></span><span class="ress-texte"><strong>L'Assurance retraite</strong><span>Retraite de base</span></span></a>
       <a class="ress-carte" href="https://www.agirc-arrco.fr/" target="_blank" rel="noopener noreferrer"><span class="ress-logo"><img src="assets/logos/agirc-arrco.png" alt=""></span><span class="ress-texte"><strong>Agirc-Arrco</strong><span>Retraite complémentaire</span></span></a>
     </div>
