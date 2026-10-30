@@ -1861,8 +1861,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .sommaire.suite-droite.suite-gauche { -webkit-mask-image: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent); }
   /* Cartes de l'accueil : la carte garde sa couleur au survol, un cadre en dégradé apparaît (comme les cartes de Ressources) */
   .accueil-tuiles .tuiles .tuile:nth-child(n):hover, .accueil-tuiles .tuiles .tuile:nth-child(n):focus-visible { background: var(--blanc); }
-  .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n):hover, .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n):focus-visible { background: var(--noir); }
-  .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n):hover, .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n):focus-visible { background: var(--rouge); }
+  /* Violences et Urgence : la carte s'éclaircit au survol, en plus du cadre à leurs couleurs */
+  .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n):hover, .accueil-tuiles .tuiles .tuile.tuile-violences:nth-child(n):focus-visible { background: color-mix(in srgb, var(--noir) 72%, var(--blanc)); }
+  .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n):hover, .accueil-tuiles .tuiles .tuile.tuile-urgence:nth-child(n):focus-visible { background: color-mix(in srgb, var(--rouge) 88%, var(--blanc)); }
+  .accueil-tuiles .tuiles .tuile.tuile-violences, .accueil-tuiles .tuiles .tuile.tuile-urgence { transition: background-color .15s ease; }
   .accueil-tuiles .tuile::before {
     content: ''; position: absolute; inset: -1px; padding: 3px; background: var(--degrade); pointer-events: none;
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
@@ -1890,6 +1892,16 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .filtre-profil select, .champ-date-retour { min-height: 44px; }
   .me-ouvrir, .lien-accueil, .btn-loupe, body.barre-compacte .btn-loupe, body.barre-compacte .lien-accueil { min-height: 44px; }
   body.barre-compacte .btn-loupe { width: 44px; height: 44px; }
+}
+/* Cartes et encadrés : coins arrondis à 8 px (un peu plus que les boutons, à 4 px), pour s'accorder avec eux */
+@media screen {
+  .accueil-tuiles .tuiles .tuile:nth-child(n), .ress-carte, main details, .gl-terme, .bareme, .urgence-numero, .ress-num-urgence,
+  .date-calc, .rappel-profil, .synthese-profil, .mode-emploi, .table-numeros { border-radius: 8px; }
+  .table-numeros { border-collapse: separate; border-spacing: 0; overflow: hidden; }
+  main details > summary { border-radius: 8px; }
+  main details[open] > summary { border-radius: 8px 8px 0 0; }
+  /* Le cadre en dégradé du survol suit l'arrondi */
+  .accueil-tuiles .tuile::before, .ress-carte::before { border-radius: 9px; }
 }
 </style>
 </head>
