@@ -1870,7 +1870,10 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
     opacity: 0; transition: opacity .15s ease;
   }
   .accueil-tuiles .tuile:hover::before, .accueil-tuiles .tuile:focus-visible::before { opacity: 1; }
-  .accueil-tuiles .tuile.tuile-violences::before, .accueil-tuiles .tuile.tuile-urgence::before { inset: -4px -1px -1px; }
+  /* Violences et Urgence : le dégradé se fondrait dans le noir et le rouge ; cadre épais à leurs couleurs (rouge, jaune) */
+  .accueil-tuiles .tuile.tuile-violences::before, .accueil-tuiles .tuile.tuile-urgence::before { inset: -4px 0 0; padding: 7px; }
+  .accueil-tuiles .tuile.tuile-violences::before { background: var(--rouge); }
+  .accueil-tuiles .tuile.tuile-urgence::before { background: var(--jaune); }
 }
 /* « Votre situation » sur écran moyen (tablette, petit ordinateur) : grille régulière,
    3 menus par ligne, ou 3 + 2 de même largeur quand le menu « Partenaire » est masqué */
