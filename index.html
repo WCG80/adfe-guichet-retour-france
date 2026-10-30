@@ -1974,19 +1974,33 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .accueil-tuiles .tuiles .tuile:nth-child(n) { padding-right: 12px; }
   .accueil-tuiles .tuile::after { content: none; }
 }
-/* Fiche courte (2 pages) : bouton secondaire à côté de la fiche complète, contenu construit au moment d'imprimer */
+/* Impression : un bouton, puis le choix entre fiche courte et fiche complète ; la fiche courte est construite au moment d'imprimer */
 .fiche-courte { display: none; }
-@media screen {
-  .btn-fiche-courte {
-    display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; cursor: pointer;
-    font: inherit; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
-    background: var(--blanc); color: var(--bordeaux); border: 1.5px solid var(--bordeaux); border-radius: 4px;
-  }
-  .btn-fiche-courte svg { width: 16px; height: 16px; flex: none; }
-  .btn-fiche-courte:hover { background: var(--bordeaux); color: var(--blanc); }
-  .btn-fiche-courte:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.choix-impression {
+  margin: auto; max-height: calc(100vh - 32px); overflow: auto;
+  width: min(560px, calc(100vw - 32px)); padding: 24px; border: 0; border-radius: 8px;
+  background: var(--blanc); color: var(--texte); box-shadow: 0 12px 40px rgba(0,0,0,.3);
 }
-@media screen and (max-width: 700px) { .btn-fiche-courte { min-height: 44px; } }
+.choix-impression::backdrop { background: rgba(27,27,27,.55); }
+.choix-impression h2 { margin: 0 0 4px; font-size: 1.25rem; color: var(--ardoise); }
+.choix-intro { margin: 0 0 16px; font-size: .9rem; color: var(--texte-doux); }
+.choix-fiches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.choix-fiche {
+  display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; text-align: left; cursor: pointer; font: inherit;
+  background: var(--blanc); color: var(--texte); border: 1.5px solid var(--filet); border-radius: 8px;
+}
+.choix-fiche strong { color: var(--bordeaux); font-size: 16px; }
+.choix-fiche .choix-pages { font-size: 13px; font-weight: 700; color: var(--ardoise); }
+.choix-fiche span { font-size: 13px; color: var(--texte-doux); line-height: 1.45; }
+.choix-fiche:hover { border-color: var(--bordeaux); background: var(--rouge-clair); }
+.choix-fiche:focus-visible, .choix-annuler:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.choix-annuler {
+  display: block; margin: 16px 0 0 auto; min-height: 40px; padding: 8px 16px; cursor: pointer; font: inherit; font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em; background: var(--blanc); color: var(--ardoise); border: 1.5px solid var(--filet); border-radius: 4px;
+}
+.choix-annuler:hover { border-color: var(--ardoise); }
+@media (max-width: 700px) { .choix-fiches { grid-template-columns: 1fr; } .choix-annuler { min-height: 44px; } }
+@media print { .choix-impression { display: none !important; } }
 @media print {
   body.impression-courte > *:not(#fiche-courte) { display: none !important; }
   body.impression-courte #fiche-courte { display: block; }
@@ -3279,9 +3293,16 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
 </main>
 
 <div class="zone-impression">
-  <button class="btn-print" onclick="preparerFiche(); window.print()" aria-label="Imprimer la fiche complète ou l'exporter en PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Fiche complète / PDF</button>
-  <button type="button" class="btn-fiche-courte" id="btn-fiche-courte" aria-label="Imprimer la fiche courte ou l'exporter en PDF (2 pages)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Fiche courte (2 pages)</button>
-  <p class="note-impression">La fiche complète reprend votre profil, vos dates et les rubriques qui vous concernent. La fiche courte tient en 2 pages : points clés, calendrier et numéros utiles.</p>
+  <button type="button" class="btn-print" id="btn-imprimer" aria-haspopup="dialog" aria-controls="choix-impression"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>Imprimer ma fiche / PDF</button>
+  <dialog class="choix-impression" id="choix-impression" aria-labelledby="choix-impression-titre">
+    <h2 id="choix-impression-titre">Quelle fiche voulez-vous imprimer ?</h2>
+    <p class="choix-intro">Les deux reprennent votre profil et vos dates.</p>
+    <div class="choix-fiches">
+      <button type="button" class="choix-fiche" id="btn-fiche-courte"><strong>Fiche courte</strong><span class="choix-pages">2 pages</span><span>Profil, points clés, calendrier daté et numéros utiles. Idéale pour un rendez-vous.</span></button>
+      <button type="button" class="choix-fiche" id="btn-fiche-complete"><strong>Fiche complète</strong><span class="choix-pages">Une vingtaine de pages</span><span>Tout le détail des rubriques qui vous concernent, avec les liens officiels.</span></button>
+    </div>
+    <button type="button" class="choix-annuler" id="choix-annuler">Annuler</button>
+  </dialog>
 </div>
 
 <button type="button" class="quitter-vite" id="quitter-vite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M9 8l-4 4 4 4"/><path d="M5 12h11"/></svg>Quitter rapidement</button>
@@ -3684,7 +3705,16 @@ function construireFicheCourte() {
   bloc.appendChild(ajouter('p', '', 'Le détail de chaque démarche, avec les liens officiels, est dans le guide en ligne et dans la fiche complète.'));
   if (lien) bloc.appendChild(lien);
 }
+// Un seul bouton « Imprimer ma fiche » : une fenêtre propose la fiche courte ou la fiche complète
+const btnImprimer = document.getElementById('btn-imprimer');
+const choixImpression = document.getElementById('choix-impression');
+btnImprimer?.addEventListener('click', () => choixImpression.showModal());
+document.getElementById('choix-annuler')?.addEventListener('click', () => choixImpression.close());
+// Un clic sur le fond assombri, hors de la fenêtre, la referme aussi
+choixImpression?.addEventListener('click', e => { if (e.target === choixImpression) choixImpression.close(); });
+document.getElementById('btn-fiche-complete')?.addEventListener('click', () => { choixImpression.close(); preparerFiche(); window.print(); });
 document.getElementById('btn-fiche-courte')?.addEventListener('click', () => {
+  choixImpression?.close();
   construireFicheCourte();
   document.body.classList.add('impression-courte');
   window.print();
