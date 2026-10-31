@@ -2026,6 +2026,12 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .fiche-lien-qr .fiche-qr { flex: 0 0 auto; width: 2.8cm; height: 2.8cm; }
   .fiche-lien-qr .fiche-lien { font-size: 8.5pt; color: #333; word-break: break-all; }
 }
+/* Petits écrans : les adresses longues (mesdroitssociaux.gouv.fr) passent à la ligne au lieu d'élargir leur carte */
+.ress-carte, .ress-texte { min-width: 0; overflow-wrap: anywhere; }
+/* Rubrique Violences sur téléphone : « Retour en haut » remonte au-dessus de « Quitter rapidement » au lieu de le recouvrir */
+@media screen and (max-width: 700px) {
+  body.vue-violences .retour-haut { bottom: 88px; }
+}
 </style>
 </head>
 <body>

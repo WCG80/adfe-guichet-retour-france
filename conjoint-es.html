@@ -237,13 +237,40 @@
   maj();
 })();
 // Partie « danger » : bouton « Quitter rapidement » visible quand la partie est à l'écran ;
-// il remplace la page dans l'historique par un site neutre (le bouton Retour ne ramène pas ici)
+// il revient d'abord à l'entrée d'arrivée sur la page, puis la remplace par un site neutre :
+// le bouton Retour ne ramène ni ici ni dans une autre partie de la page
 (() => {
   const partie = document.getElementById('danger');
   const btn = document.getElementById('quitter-vite');
+  // Chaque clic sur un onglet ajoute une entrée à l'historique : on note son rang (0 = arrivée sur la page)
+  let rangCourant = (history.state && history.state.adfe) || 0;
+  if (!history.state || history.state.adfe === undefined) history.replaceState({ ...(history.state || {}), adfe: rangCourant }, '');
+  const noterRang = () => {
+    if (history.state && history.state.adfe !== undefined) rangCourant = history.state.adfe;
+    else { rangCourant += 1; history.replaceState({ adfe: rangCourant }, ''); }
+  };
+  window.addEventListener('hashchange', noterRang);
+  window.addEventListener('popstate', noterRang);
+  let sortieEnCours = false;
   const quitterVite = () => {
-    try { history.replaceState(null, '', location.pathname); } catch (e) {}
-    location.replace('https://www.google.com/');
+    if (sortieEnCours) return;
+    sortieEnCours = true;
+    // On remonte l'historique une entrée à la fois en effaçant l'ancre de chaque adresse,
+    // puis on remplace l'entrée d'arrivée sur la page par un site neutre
+    let restant = rangCourant, filet;
+    const sortir = () => location.replace('https://www.google.com/');
+    const etape = () => {
+      clearTimeout(filet);
+      try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      if (restant > 0) {
+        restant -= 1;
+        // Filet de sécurité si le navigateur ne signale pas le retour
+        filet = setTimeout(sortir, 600);
+        history.back();
+      } else { window.removeEventListener('popstate', etape); sortir(); }
+    };
+    window.addEventListener('popstate', etape);
+    etape();
   };
   document.querySelectorAll('.quitter-vite, .quitter-vite-texte').forEach(b => b.addEventListener('click', quitterVite));
   if ('IntersectionObserver' in window) {
