@@ -2020,6 +2020,12 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   .fiche-courte .table-numeros tbody th, .fiche-courte .table-numeros td { padding: 3pt 6pt 3pt 0; }
   .fiche-courte .fiche-lien { font-size: 8.5pt; word-break: break-all; }
 }
+/* QR code de la fiche imprimée, à côté de l'adresse en ligne */
+@media print {
+  .fiche-lien-qr { display: flex; align-items: center; gap: 10pt; margin-top: 8pt; break-inside: avoid; }
+  .fiche-lien-qr .fiche-qr { flex: 0 0 auto; width: 2.8cm; height: 2.8cm; }
+  .fiche-lien-qr .fiche-lien { font-size: 8.5pt; color: #333; word-break: break-all; }
+}
 </style>
 </head>
 <body>
@@ -3328,6 +3334,7 @@ body.vue-rubrique .retour-rubriques:focus-visible { outline: 2px solid var(--vio
   </div>
 </footer>
 
+<script src="assets/qrcode-generator-1.4.4.min.js"></script>
 <script>
 // ── FONCTIONS GLOBALES (accessibles depuis les attributs HTML onchange/onclick) ──
 
@@ -3611,6 +3618,28 @@ function restaurerProfil() {
 }
 
 // Fiche personnalisée : en-tête rempli juste avant l'impression
+// QR code de la fiche imprimée : points arrondis, coins aux couleurs du guide, logo de la Section au centre.
+// Calculé sur l'appareil (bibliothèque locale qrcode-generator) : l'adresse du profil n'est envoyée nulle part.
+function qrProfilSvg(texte) {
+  if (typeof qrcode !== 'function') return '';
+  const qr = qrcode(0, 'Q'); qr.addData(texte); qr.make();
+  const n = qr.getModuleCount(), m = 3, t = n + 2 * m, mid = t / 2, rLogo = n * 0.13;
+  const oeil = (r, c) => (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
+  let points = '';
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+    if (!qr.isDark(r, c) || oeil(r, c)) continue;
+    const x = c + m + .5, y = r + m + .5;
+    if (Math.hypot(x - mid, y - mid) < rLogo + .9) continue;
+    points += `<circle cx="${x}" cy="${y}" r=".43"/>`;
+  }
+  const yeux = [[0, 0], [n - 7, 0], [0, n - 7]].map(([c, r]) =>
+    `<rect x="${c + m + .5}" y="${r + m + .5}" width="6" height="6" rx="1.7" fill="none" stroke="#6D0D22" stroke-width="1"/>` +
+    `<rect x="${c + m + 2}" y="${r + m + 2}" width="3" height="3" rx=".9" fill="#AE1F27"/>`).join('');
+  return `<svg class="fiche-qr" viewBox="0 0 ${t} ${t}" role="img" aria-label="QR code vers votre guide personnalisé">` +
+    `<rect width="${t}" height="${t}" rx="2" fill="#FFFFFF"/><g fill="#273844">${points}</g>${yeux}` +
+    `<circle cx="${mid}" cy="${mid}" r="${rLogo + .5}" fill="#FFFFFF"/>` +
+    `<image href="assets/logo-section-france.png" x="${mid - rLogo}" y="${mid - rLogo}" width="${2 * rLogo}" height="${2 * rLogo}"/></svg>`;
+}
 function preparerFiche() {
   const bloc = document.getElementById('fiche-entete');
   if (!bloc) return;
@@ -3633,7 +3662,7 @@ function preparerFiche() {
     '<p class="fiche-avertissement"><strong>Avertissement :</strong> cette fiche donne des informations générales. Elle ne remplace pas l\'accompagnement par un professionnel (administration concernée, avocat, notaire, conseiller fiscal, travailleur social).</p>' +
     (lignes.length ? '<ul>' + lignes.join('') + '</ul>'
                    : '<p>Aucun profil choisi : tout le guide est imprimé. Choisissez votre situation en haut du guide pour obtenir une fiche personnalisée.</p>') +
-    '<div class="fiche-lien">Retrouvez cette fiche en ligne : ' + echapper(lienProfil()) + '</div>';
+    '<div class="fiche-lien-qr">' + qrProfilSvg(lienProfil()) + '<div class="fiche-lien"><strong>Retrouvez cette fiche en ligne</strong> : scannez ce code avec votre téléphone, ou recopiez l\'adresse ' + echapper(lienProfil()) + '</div></div>';
 }
 window.addEventListener('beforeprint', preparerFiche);
 // La fiche imprimée garde les points clés, même si le profil n'a pas encore été validé à l'écran
@@ -3668,7 +3697,7 @@ function construireFicheCourte() {
   const entete = document.getElementById('fiche-entete').cloneNode(true);
   entete.removeAttribute('id');
   const titre = entete.querySelector('h2'); if (titre) titre.textContent = 'Ma fiche courte — Revenir vivre en France';
-  const lien = entete.querySelector('.fiche-lien'); if (lien) lien.remove();
+  const lien = entete.querySelector('.fiche-lien-qr'); if (lien) lien.remove();
   bloc.appendChild(entete);
   // Points clés
   bloc.appendChild(ajouter('h3', '', 'Points clés pour votre profil'));
