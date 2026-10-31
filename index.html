@@ -3590,7 +3590,7 @@ function memoriserProfil() {
   FILTRES.forEach(nom => { const v = valeurFiltre(nom); if (v) profil[nom] = v; });
   if (dateRetourValide()) profil.retour = dateRetourValide();
   try { localStorage.setItem('adfe-profil', JSON.stringify(profil)); } catch(e) {}
-  try { history.replaceState(null, '', lienProfil()); } catch(e) {}
+  try { history.replaceState(history.state, '', lienProfil()); } catch(e) {}
 }
 
 // Renvoie true si le profil vient d'un lien partagé
@@ -4069,15 +4069,46 @@ document.addEventListener('DOMContentLoaded', () => {
     // Saut immédiat (le défilement animé de la page fausserait le positionnement)
     window.scrollTo({ top: repere.getBoundingClientRect().top + window.scrollY - hauteurBarre() - (cible ? 16 : 0), behavior: 'instant' });
   };
+  // Chaque passage d'une rubrique à l'autre ajoute une entrée à l'historique du navigateur :
+  // on note son rang (0 = arrivée sur le guide) pour que la sortie rapide puisse revenir avant le guide
+  let rangCourant = (history.state && history.state.adfe) || 0;
+  if (!history.state || history.state.adfe === undefined) history.replaceState({ ...(history.state || {}), adfe: rangCourant }, '');
+  window.rangHistorique = () => rangCourant;
+  const noterRang = () => {
+    if (history.state && history.state.adfe !== undefined) rangCourant = history.state.adfe;
+    else { rangCourant += 1; history.replaceState({ adfe: rangCourant }, ''); }
+  };
+  window.noterRang = noterRang;
+  window.addEventListener('hashchange', noterRang);
+  window.addEventListener('popstate', noterRang);
   window.addEventListener('hashchange', () => afficherVue(location.hash.slice(1)));
   // Rubrique Violences : bouton « Quitter rapidement » visible seulement dans cette rubrique ;
-  // il remplace la page dans l'historique par un site neutre (le bouton Retour ne ramène pas ici)
+  // il revient d'abord à l'entrée d'arrivée sur le guide, puis la remplace par un site neutre :
+  // le bouton Retour ne ramène ni ici ni dans une autre rubrique du guide
   const majVueViolences = () => document.body.classList.toggle('vue-violences', location.hash === '#violences' || !!document.querySelector('#violences.courante'));
   window.addEventListener('hashchange', majVueViolences); majVueViolences();
   const btnQuitter = document.getElementById('quitter-vite');
+  let sortieEnCours = false;
   const quitterVite = () => {
-    try { history.replaceState(null, '', location.pathname); } catch (e) {}
-    location.replace('https://www.google.com/');
+    if (sortieEnCours) return;
+    sortieEnCours = true;
+    // On remonte l'historique une page à la fois en effaçant la rubrique de chaque adresse
+    // (le bouton Suivant ne ramène alors qu'à l'accueil, sans rubrique ni profil), puis on remplace
+    // l'entrée d'arrivée sur le guide par un site neutre
+    let restant = rangCourant, filet;
+    const sortir = () => location.replace('https://www.google.com/');
+    const etape = () => {
+      clearTimeout(filet);
+      try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      if (restant > 0) {
+        restant -= 1;
+        // Filet de sécurité si le navigateur ne signale pas le retour
+        filet = setTimeout(sortir, 600);
+        history.back();
+      } else { window.removeEventListener('popstate', etape); sortir(); }
+    };
+    window.addEventListener('popstate', etape);
+    etape();
   };
   if (btnQuitter) btnQuitter.addEventListener('click', quitterVite);
   // Deux appuis rapides sur Échap font la même chose, dans la rubrique Violences
@@ -4102,7 +4133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sec) replier(sec, false);
       });
       const courante = sections.find(s => s.classList.contains('courante'));
-      if (courante && !estAffichee(courante)) { history.replaceState(null, '', location.pathname + location.search); afficherVue(null); }
+      if (courante && !estAffichee(courante)) { history.replaceState(history.state, '', location.pathname + location.search); afficherVue(null); }
     });
   });
 
@@ -4263,7 +4294,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const aller = r => {
       fermer();
       // Adresse mise à jour sans déclencher de saut, pour que le bouton Retour ramène ici
-      history.pushState(null, '', location.pathname + location.search + '#' + r.sec.id);
+      history.pushState({ adfe: rangHistorique() + 1 }, '', location.pathname + location.search + '#' + r.sec.id);
+      noterRang();
       afficherVue(r.sec.id);
       if (r.el !== r.sec) {
         const det = r.el.tagName === 'DETAILS' ? r.el : r.el.closest('details'); if (det) det.open = true;
